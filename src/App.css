@@ -1,3 +1,5 @@
+/* Styles are now handled by Tailwind CSS. Add component-specific styles here if needed. */
+
 .App {
   text-align: center;
 }
