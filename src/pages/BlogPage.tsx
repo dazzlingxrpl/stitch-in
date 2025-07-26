@@ -34,11 +34,11 @@ const BlogPage = () => {
                 alt={post.title}
                 className="w-full h-48 object-cover"
               />
-              <div className="p-6">
+              <div className="p-6 h-64 relative">
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">{post.date}</div>
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">{post.excerpt}</p>
-                <button className="text-gold-500 hover:text-gold-600 font-medium">Read More →</button>
+                <button className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 font-medium absolute bottom-6">Read More →</button>
               </div>
             </div>
           ))}

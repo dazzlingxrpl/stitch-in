@@ -31,14 +31,14 @@ const AboutPage = () => {
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-1/3">
               <img
-                src="/images/painting.jpg"
+                src="/images/juliet.png"
                 alt="Juliet Niha"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
             </div>
             <div className="w-full md:w-2/3">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Juliet Niha</h3>
-              <p className="text-gold-500 dark:text-gold-400 text-lg mb-4">Principal Architect & Founder</p>
+              <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Principal Architect & Founder</p>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
                 With over 10 years of architectural expertise, Juliet leads our team with a wealth of experience in diverse architectural projects. Her portfolio spans residential, educational, and public architecture, as well as innovative border control infrastructure designs. As a skilled Architect, she brings proficiency in Revit, ArchiCAD, and various architectural software to deliver precise construction drawings and exceptional designs.
               </p>

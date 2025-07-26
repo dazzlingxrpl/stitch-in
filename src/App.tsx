@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 
+// Import components
+import ScrollToTop from './components/ScrollToTop';
+
 // Import pages
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -33,7 +36,8 @@ function App() {
 
   return (
     <Router>
-    <div className="min-h-screen bg-transparent">
+      <ScrollToTop />
+      <div className="min-h-screen bg-transparent">
       {/* Desktop Navigation */}
       <nav className="fixed w-full z-40 backdrop-blur-sm bg-white/80 dark:bg-gray-900/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,7 +56,7 @@ function App() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gold-500 hover:text-gold-500 inline-flex items-center px-1 border-b-2 text-sm font-medium"
+                  className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300 inline-flex items-center px-1 border-b-2 text-sm font-medium"
                 >
                   {item.label}
                 </Link>
@@ -60,7 +64,7 @@ function App() {
             </div>
             <div className="hidden sm:flex sm:items-center">
               <button
-                className="inline-flex items-center px-2 py-1 border border-transparent rounded-md text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gold-500 dark:hover:text-gold-400 transition-colors"
+                className="inline-flex items-center px-2 py-1 border border-transparent rounded-md text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                 onClick={() => setDarkMode((prev) => !prev)}
               >
                 {darkMode ? (
@@ -107,7 +111,7 @@ function App() {
           isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
         } transition-transform duration-300 ease-in-out`}
       >
-        <div className="bg-white dark:bg-gray-900 shadow-lg rounded-t-3xl">
+        <div className="bg-white dark:bg-gray-900 shadow-lg rounded-t-3xl border-t-2 border-gray-900 dark:border-gray-100">
           <div className="px-4 pt-6 pb-8">
             <div className="flex flex-col space-y-4">
               {menuItems.map((item) => (
@@ -115,13 +119,13 @@ function App() {
                   key={item.href}
                   to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-900 dark:text-gray-100 hover:text-gold-500 dark:hover:text-gold-400 text-lg font-medium transition-colors"
+                  className="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg font-medium transition-colors"
                 >
                   {item.label}
                 </Link>
               ))}
               <button
-                className="inline-flex items-center justify-center text-gray-900 dark:text-gray-100 hover:text-gold-500 dark:hover:text-gold-400 text-lg transition-colors"
+                className="inline-flex items-center justify-center text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg transition-colors"
                 onClick={() => setDarkMode((prev) => !prev)}
               >
                 {darkMode ? (
@@ -141,7 +145,7 @@ function App() {
 
       <main>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage darkMode={darkMode} />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
