@@ -31,7 +31,7 @@ const AboutPage = () => {
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-1/3">
               <img
-                src="/images/juliet.png"
+                src="/images/juliet.jpg"
                 alt="Juliet Niha"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
