@@ -28,7 +28,7 @@ const AboutPage = () => {
         {/* Leadership Section */}
         <div>
           <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-8">Our Leadership</h2>
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 flex flex-col md:flex-row gap-8">
+          <div className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-8 flex flex-col md:flex-row gap-8 shadow-lg" style={{ position: 'relative', zIndex: '10' }}>
             <div className="w-full md:w-1/3">
               <img
                 src="/images/juliet.jpg"

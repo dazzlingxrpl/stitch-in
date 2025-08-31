@@ -7,36 +7,28 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   return (
     <div className="h-screen">
-      <div className="relative h-full">
-        <div className="absolute inset-0">
-          <img
-            src="/images/hero_section.png"
-            alt="Modern Architecture"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-gray-900/30 dark:from-gray-900/90 dark:to-gray-900/50"></div>
-        </div>
+      <div className="relative h-full z-10">
         <div className="relative h-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
             <div className="text-center sm:text-left">
               <div className="mb-8">
                 <img
-                  src="/images/main_logo_white.png"
+                  src={darkMode ? "/images/main_logo_white.png" : "/images/main_logo_black.png"}
                   alt="Stitch In Logo"
                   className="h-16 sm:h-20 lg:h-24 w-auto mx-auto sm:mx-0"
                 />
               </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
                 Crafting Modern
                 <br />
                 Architectural Excellence
               </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl text-gray-200 mb-6 max-w-2xl">
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-200 mb-6 max-w-2xl">
                 Where contemporary design meets timeless elegance in commercial and residential architecture.
               </p>
-              <button className="inline-flex items-center px-6 py-2.5 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 transition-colors">
+              {/* <button className="inline-flex items-center px-6 py-2.5 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 transition-colors">
                 Explore Our Portfolio
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -99,7 +91,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         </div>
         <div className="relative h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-white">
+            <div className="text-white text-left">
               <h2 className="text-4xl lg:text-6xl font-bold mb-6">
                 United Kingdom
               </h2>
@@ -121,6 +113,11 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Spacer Section - Show Triangular Background */}
+      <section className="h-48 bg-transparent">
+        {/* Transparent spacer to show triangular background */}
       </section>
 
       {/* Fourth Section - Ukraine */}
@@ -160,6 +157,11 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         </div>
       </section>
 
+      {/* Spacer Section - Show Triangular Background */}
+      <section className="h-48 bg-transparent">
+        {/* Transparent spacer to show triangular background */}
+      </section>
+
       {/* Fifth Section - Australia/Sydney */}
       <section className="relative h-screen">
         <div className="absolute inset-0">
@@ -191,6 +193,73 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white">
                   Eco-Friendly Design
                 </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-20 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="text-left border-2 border-gray-200 dark:border-gray-700 rounded-lg p-8 shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white" style={{ position: 'relative', zIndex: '10' }}>
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Contact Us</h2>
+              <form className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="mt-1 block w-full rounded-md bg-white dark:bg-gray-800 border-0 ring-1 ring-inset ring-gray-200 dark:ring-gray-700 shadow-sm focus:ring-2 focus:ring-gray-900 dark:focus:ring-white text-gray-900 dark:text-white sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="mt-1 block w-full rounded-md bg-white dark:bg-gray-800 border-0 ring-1 ring-inset ring-gray-200 dark:ring-gray-700 shadow-sm focus:ring-2 focus:ring-gray-900 dark:focus:ring-white text-gray-900 dark:text-white sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={4}
+                    className="mt-1 block w-full rounded-md bg-white dark:bg-gray-900 border-0 ring-1 ring-inset ring-gray-200 dark:ring-gray-700 shadow-sm focus:ring-2 focus:ring-gray-900 dark:focus:ring-white text-gray-900 dark:text-white sm:text-sm"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="inline-flex items-center px-6 py-2.5 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-colors"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+            <div className="text-left border-2 border-gray-200 dark:border-gray-700 rounded-lg p-8 shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white" style={{ position: 'relative', zIndex: '10' }}>
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Get in Touch</h2>
+              <div className="space-y-4 text-gray-600 dark:text-gray-300">
+                <p>Have a project in mind? We'd love to hear from you.</p>
+                <div>
+                  <h3 className="font-medium">Address</h3>
+                  <p>123 Architecture Street, Design District, City, Country</p>
+                </div>
+                <div>
+                  <h3 className="font-medium">Email</h3>
+                  <p>info@stitchin.com</p>
+                </div>
+                <div>
+                  <h3 className="font-medium">Phone</h3>
+                  <p>+1 234 567 890</p>
+                </div>
               </div>
             </div>
           </div>
