@@ -24,9 +24,9 @@ function App() {
 
   const menuItems = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About Us' },
     { href: '/services', label: 'Services' },
     { href: '/portfolio', label: 'Portfolio' },
+    { href: '/about', label: 'About Us' },
     // { href: '/contact', label: 'Contact' },
     { href: '/blog', label: 'Blog' },
   ];

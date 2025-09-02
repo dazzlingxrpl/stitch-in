@@ -8,26 +8,38 @@ const AboutPage = () => {
 
         {/* Company Vision and Approach */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          <div>
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border-2 border-gray-200 dark:border-gray-700" style={{ position: 'relative', zIndex: '10' }}>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Our Vision</h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               At Stitch In, we believe in creating spaces that inspire, function seamlessly, and stand the test of time. 
               Our commitment to sustainable practices and innovative design sets us apart in the industry.
             </p>
+            <img
+              src="/images/work_images/house1.jpg"
+              alt="Modern residential architecture showcasing our vision"
+              className="w-full h-48 object-cover rounded-lg"
+            />
           </div>
-          <div>
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border-2 border-gray-200 dark:border-gray-700" style={{ position: 'relative', zIndex: '10' }}>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Our Approach</h2>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               We combine technical expertise with creative vision to deliver projects that exceed expectations. 
               Our collaborative approach ensures that each project benefits from our diverse experience in residential, 
               educational, and public architecture.
             </p>
+            <img
+              src="/images/work_images/building1.jpg"
+              alt="Commercial architecture demonstrating our approach"
+              className="w-full h-48 object-cover rounded-lg"
+            />
           </div>
         </div>
+
+
         
         {/* Leadership Section */}
         <div>
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-8">Our Leadership</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-8 text-left">Our Leadership</h2>
           <div className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-8 flex flex-col md:flex-row gap-8 shadow-lg" style={{ position: 'relative', zIndex: '10' }}>
             <div className="w-full md:w-1/3">
               <img
@@ -36,7 +48,7 @@ const AboutPage = () => {
                 className="w-full h-auto rounded-lg shadow-lg"
               />
             </div>
-            <div className="w-full md:w-2/3">
+            <div className="w-full md:w-2/3 text-left">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Juliet Niha</h3>
               <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Principal Architect & Founder</p>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -59,7 +71,7 @@ const AboutPage = () => {
                   className="inline-block mt-12"
                 >
                   <svg 
-                    className="w-8 h-8 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" 
+                    className="w-8 h-8 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" 
                     fill="currentColor" 
                     viewBox="0 0 24 24"
                   >

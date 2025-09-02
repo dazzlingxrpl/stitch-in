@@ -34,6 +34,8 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         </div>
       </div>
 
+
+
       {/* Second Section - Clear Background */}
       <section className="py-20 bg-transparent backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,28 +50,34 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-16 h-16 bg-gray-900/20 dark:bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-gray-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                <div className="w-full h-48 rounded-xl overflow-hidden shadow-lg mb-4">
+                  <img
+                    src="/images/work_images/house1.jpg"
+                    alt="Modern residential architecture"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Global Reach</h3>
                 <p className="text-gray-600 dark:text-gray-300">Three continents, countless possibilities</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-gray-900/20 dark:bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-gray-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h4a1 1 0 011 1v5m-6 0V9a1 1 0 011-1h4a1 1 0 011 1v10M9 7h1m-1 4h1m4-4h1m-1 4h1" />
-                  </svg>
+                <div className="w-full h-48 rounded-xl overflow-hidden shadow-lg mb-4">
+                  <img
+                    src="/images/work_images/building1.jpg"
+                    alt="Commercial architecture excellence"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Local Expertise</h3>
                 <p className="text-gray-600 dark:text-gray-300">Understanding regional architecture and culture</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-gray-900/20 dark:bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-gray-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+                <div className="w-full h-48 rounded-xl overflow-hidden shadow-lg mb-4">
+                  <img
+                    src="/images/work_images/apt1.jpg"
+                    alt="Innovative multi-family design"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Innovation Hub</h3>
                 <p className="text-gray-600 dark:text-gray-300">Cross-cultural design solutions</p>
@@ -115,11 +123,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         </div>
       </section>
 
-      {/* Spacer Section - Show Triangular Background */}
-      <section className="h-48 bg-transparent">
-        {/* Transparent spacer to show triangular background */}
-      </section>
-
       {/* Fourth Section - Ukraine */}
       <section className="relative h-screen">
         <div className="absolute inset-0">
@@ -155,11 +158,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Spacer Section - Show Triangular Background */}
-      <section className="h-48 bg-transparent">
-        {/* Transparent spacer to show triangular background */}
       </section>
 
       {/* Fifth Section - Australia/Sydney */}
@@ -200,9 +198,37 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section id="contact" className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="text-left border-2 border-gray-200 dark:border-gray-700 rounded-lg p-8 shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white" style={{ position: 'relative', zIndex: '10' }}>
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Get in Touch</h2>
+              <div className="space-y-4 text-gray-600 dark:text-gray-300">
+                <p>Have a project in mind? We'd love to hear from you.</p>
+                <div>
+                  <h3 className="font-medium">Address</h3>
+                  <p>Kings Langley, Hertfordshire, UK</p>
+                </div>
+                <div>
+                  <h3 className="font-medium">Email</h3>
+                  <a 
+                    href="mailto:info@stitch-in-architecture.com" 
+                    className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors underline"
+                  >
+                    info@stitch-in-architecture.com
+                  </a>
+                </div>
+                <div>
+                  <h3 className="font-medium">Phone</h3>
+                  <a 
+                    href="tel:+447393435724" 
+                    className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors underline"
+                  >
+                    +44 7393 435724
+                  </a>
+                </div>
+              </div>
+            </div>
             <div className="text-left border-2 border-gray-200 dark:border-gray-700 rounded-lg p-8 shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white" style={{ position: 'relative', zIndex: '10' }}>
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Contact Us</h2>
               <form className="space-y-6">
@@ -243,24 +269,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                   Send Message
                 </button>
               </form>
-            </div>
-            <div className="text-left border-2 border-gray-200 dark:border-gray-700 rounded-lg p-8 shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white" style={{ position: 'relative', zIndex: '10' }}>
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Get in Touch</h2>
-              <div className="space-y-4 text-gray-600 dark:text-gray-300">
-                <p>Have a project in mind? We'd love to hear from you.</p>
-                <div>
-                  <h3 className="font-medium">Address</h3>
-                  <p>123 Architecture Street, Design District, City, Country</p>
-                </div>
-                <div>
-                  <h3 className="font-medium">Email</h3>
-                  <p>info@stitchin.com</p>
-                </div>
-                <div>
-                  <h3 className="font-medium">Phone</h3>
-                  <p>+1 234 567 890</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

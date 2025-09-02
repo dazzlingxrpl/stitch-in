@@ -8,13 +8,13 @@ const TriangularBackground: React.FC = () => {
     <div className="fixed inset-0 pointer-events-none z-0">
       <style>
         {`
-          @keyframes triangleFlash {
-            0%, 100% { opacity: 0.25; }
+          @keyframes diamondFlash {
+            0%, 100% { opacity: 0.3; }
             50% { opacity: 0.9; }
           }
           
-          .flashing-triangle {
-            animation: triangleFlash 3s ease-in-out infinite;
+          .flashing-diamond {
+            animation: diamondFlash 3s ease-in-out infinite;
           }
         `}
       </style>
@@ -24,86 +24,91 @@ const TriangularBackground: React.FC = () => {
         height="100%" 
         className="absolute inset-0"
       >
-        {/* Triangular Tessellation Pattern with Scattered Effect and Random Flashing */}
+        {/* Diamond Tessellation Pattern with Scattered Effect and Random Flashing */}
         {(() => {
-          const triangleSize = 40; // Size of each equilateral triangle
-          const rows = Math.ceil(screenHeight / (triangleSize * Math.sqrt(3) / 2)) + 2;
-          const cols = Math.ceil(screenWidth / triangleSize) + 2;
+          const diamondSize = 40; // Size of each diamond
+          const rows = Math.ceil(screenHeight / (diamondSize * Math.sqrt(3) / 2)) + 2;
+          const cols = Math.ceil(screenWidth / diamondSize) + 2;
           
-          const triangles = [];
+          const diamonds = [];
           
           for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-              const x = col * triangleSize;
-              const y = row * triangleSize * Math.sqrt(3) / 2;
+              const x = col * diamondSize;
+              const y = row * diamondSize * Math.sqrt(3) / 2;
               
               // Calculate left side ratio for scattered effect
               const leftSideRatio = x / screenWidth; // 0 = far left, 1 = far right
               
               // Apply scattered effect similar to the dots
-              // No triangles on far left, scattered in middle, scattered on far right
+              // No diamonds on far left, scattered in middle, scattered on far right
               const shouldHide = leftSideRatio < 0.5 || (leftSideRatio < 0.8 && Math.random() < 0.9) || (leftSideRatio < 0.95 && Math.random() < 0.7) || (leftSideRatio > 0.95 && Math.random() < 0.6);
               
-              // Add some random triangles that extend further to the right for natural distribution
+              // Add some random diamonds that extend further to the right for natural distribution
               const shouldAddRandomRight = leftSideRatio > 0.6 && Math.random() < 0.1; // 10% chance for random right extension
               const randomRightOffset = Math.random() * 200; // Random offset up to 200px to the right
               
               if (shouldHide && !shouldAddRandomRight) continue;
               
-              // Use random right position for scattered triangles
+              // Use random right position for scattered diamonds
               const finalX = shouldAddRandomRight ? x + randomRightOffset : x;
               
-              // Random flashing effect - 15% chance for any triangle to flash
+              // Random flashing effect - 15% chance for any diamond to flash
               const shouldFlash = Math.random() < 0.15;
               const flashDelay = Math.random() * 3; // Random delay between 0-3 seconds
               
-              // Create two triangles per grid position (pointing up and down)
-              // Upward pointing triangle
-              const upTriangle = {
+              // Create whole diamond shape (rhombus) instead of split triangles
+              const diamond = {
                 points: [
-                  `${finalX},${y}`,
-                  `${finalX + triangleSize},${y}`,
-                  `${finalX + triangleSize/2},${y - triangleSize * Math.sqrt(3) / 2}`
+                  `${finalX + diamondSize/2},${y - diamondSize * Math.sqrt(3) / 2}`, // Top point
+                  `${finalX + diamondSize},${y}`, // Right point
+                  `${finalX + diamondSize/2},${y + diamondSize * Math.sqrt(3) / 2}`, // Bottom point
+                  `${finalX},${y}` // Left point
                 ].join(' '),
-                fill: leftSideRatio > 0.8 && Math.random() < 0.4 ? 
-                  `hsl(0, 0%, ${60 + (row + col) % 3 * 8}%)` : // Darker grays on far right for light mode
-                  `hsl(0, 0%, ${75 + (row + col) % 3 * 6}%)` // Medium grays for better visibility
+                // Add gold colors like in the reference image
+                fill: (() => {
+                  const colorChoice = Math.random();
+                  if (colorChoice < 0.15) {
+                    // Gold variations (15% chance - reduced from 40%)
+                    const goldShades = [
+                      '#FFD700', // Bright gold
+                      '#DAA520', // Goldenrod
+                      '#B8860B'  // Dark goldenrod
+                    ];
+                    return goldShades[Math.floor(Math.random() * goldShades.length)];
+                  } else if (colorChoice < 0.6) {
+                    // White/light gray variations (45% chance - increased from 30%)
+                    const lightShades = [
+                      '#FFFFFF', // Pure white
+                      '#F5F5F5', // White smoke
+                      '#F0F0F0', // Light gray
+                      '#E8E8E8', // Light gray
+                      '#D3D3D3'  // Light gray
+                    ];
+                    return lightShades[Math.floor(Math.random() * lightShades.length)];
+                  } else {
+                    // Subtle gray variations (40% chance - increased from 30%)
+                    return `hsl(0, 0%, ${75 + (row + col) % 3 * 8}%)`;
+                  }
+                })()
               };
               
-              // Downward pointing triangle
-              const downTriangle = {
-                points: [
-                  `${finalX},${y}`,
-                  `${finalX + triangleSize},${y}`,
-                  `${finalX + triangleSize/2},${y + triangleSize * Math.sqrt(3) / 2}`
-                ].join(' '),
-                fill: leftSideRatio > 0.8 && Math.random() < 0.3 ? 
-                  `hsl(0, 0%, ${55 + (row + col) % 3 * 10}%)` : // Even darker grays on far right
-                  `hsl(0, 0%, ${70 + (row + col) % 3 * 8}%)` // Medium grays for better visibility
-              };
-              
-              triangles.push(
+              diamonds.push(
                 <polygon
-                  key={`up-${row}-${col}-${finalX}`}
-                  points={upTriangle.points}
-                  fill={upTriangle.fill}
-                  opacity="0.25"
-                  className={shouldFlash ? "flashing-triangle" : ""}
+                  key={`diamond-${row}-${col}-${finalX}`}
+                  points={diamond.points}
+                  fill={diamond.fill}
+                  opacity="0.3"
+                  className={shouldFlash ? "flashing-diamond" : ""}
                   style={shouldFlash ? { animationDelay: `${flashDelay}s` } : {}}
-                />,
-                <polygon
-                  key={`down-${row}-${col}-${finalX}`}
-                  points={downTriangle.points}
-                  fill={downTriangle.fill}
-                  opacity="0.25"
-                  className={shouldFlash ? "flashing-triangle" : ""}
-                  style={shouldFlash ? { animationDelay: `${flashDelay}s` } : {}}
+                  stroke="#FFD700" // Gold outline like in reference image
+                  strokeWidth="1"
                 />
               );
             }
           }
           
-          return triangles;
+          return diamonds;
         })()}
       </svg>
     </div>
