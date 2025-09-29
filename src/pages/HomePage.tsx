@@ -7,14 +7,16 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   return (
-    <div className="h-screen">
-      {/* HeroDesign background */}
-      <div className="absolute inset-0 z-0">
-        <HeroDesign />
-      </div>
-      
-      <div className="relative h-full z-10">
-        <div className="relative h-full">
+    <div>
+      {/* Hero Section with HeroDesign background */}
+      <section className="relative h-screen overflow-hidden">
+        {/* HeroDesign background */}
+        <div className="absolute inset-0 z-0">
+          <HeroDesign />
+        </div>
+        
+        {/* Hero content */}
+        <div className="relative h-full z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
             <div className="text-center sm:text-left">
               <div className="mb-8">
@@ -38,7 +40,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
 
 

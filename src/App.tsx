@@ -93,7 +93,7 @@ function AppContent() {
                   </Link>
                 ))}
               </div>
-              <div className="hidden sm:flex sm:items-center">
+              {/* <div className="hidden sm:flex sm:items-center">
                 <button
                   className="inline-flex items-center px-2 py-1 border border-transparent rounded-md text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                   onClick={() => setDarkMode((prev) => !prev)}
@@ -108,7 +108,7 @@ function AppContent() {
                     </svg>
                   )}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </nav>
@@ -159,7 +159,7 @@ function AppContent() {
                     {item.label}
                   </Link>
                 ))}
-                <button
+                {/* <button
                   className="inline-flex items-center justify-center text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg transition-colors"
                   onClick={() => setDarkMode((prev) => !prev)}
                 >
@@ -172,7 +172,7 @@ function AppContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                   )}
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
