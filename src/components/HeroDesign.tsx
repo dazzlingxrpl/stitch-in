@@ -20,6 +20,8 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
   const linesRef = useRef<SVGLineElement[]>([]);
   const circleRef = useRef<SVGCircleElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const gridLinesRef = useRef<SVGLineElement[]>([]);
+  const gridLabelsRef = useRef<SVGTextElement[]>([]);
 
   React.useEffect(() => {
     const updateDimensions = () => {
@@ -48,16 +50,32 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
       scale: 0,
       opacity: 0
     });
+    gsap.set(gridLinesRef.current, {
+      strokeDasharray: "1000 1000",
+      strokeDashoffset: 1000,
+      opacity: 0
+    });
+    // Phase 1: Animate grid lines
+    tl.to(gridLinesRef.current, {
+      strokeDashoffset: 0,
+      opacity: 1,
+      duration: 1.5,
+      ease: "power2.out",
+      stagger: {
+        amount: 0.8,
+        from: "start"
+      }
+    });
 
-    // Animate the red circle first
+    // Phase 2: Animate the red circle
     tl.to(circleRef.current, {
       scale: 1,
       opacity: 1,
       duration: 0.8,
       ease: "back.out(1.7)"
-    });
+    }, "-=0.3");
 
-    // Animate lines in waves
+    // Phase 3: Animate lines in waves
     const lineGroups = [
       linesRef.current.slice(0, 10),   // First wave
       linesRef.current.slice(10, 20),  // Second wave
@@ -79,7 +97,17 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
       }, index * 0.2);
     });
 
-    // Remove floating and rotation animations - keep design static after initial load
+    // Phase 4: Grid disappears (reverse animation) - faster
+    tl.to(gridLinesRef.current, {
+      strokeDashoffset: 1000,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.in",
+      stagger: {
+        amount: 0.2,
+        from: "end"
+      }
+    }, "+=0.3");
 
     // Scroll-triggered animations
     ScrollTrigger.create({
@@ -88,16 +116,62 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
       end: "bottom center",
       onEnter: () => {
         gsap.to(linesRef.current, {
-          strokeWidth: 3,
+          strokeWidth: 4,
           duration: 0.5,
           stagger: 0.02
         });
       },
       onLeave: () => {
         gsap.to(linesRef.current, {
-          strokeWidth: 2,
+          strokeWidth: 3,
           duration: 0.5,
           stagger: 0.02
+        });
+      }
+    });
+
+    // Scroll-triggered retrace animation for lines
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top center",
+      end: "bottom bottom",
+      onEnter: () => {
+        // Lines retrace (disappear from right to left)
+        gsap.to(linesRef.current, {
+          strokeDashoffset: 1000,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.in",
+          stagger: {
+            amount: 0.2,
+            from: "end"
+          }
+        });
+      },
+      onLeave: () => {
+        // Lines retrace (disappear from right to left)
+        gsap.to(linesRef.current, {
+          strokeDashoffset: 1000,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.in",
+          stagger: {
+            amount: 0.2,
+            from: "end"
+          }
+        });
+      },
+      onEnterBack: () => {
+        // Lines reveal when scrolling back up
+        gsap.to(linesRef.current, {
+          strokeDashoffset: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: {
+            amount: 0.2,
+            from: "start"
+          }
         });
       }
     });
@@ -174,7 +248,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
   // Add hover effects
   const handleLineHover = (index: number) => {
     gsap.to(linesRef.current[index], {
-      strokeWidth: 4,
+      strokeWidth: 5,
       stroke: "#ef4444",
       duration: 0.3,
       ease: "power2.out"
@@ -183,7 +257,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
 
   const handleLineLeave = (index: number) => {
     gsap.to(linesRef.current[index], {
-      strokeWidth: 2,
+      strokeWidth: 3,
       stroke: "black",
       duration: 0.3,
       ease: "power2.out"
@@ -201,6 +275,37 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
         preserveAspectRatio="xMidYMid meet"
       >
         <g transform="scale(1) translate(0, 0)">
+        {/* Grid Lines - Full Screen Coverage */}
+        {/* Vertical grid lines - covering full viewport */}
+        {Array.from({ length: Math.ceil(1920 / gridSize) + 1 }, (_, i) => (
+          <line
+            key={`v-grid-${i}`}
+            ref={(el) => { if (el) gridLinesRef.current.push(el); }}
+            x1={i * gridSize}
+            y1="0"
+            x2={i * gridSize}
+            y2="1000"
+            stroke="#94a3b8"
+            strokeWidth="1.5"
+            className="opacity-60"
+          />
+        ))}
+        
+        {/* Horizontal grid lines - covering full viewport */}
+        {Array.from({ length: Math.ceil(1000 / gridSize) + 1 }, (_, i) => (
+          <line
+            key={`h-grid-${i}`}
+            ref={(el) => { if (el) gridLinesRef.current.push(el); }}
+            x1="0"
+            y1={i * gridSize}
+            x2="1920"
+            y2={i * gridSize}
+            stroke="#94a3b8"
+            strokeWidth="1.5"
+            className="opacity-60"
+          />
+        ))}
+        
         {/* Vertical lines */}
         {/* <defs>
           <pattern
@@ -275,7 +380,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1100"
           y2="620"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(0)}
           onMouseLeave={() => handleLineLeave(0)}
@@ -289,7 +394,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1000"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(1)}
           onMouseLeave={() => handleLineLeave(1)}
@@ -303,7 +408,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1300"
           y2="260"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(2)}
           onMouseLeave={() => handleLineLeave(2)}
@@ -317,7 +422,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="900"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(3)}
           onMouseLeave={() => handleLineLeave(3)}
@@ -331,7 +436,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="900"
           y2="380"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(4)}
           onMouseLeave={() => handleLineLeave(4)}
@@ -345,7 +450,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1400"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(5)}
           onMouseLeave={() => handleLineLeave(5)}
@@ -359,7 +464,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1025"
           y2="784"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(6)}
           onMouseLeave={() => handleLineLeave(6)}
@@ -373,7 +478,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1400"
           y2="680"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(7)}
           onMouseLeave={() => handleLineLeave(7)}
@@ -387,7 +492,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1357"
           y2="826"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(8)}
           onMouseLeave={() => handleLineLeave(8)}
@@ -401,7 +506,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1920"
           y2="392"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(9)}
           onMouseLeave={() => handleLineLeave(9)}
@@ -415,7 +520,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1698"
           y2="379"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(10)}
           onMouseLeave={() => handleLineLeave(10)}
@@ -429,7 +534,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="260"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(11)}
           onMouseLeave={() => handleLineLeave(11)}
@@ -443,7 +548,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1920"
           y2="632"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(12)}
           onMouseLeave={() => handleLineLeave(12)}
@@ -457,7 +562,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1800"
           y2="680"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(13)}
           onMouseLeave={() => handleLineLeave(13)}
@@ -471,7 +576,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1300"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(14)}
           onMouseLeave={() => handleLineLeave(14)}
@@ -485,7 +590,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1600"
           y2="680"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(15)}
           onMouseLeave={() => handleLineLeave(15)}
@@ -499,7 +604,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="740"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(16)}
           onMouseLeave={() => handleLineLeave(16)}
@@ -513,7 +618,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1000"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(17)}
           onMouseLeave={() => handleLineLeave(17)}
@@ -527,7 +632,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1100"
           y2="740"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(18)}
           onMouseLeave={() => handleLineLeave(18)}
@@ -541,7 +646,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1200"
           y2="800"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(19)}
           onMouseLeave={() => handleLineLeave(19)}
@@ -555,7 +660,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1300"
           y2="740"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(20)}
           onMouseLeave={() => handleLineLeave(20)}
@@ -569,7 +674,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1400"
           y2="897"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(21)}
           onMouseLeave={() => handleLineLeave(21)}
@@ -583,7 +688,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="740"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(22)}
           onMouseLeave={() => handleLineLeave(22)}
@@ -597,7 +702,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1600"
           y2="440"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(23)}
           onMouseLeave={() => handleLineLeave(23)}
@@ -611,7 +716,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1700"
           y2="855"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(24)}
           onMouseLeave={() => handleLineLeave(24)}
@@ -625,7 +730,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1065"
           y2="320"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(25)}
           onMouseLeave={() => handleLineLeave(25)}
@@ -639,7 +744,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1100"
           y2="380"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(26)}
           onMouseLeave={() => handleLineLeave(26)}
@@ -653,7 +758,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1100"
           y2="260"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(27)}
           onMouseLeave={() => handleLineLeave(27)}
@@ -667,7 +772,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1234"
           y2="380"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(28)}
           onMouseLeave={() => handleLineLeave(28)}
@@ -681,7 +786,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1200"
           y2="440"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(29)}
           onMouseLeave={() => handleLineLeave(29)}
@@ -695,7 +800,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1300"
           y2="380"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(30)}
           onMouseLeave={() => handleLineLeave(30)}
@@ -709,7 +814,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1034"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(31)}
           onMouseLeave={() => handleLineLeave(31)}
@@ -723,7 +828,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1000"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(32)}
           onMouseLeave={() => handleLineLeave(32)}
@@ -737,7 +842,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1100"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(33)}
           onMouseLeave={() => handleLineLeave(33)}
@@ -751,7 +856,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1165"
           y2="620"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(34)}
           onMouseLeave={() => handleLineLeave(34)}
@@ -765,7 +870,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1200"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(35)}
           onMouseLeave={() => handleLineLeave(35)}
@@ -779,7 +884,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1200"
           y2="680"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(36)}
           onMouseLeave={() => handleLineLeave(36)}
@@ -793,7 +898,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1200"
           y2="680"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(37)}
           onMouseLeave={() => handleLineLeave(37)}
@@ -807,7 +912,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1465"
           y2="680"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(38)}
           onMouseLeave={() => handleLineLeave(38)}
@@ -821,7 +926,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="620"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(39)}
           onMouseLeave={() => handleLineLeave(39)}
@@ -835,7 +940,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="740"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(40)}
           onMouseLeave={() => handleLineLeave(40)}
@@ -849,7 +954,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1434"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(41)}
           onMouseLeave={() => handleLineLeave(41)}
@@ -863,7 +968,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(42)}
           onMouseLeave={() => handleLineLeave(42)}
@@ -877,7 +982,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1400"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(43)}
           onMouseLeave={() => handleLineLeave(43)}
@@ -891,7 +996,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1434"
           y2="260"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(44)}
           onMouseLeave={() => handleLineLeave(44)}
@@ -905,7 +1010,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1400"
           y2="320"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(45)}
           onMouseLeave={() => handleLineLeave(45)}
@@ -919,7 +1024,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1500"
           y2="260"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(46)}
           onMouseLeave={() => handleLineLeave(46)}
@@ -933,7 +1038,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1665"
           y2="320"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(47)}
           onMouseLeave={() => handleLineLeave(47)}
@@ -947,7 +1052,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1665"
           y2="320"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(48)}
           onMouseLeave={() => handleLineLeave(48)}
@@ -961,7 +1066,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1698"
           y2="379"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(49)}
           onMouseLeave={() => handleLineLeave(49)}
@@ -975,7 +1080,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1665"
           y2="560"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(50)}
           onMouseLeave={() => handleLineLeave(50)}
@@ -989,7 +1094,7 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1700"
           y2="500"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(51)}
           onMouseLeave={() => handleLineLeave(51)}
@@ -1003,15 +1108,13 @@ const HeroDesign: React.FC<HeroDesignProps> = ({ className = '' }) => {
           x2="1700"
           y2="620"
           stroke="black"
-          strokeWidth="2"
+          strokeWidth="3"
           className="cursor-pointer transition-all duration-300"
           onMouseEnter={() => handleLineHover(52)}
           onMouseLeave={() => handleLineLeave(52)}
         />
         
-        {/* Coordinate labels */}
-        {/* {xLabels}
-        {yLabels} */}
+        {/* Coordinate labels removed for cleaner look */}
         </g>
       </svg>
     </div>
