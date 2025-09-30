@@ -1,6 +1,79 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Footer: React.FC = () => {
+  const location = useLocation();
+
+  const scrollToAbout = () => {
+    if (location.pathname === '/') {
+      const aboutSection = document.getElementById('about');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to about section
+      window.location.href = '/#about';
+    }
+  };
+
+  const scrollToServices = () => {
+    if (location.pathname === '/') {
+      const servicesSection = document.getElementById('services');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to services section
+      window.location.href = '/#services';
+    }
+  };
+
+  const scrollToProjects = () => {
+    if (location.pathname === '/') {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to projects section
+      window.location.href = '/#projects';
+    }
+  };
+
+  const scrollToGallery = () => {
+    if (location.pathname === '/') {
+      const gallerySection = document.getElementById('gallery');
+      if (gallerySection) {
+        gallerySection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to gallery section
+      window.location.href = '/#gallery';
+    }
+  };
+
+  const scrollToContact = () => {
+    if (location.pathname === '/') {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to contact section
+      window.location.href = '/#contact';
+    }
+  };
+
+  const scrollToHome = () => {
+    if (location.pathname === '/') {
+      // Scroll to top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Navigate to home page
+      window.location.href = '/';
+    }
+  };
+
   return (
     <footer className="bg-white dark:bg-gray-900 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,44 +85,52 @@ const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <a 
-                  href="#about" 
+                <button 
+                  onClick={scrollToHome}
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
+                >
+                  Home
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={scrollToAbout}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
                   About
-                </a>
+                </button>
               </li>
               <li>
-                <a 
-                  href="#services" 
+                <button 
+                  onClick={scrollToServices}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
                   Services
-                </a>
+                </button>
               </li>
               <li>
-                <a 
-                  href="#projects" 
+                <button 
+                  onClick={scrollToProjects}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
                   Projects
-                </a>
+                </button>
               </li>
               <li>
-                <a 
-                  href="#gallery" 
+                <button 
+                  onClick={scrollToGallery}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
                   Gallery
-                </a>
+                </button>
               </li>
               <li>
-                <a 
-                  href="#reviews" 
+                <button 
+                  onClick={scrollToContact}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
-                  Reviews
-                </a>
+                  Contact
+                </button>
               </li>
             </ul>
           </div>

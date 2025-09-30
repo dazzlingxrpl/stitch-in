@@ -4,11 +4,16 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
-import PortfolioPage from './pages/PortfolioPage';
-import BlogPage from './pages/BlogPage';
+import ProjectsPage from './pages/ProjectsPage';
+import GalleryPage from './pages/GalleryPage';
 import ContactPage from './pages/ContactPage';
-import HeroDesignPage from './pages/HeroDesignPage';
 import ScrollToTop from './components/ScrollToTop';
+
+interface MenuItem {
+  href: string;
+  label: string;
+  onClick?: () => void;
+}
 
 function AppContent() {
   const [darkMode, setDarkMode] = useState(false);
@@ -54,23 +59,92 @@ function AppContent() {
     }
   };
 
-  const menuItems = [
-    { href: '/', label: 'Home' },
-    { href: '/services', label: 'Services' },
-    { href: '/portfolio', label: 'Portfolio' },
-    { href: '/about', label: 'About Us' },
-    // { href: '/contact', label: 'Contact' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/hero-design', label: 'Hero Design' },
-  ];
-
   const isHeroDesignPage = location.pathname === '/hero-design';
+
+  const scrollToAbout = () => {
+    if (location.pathname === '/') {
+      const aboutSection = document.getElementById('about');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to about section
+      window.location.href = '/#about';
+    }
+  };
+
+  const scrollToServices = () => {
+    if (location.pathname === '/') {
+      const servicesSection = document.getElementById('services');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to services section
+      window.location.href = '/#services';
+    }
+  };
+
+  const scrollToProjects = () => {
+    if (location.pathname === '/') {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to projects section
+      window.location.href = '/#projects';
+    }
+  };
+
+  const scrollToGallery = () => {
+    if (location.pathname === '/') {
+      const gallerySection = document.getElementById('gallery');
+      if (gallerySection) {
+        gallerySection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to gallery section
+      window.location.href = '/#gallery';
+    }
+  };
+
+  const scrollToContact = () => {
+    if (location.pathname === '/') {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page first, then scroll to contact section
+      window.location.href = '/#contact';
+    }
+  };
+
+  const scrollToHome = () => {
+    if (location.pathname === '/') {
+      // Scroll to top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Navigate to home page
+      window.location.href = '/';
+    }
+  };
+
+  const menuItems: MenuItem[] = [
+    { href: '#', label: 'Home', onClick: scrollToHome },
+    { href: '#', label: 'About', onClick: scrollToAbout },
+    { href: '#', label: 'Services', onClick: scrollToServices },
+    { href: '#', label: 'Projects', onClick: scrollToProjects },
+    { href: '#', label: 'Gallery', onClick: scrollToGallery },
+    { href: '#', label: 'Contact', onClick: scrollToContact },
+  ];
 
   return (
     <div className="App">
       {/* Desktop Navigation - Hide on hero-design page */}
       {!isHeroDesignPage && (
-        <nav className="fixed w-full z-40 backdrop-blur-sm bg-white/80 dark:bg-gray-900/80">
+        <nav className="fixed w-full z-[60] backdrop-blur-sm bg-white/80 dark:bg-gray-900/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
               <div className="flex-shrink-0 flex items-center">
@@ -83,14 +157,24 @@ function AppContent() {
                 </Link>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                {menuItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300 inline-flex items-center px-1 border-b-2 text-sm font-medium"
-                  >
-                    {item.label}
-                  </Link>
+                {menuItems.map((item, index) => (
+                  item.onClick ? (
+                    <button
+                      key={`${item.label}-${index}`}
+                      onClick={item.onClick}
+                      className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300 inline-flex items-center px-1 border-b-2 text-sm font-medium"
+                    >
+                      {item.label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={`${item.label}-${index}`}
+                      to={item.href}
+                      className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300 inline-flex items-center px-1 border-b-2 text-sm font-medium"
+                    >
+                      {item.label}
+                    </Link>
+                  )
                 ))}
               </div>
               {/* <div className="hidden sm:flex sm:items-center">
@@ -118,10 +202,10 @@ function AppContent() {
       {!isHeroDesignPage && (
         <button
           onClick={() => setIsMobileMenuOpen(prev => !prev)}
-          className={`sm:hidden fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center rounded-full shadow-lg transition-colors ${
+          className={`sm:hidden fixed bottom-6 right-6 z-[100] w-14 h-14 flex items-center justify-center rounded-full shadow-2xl transition-colors border-2 ${
             isMobileMenuOpen 
-              ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100' 
-              : 'bg-gray-900/30 backdrop-blur-sm text-white'
+              ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-900 dark:border-gray-100' 
+              : 'bg-gray-900/90 backdrop-blur-sm text-white border-white/20'
           }`}
         >
           <svg
@@ -142,23 +226,36 @@ function AppContent() {
       {/* Mobile Menu Panel - Hide on hero-design page */}
       {!isHeroDesignPage && (
         <div
-          className={`sm:hidden fixed inset-x-0 bottom-0 z-40 transform ${
+          className={`sm:hidden fixed inset-x-0 bottom-0 z-[90] transform ${
             isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
           } transition-transform duration-300 ease-in-out`}
         >
           <div className="bg-white dark:bg-gray-900 shadow-lg rounded-t-3xl border-t-2 border-gray-900 dark:border-gray-100">
             <div className="px-4 pt-6 pb-8">
-              <div className="flex flex-col space-y-4 text-left">
-                {menuItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg font-medium transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+               <div className="flex flex-col space-y-4 text-left">
+                 {menuItems.map((item, index) => (
+                   item.onClick ? (
+                     <button
+                       key={`mobile-${item.label}-${index}`}
+                       onClick={() => {
+                         item.onClick?.();
+                         setIsMobileMenuOpen(false);
+                       }}
+                       className="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg font-medium transition-colors text-left"
+                     >
+                       {item.label}
+                     </button>
+                   ) : (
+                     <Link
+                       key={`mobile-${item.label}-${index}`}
+                       to={item.href}
+                       onClick={() => setIsMobileMenuOpen(false)}
+                       className="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg font-medium transition-colors"
+                     >
+                       {item.label}
+                     </Link>
+                   )
+                 ))}
                 {/* <button
                   className="inline-flex items-center justify-center text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 text-lg transition-colors"
                   onClick={() => setDarkMode((prev) => !prev)}
@@ -184,10 +281,9 @@ function AppContent() {
             <Route path="/" element={<HomePage darkMode={darkMode} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/portfolio" element={<PortfolioPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/hero-design" element={<HeroDesignPage />} />
-            {/* <Route path="/contact" element={<ContactPage />} /> */}
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
         
