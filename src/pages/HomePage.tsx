@@ -27,6 +27,8 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const servicesContentRef = useRef<HTMLDivElement>(null);
   
   // Individual service refs
+  const service0Ref = useRef<HTMLDivElement>(null);
+  const service0ImageRef = useRef<HTMLDivElement>(null);
   const service1Ref = useRef<HTMLDivElement>(null);
   const service1ImageRef = useRef<HTMLDivElement>(null);
   const service2Ref = useRef<HTMLDivElement>(null);
@@ -35,6 +37,25 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const service3ImageRef = useRef<HTMLDivElement>(null);
   const service4Ref = useRef<HTMLDivElement>(null);
   const service4ImageRef = useRef<HTMLDivElement>(null);
+
+  // Business Services section refs
+  const businessServicesSectionRef = useRef<HTMLElement>(null);
+  const businessServicesHeadingRef = useRef<HTMLHeadingElement>(null);
+  const businessServicesContentRef = useRef<HTMLDivElement>(null);
+  
+  // Individual business service refs
+  const businessService1Ref = useRef<HTMLDivElement>(null);
+  const businessService1ImageRef = useRef<HTMLDivElement>(null);
+  const businessService2Ref = useRef<HTMLDivElement>(null);
+  const businessService2ImageRef = useRef<HTMLDivElement>(null);
+  const businessService3Ref = useRef<HTMLDivElement>(null);
+  const businessService3ImageRef = useRef<HTMLDivElement>(null);
+  const businessService4Ref = useRef<HTMLDivElement>(null);
+  const businessService4ImageRef = useRef<HTMLDivElement>(null);
+  const businessService5Ref = useRef<HTMLDivElement>(null);
+  const businessService5ImageRef = useRef<HTMLDivElement>(null);
+  const businessService6Ref = useRef<HTMLDivElement>(null);
+  const businessService6ImageRef = useRef<HTMLDivElement>(null);
 
   // Projects section refs
   const projectsSectionRef = useRef<HTMLElement>(null);
@@ -212,18 +233,13 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   // Services section animations
   useEffect(() => {
     const setupServicesAnimations = () => {
-      if (servicesSectionRef.current && servicesHeadingRef.current) {
+      if (servicesSectionRef.current) {
         // Check if mobile device
         const isMobile = window.innerWidth < 768;
         
-        // Set initial state for heading
-        gsap.set(servicesHeadingRef.current, {
-          opacity: isMobile ? 1 : 0,
-          y: isMobile ? 0 : 50
-        });
-
         // Set initial state for all service items
         const serviceItems = [
+          service0Ref.current, service0ImageRef.current,
           service1Ref.current, service1ImageRef.current,
           service2Ref.current, service2ImageRef.current,
           service3Ref.current, service3ImageRef.current,
@@ -236,17 +252,24 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           scale: isMobile ? 1 : 0.9
         });
 
-        // Create scroll-triggered animation for services heading (only on desktop)
+        // Individual ScrollTrigger for Service 0 - Consultancy (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
-            trigger: servicesSectionRef.current,
-            start: "top 80%",
+            trigger: service0Ref.current,
+            start: "top 85%",
             once: true,
             onEnter: () => {
-              // Animate heading first
-              gsap.to(servicesHeadingRef.current, {
+              gsap.to(service0Ref.current, {
                 opacity: 1,
                 y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(service0ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
                 duration: 0.8,
                 ease: "power2.out"
               });
@@ -361,6 +384,196 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     // Add resize listener for responsive behavior
     const handleResize = () => {
       setupServicesAnimations();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Business Services animations
+  useEffect(() => {
+    const setupBusinessServicesAnimations = () => {
+      if (businessServicesSectionRef.current) {
+        // Check if mobile device
+        const isMobile = window.innerWidth < 768;
+        
+        // Set initial state for all business service items
+        const businessServiceItems = [
+          businessService1Ref.current, businessService1ImageRef.current,
+          businessService2Ref.current, businessService2ImageRef.current,
+          businessService3Ref.current, businessService3ImageRef.current,
+          businessService4Ref.current, businessService4ImageRef.current,
+          businessService5Ref.current, businessService5ImageRef.current,
+          businessService6Ref.current, businessService6ImageRef.current
+        ].filter(Boolean);
+
+        gsap.set(businessServiceItems, {
+          opacity: isMobile ? 1 : 0,
+          y: isMobile ? 0 : 80,
+          scale: isMobile ? 1 : 0.9
+        });
+
+        // Individual ScrollTrigger for Business Service 1 - Scan to BIM (only on desktop)
+        if (!isMobile) {
+          ScrollTrigger.create({
+            trigger: businessService1Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.to(businessService1Ref.current, {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(businessService1ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
+
+        // Individual ScrollTrigger for Business Service 2 - Architectural and Interior Design (only on desktop)
+        if (!isMobile) {
+          ScrollTrigger.create({
+            trigger: businessService2Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.to(businessService2Ref.current, {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(businessService2ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
+
+        // Individual ScrollTrigger for Business Service 3 - Architectural Visualisation and Animation (only on desktop)
+        if (!isMobile) {
+          ScrollTrigger.create({
+            trigger: businessService3Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.to(businessService3Ref.current, {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(businessService3ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
+
+        // Individual ScrollTrigger for Business Service 4 - Technical Drawings (only on desktop)
+        if (!isMobile) {
+          ScrollTrigger.create({
+            trigger: businessService4Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.to(businessService4Ref.current, {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(businessService4ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
+
+        // Individual ScrollTrigger for Business Service 5 - Product BIM Modelling (only on desktop)
+        if (!isMobile) {
+          ScrollTrigger.create({
+            trigger: businessService5Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.to(businessService5Ref.current, {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(businessService5ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
+
+        // Individual ScrollTrigger for Business Service 6 - BIM Management and Environment Implementation (only on desktop)
+        if (!isMobile) {
+          ScrollTrigger.create({
+            trigger: businessService6Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.to(businessService6Ref.current, {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+              });
+              gsap.to(businessService6ImageRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+        }
+      }
+    };
+
+    const timer = setTimeout(setupBusinessServicesAnimations, 100);
+
+    // Add resize listener for responsive behavior
+    const handleResize = () => {
+      setupBusinessServicesAnimations();
     };
 
     window.addEventListener('resize', handleResize);
@@ -906,18 +1119,37 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-2xl">
               <div>
                 <p ref={aboutText1Ref} className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-left md:text-right">
-                  Our international presence allows us to bring diverse perspectives and innovative solutions 
-                  to every project. From historic European cities to dynamic Australian metropolises, 
-                  we create architectural masterpieces that respect local culture while pushing design boundaries.
+                  At Stitch In, we bring fresh perspectives and thoughtful solutions to every project. Our approach combines creativity and practicality, allowing us to adapt to different contexts while delivering designs that are both functional and inspiring.
                 </p>
               </div>
               <div>
                 <p ref={aboutText2Ref} className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-left md:text-right">
-                  We specialize in creating sustainable, forward-thinking designs that honor cultural heritage 
-                  while building for the future. Our cross-continental expertise enables us to deliver 
-                  solutions that are both globally informed and locally relevant.
+                  We specialize in sustainable, forward-thinking architecture that respects the surrounding environment and cultural context. Our ability to work across borders enables us to offer solutions that are globally informed yet locally relevant, ensuring each project meets its full potential.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Individuals Section */}
+      <section id="individuals" className="py-12 sm:py-16 lg:py-20 relative z-25" 
+               style={{
+                 backgroundImage: 'url(/images/individuals.png)',
+                 backgroundSize: 'cover',
+                 backgroundPosition: 'center',
+                 backgroundRepeat: 'no-repeat'
+               }}>
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
+              INDIVIDUALS
+            </h2>
+            <div className="max-w-4xl mx-auto">
+              <p className="text-lg sm:text-xl text-white leading-relaxed">
+                  Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
+              </p>
             </div>
           </div>
         </div>
@@ -927,28 +1159,21 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       <section id="services" ref={servicesSectionRef} className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
-            {/* Left side - SERVICES heading */}
-            <div className="flex-shrink-0 lg:w-auto w-full">
-              <h2 ref={servicesHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white">
-                SERVICES
-              </h2>
-            </div>
-            
-            {/* Right side - Service details */}
-            <div ref={servicesContentRef} className="flex-1 max-w-4xl w-full">
+            {/* Service details */}
+            <div ref={servicesContentRef} className="flex-1 w-full">
               {/* Horizontal line at top */}
               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
               
-              {/* Service content - responsive layout */}
-              <div ref={service1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+              {/* Consultancy Service content - responsive layout */}
+              <div ref={service0Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
                 {/* Left side - Text content */}
                 <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
                   <div>
                     <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Architecture
+                      Consultancy
                     </h3>
                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                      We design buildings that are purposeful, enduring, and deeply connected to their surroundings.
+                      Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
                     </p>
                   </div>
                   
@@ -958,28 +1183,78 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     <ul className="space-y-2 text-left">
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Concept Design</span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Space Optimization</span>
                       </li>
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Architectural Planning</span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Thoughtful Planning</span>
                       </li>
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">3D Visualization & Modeling</span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cost-Effective Solutions</span>
                       </li>
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Construction Documentation</span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Clear Design Vision</span>
                       </li>
                     </ul>
                   </div>
                 </div>
                 
                 {/* Right side - Building image */}
-                <div ref={service1ImageRef} className="w-full lg:w-80 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                <div ref={service0ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
                   <img
-                    src="/images/work_images/building1.jpg"
+                    src="/images/service0.png"
+                    alt="Architectural Consultancy"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              
+              {/* Horizontal line separator */}
+              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+              
+              {/* Service content - responsive layout */}
+              <div ref={service1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                      Architectural design
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      Whether you want to design a nice family house or a cosy office in the back yard, we can create elegant and practical functional spaces for you to feel the best at home
+                    </p>
+                  </div>
+                  
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-left">
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Family House Design</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cozy Office Spaces</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Elegant & Practical Solutions</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Functional Home Spaces</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                {/* Right side - Building image */}
+                <div ref={service1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/service2.png"
                     alt="Modern Architecture"
                     className="w-full h-full object-cover"
                   />
@@ -1030,9 +1305,9 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                  </div>
                  
                 {/* Right side - Building image */}
-                <div ref={service2ImageRef} className="w-full lg:w-80 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                <div ref={service2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
                   <img
-                    src="/images/work_images/apt1.jpg"
+                    src="/images/service3.png"
                      alt="Interior Design"
                      className="w-full h-full object-cover"
                    />
@@ -1042,7 +1317,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                {/* Horizontal line at bottom */}
                <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
 
-               {/* Service 3 - Urban Planning */}
+               {/* Service 3 - Planning Uplift */}
                {/* Horizontal line at top */}
                <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                
@@ -1052,7 +1327,60 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
                   <div>
                     <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Urban Planning
+                      Planning Uplift
+                     </h3>
+                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                       Our planning uplift service focuses on maximising the potential of your property. From well-considered home extensions to new-build developments, we identify design and planning strategies that add measurable value. Whether you're improving your home or preparing land for investment, we create proposals that are both commercially and architecturally strong.
+                     </p>
+                   </div>
+                   
+                   {/* Bullet points at bottom */}
+                   <div className="mt-auto">
+                     <ul className="space-y-2 text-left">
+                       <li className="flex items-start">
+                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Property Potential Maximisation</span>
+                       </li>
+                       <li className="flex items-start">
+                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Home Extensions & New Builds</span>
+                       </li>
+                       <li className="flex items-start">
+                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Value-Adding Strategies</span>
+                       </li>
+                       <li className="flex items-start">
+                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Commercial & Architectural Proposals</span>
+                       </li>
+                     </ul>
+                   </div>
+                 </div>
+                 
+                {/* Right side - Building image */}
+                <div ref={service3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/service6.png"
+                     alt="Planning Uplift"
+                     className="w-full h-full object-cover"
+                   />
+                 </div>
+               </div>
+               
+               {/* Horizontal line at bottom */}
+               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
+
+               {/* Service 4 - Architectural Supervision */}
+               {/* Horizontal line at top */}
+               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
+               
+              {/* Service content - responsive layout */}
+              <div ref={service4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                    Architectural supervision
                      </h3>
                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
                        Shaping sustainable communities through thoughtful planning and design that connects people with their environment.
@@ -1083,10 +1411,10 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                  </div>
                  
                 {/* Right side - Building image */}
-                <div ref={service3ImageRef} className="w-full lg:w-80 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                <div ref={service4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
                   <img
-                    src="/images/work_images/building2.jpg"
-                     alt="Urban Planning"
+                    src="/images/service4.png"
+                     alt="Architectural Supervision"
                      className="w-full h-full object-cover"
                    />
                  </div>
@@ -1095,55 +1423,333 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                {/* Horizontal line at bottom */}
                <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
 
-               {/* Service 4 - Project Management */}
+             </div>
+           </div>
+         </div>
+       </section>
+
+      {/* For Businesses Section */}
+      <section id="businesses" className="py-12 sm:py-16 lg:py-20 relative z-35" 
+               style={{
+                 backgroundImage: 'url(/images/business.png)',
+                 backgroundSize: 'cover',
+                 backgroundPosition: 'center',
+                 backgroundRepeat: 'no-repeat'
+               }}>
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
+              FOR BUSINESSES
+            </h2>
+            <div className="max-w-4xl mx-auto">
+                <p className="text-lg sm:text-xl text-white leading-relaxed">
+                  Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
+                </p>
+              </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Business Services Section */}
+      <section id="business-services" ref={businessServicesSectionRef} className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
+            {/* Business Service details */}
+            <div ref={businessServicesContentRef} className="flex-1 w-full">
                {/* Horizontal line at top */}
                <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                
-              {/* Service content - responsive layout */}
-              <div ref={service4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Project Management
-                     </h3>
-                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                       Ensuring seamless project delivery from concept to completion with expert coordination and oversight.
-                     </p>
-                   </div>
-                   
-                   {/* Bullet points at bottom */}
-                   <div className="mt-auto">
-                     <ul className="space-y-2 text-left">
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Timeline Management</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Budget Control</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Quality Assurance</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Stakeholder Coordination</span>
-                       </li>
-                     </ul>
-                   </div>
-                 </div>
-                 
-                {/* Right side - Building image */}
-                <div ref={service4ImageRef} className="w-full lg:w-80 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+              {/* Scan to BIM Service content - responsive layout */}
+              <div ref={businessService1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Building image */}
+                <div ref={businessService1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
                   <img
-                    src="/images/work_images/building3.jpg"
-                     alt="Project Management"
-                     className="w-full h-full object-cover"
-                   />
-                 </div>
-               </div>
+                    src="/images/bim.png"
+                    alt="Scan to BIM"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Right side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div className="text-right">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                      Scan to BIM
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      We transform existing buildings into accurate digital models through advanced 3D scanning. Our Scan to BIM service provides precise data that forms the foundation for renovation, extension, or new construction projects, saving time, reducing errors, and enabling informed decision-making.
+                    </p>
+                  </div>
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-right">
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Advanced 3D Scanning</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Accurate Digital Models</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Time & Cost Savings</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Informed Decision-Making</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Horizontal line separator */}
+              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+              
+              {/* Architectural and Interior Design Service content - responsive layout */}
+              <div ref={businessService2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Building image */}
+                <div ref={businessService2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/pic2.png"
+                    alt="Architectural and Interior Design"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Right side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div className="text-right">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                      Architectural and Interior Design
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      Whether you need a full design solution or specific design elements, we create functional, elegant spaces that align with your brand and operational needs. From offices and commercial interiors to large-scale developments, our designs combine creativity, efficiency, and practical value.
+                    </p>
+                  </div>
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-right">
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Full Design Solutions</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Brand-Aligned Spaces</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Commercial Interiors</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Creative & Practical Value</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Horizontal line separator */}
+              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+              
+              {/* Architectural Visualisation and Animation Service content - responsive layout */}
+              <div ref={businessService3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Building image */}
+                <div ref={businessService3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/projects2.png"
+                    alt="Architectural Visualisation and Animation"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Right side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div className="text-right">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                      Architectural Visualisation and Animation
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      Bring your projects to life before a single brick is laid. Our high-quality visualisations and animations communicate design intent clearly, impress stakeholders, and support marketing or investor presentations with striking realism and clarity.
+                    </p>
+                  </div>
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-right">
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">High-Quality Visualisations</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Clear Design Communication</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Stakeholder Presentations</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Marketing Support</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Horizontal line separator */}
+              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+              
+              {/* Technical Drawings Service content - responsive layout */}
+              <div ref={businessService4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Building image */}
+                <div ref={businessService4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/work_images/building4.jpg"
+                    alt="Technical Drawings"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Right side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div className="text-right">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                      Technical Drawings
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      We produce detailed technical drawings that ensure construction accuracy and compliance with all standards. Our precise documentation reduces errors on site, simplifies coordination, and keeps projects on schedule and within budget.
+                    </p>
+                  </div>
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-right">
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Detailed Documentation</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Construction Accuracy</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Standards Compliance</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Project Coordination</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Horizontal line separator */}
+              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+              
+              {/* Product BIM Modelling Service content - responsive layout */}
+              <div ref={businessService5Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Building image */}
+                <div ref={businessService5ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/work_images/building5.jpg"
+                    alt="Product BIM Modelling"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Right side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div className="text-right">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                      Product BIM Modelling
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      We create detailed BIM models for products such as furniture, fixtures, and equipment, enabling seamless integration into your projects. Accurate product models improve design coordination, reduce conflicts, and streamline procurement and construction workflows.
+                    </p>
+                  </div>
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-right">
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Detailed Product Models</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Seamless Integration</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Design Coordination</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Streamlined Workflows</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Horizontal line separator */}
+              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+              
+              {/* BIM Management and Environment Implementation Service content - responsive layout */}
+              <div ref={businessService6Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                {/* Left side - Building image */}
+                <div ref={businessService6ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <img
+                    src="/images/work_images/building6.jpg"
+                    alt="BIM Management and Environment Implementation"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Right side - Text content */}
+                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
+                  <div className="text-right">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                      BIM Management and Environment Implementation
+                    </h3>
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      We set up and manage BIM environments for your teams of designers and engineers, ensuring smooth collaboration and consistent data standards. Our BIM management services improve efficiency, reduce errors, and enable better-informed design and construction decisions across all project stages.
+                    </p>
+                  </div>
+                  
+                  {/* Bullet points at bottom */}
+                  <div className="mt-auto">
+                    <ul className="space-y-2 text-right">
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">BIM Environment Setup</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Team Collaboration</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Data Standards</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                      <li className="flex items-start justify-end">
+                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Project Efficiency</span>
+                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
                
                {/* Horizontal line at bottom */}
                <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
@@ -1183,7 +1789,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           <div ref={project1Ref} className="relative w-full lg:w-4/5 h-[300px] sm:h-[400px] lg:h-[600px] mt-12 lg:mt-24 mx-auto lg:mx-0 px-4 lg:px-0">
             <img
               ref={project1ImageRef}
-              src="/images/work_images/house1.jpg"
+              src="/images/projects1.png"
               alt="Coastal Villa Project"
               className="w-full h-full object-cover"
             />
@@ -1210,7 +1816,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           <div ref={project2Ref} className="relative w-full lg:w-4/5 h-[300px] sm:h-[400px] lg:h-[600px] mt-16 lg:mt-28 mx-auto lg:ml-auto px-4 lg:px-0">
             <img
               ref={project2ImageRef}
-              src="/images/work_images/house2.jpg"
+              src="/images/projects2.png"
               alt="Modern Residence Project"
               className="w-full h-full object-cover"
             />
