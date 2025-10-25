@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, FormEvent } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
@@ -13,6 +13,9 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [submissionMessage, setSubmissionMessage] = useState('');
+  
   const logoRef = useRef<HTMLImageElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
@@ -92,88 +95,9 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const ctaButtonRef = useRef<HTMLButtonElement>(null);
   const ctaImageRef = useRef<HTMLDivElement>(null);
 
+  // No animation effect for the logo - static display
   useEffect(() => {
-    const setupHeroAnimations = () => {
-      const isMobile = window.innerWidth < 768;
-      
-      if (!logoRef.current || !logoContainerRef.current) return;
-
-      // Set initial state - logo is visible but masked/clipped
-      gsap.set(logoRef.current, {
-        opacity: 1,
-        scale: 1
-      });
-
-      // Create a clipping mask that starts from the right and moves left (swipe from right to left)
-      gsap.set(logoContainerRef.current, {
-        opacity: 1,
-        clipPath: isMobile ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)" // Show logo immediately on mobile
-      });
-
-      // Only create complex animations on desktop
-      if (!isMobile) {
-        // Logo reveal sweep synchronized with horizontal lines retrace (faster timing)
-        const tl = gsap.timeline({ delay: 4.8 }); // Match the faster grid retrace timing
-
-        // Sweep reveal from right to left (swipe direction), synchronized with horizontal line retrace
-        tl.to(logoContainerRef.current, {
-          clipPath: "inset(0 0% 0 0)", // Reveal the logo completely from right to left
-          duration: 0.8,
-          ease: "power2.in", // Match the grid retrace easing
-          stagger: {
-            amount: 0.2,
-            from: "end" // Match the grid retrace stagger direction
-          }
-        });
-
-        // Scroll-triggered animations - retrace logo and lines when scrolling
-        ScrollTrigger.create({
-          trigger: heroSectionRef.current,
-          start: "top center",
-          end: "bottom bottom",
-          onEnter: () => {
-            // Logo retrace (hide from right to left)
-            gsap.to(logoContainerRef.current, {
-              clipPath: "inset(0 100% 0 0)",
-              duration: 0.8,
-              ease: "power2.in"
-            });
-          },
-          onLeave: () => {
-            // Logo retrace (hide from right to left)
-            gsap.to(logoContainerRef.current, {
-              clipPath: "inset(0 100% 0 0)",
-              duration: 0.8,
-              ease: "power2.in"
-            });
-          },
-          onEnterBack: () => {
-            // Logo reveal when scrolling back up
-            gsap.to(logoContainerRef.current, {
-              clipPath: "inset(0 0% 0 0)",
-              duration: 0.8,
-              ease: "power2.out"
-            });
-          }
-        });
-      }
-    };
-
-    const timer = setTimeout(setupHeroAnimations, 100);
-
-    // Handle resize
-    const handleResize = () => {
-      setupHeroAnimations();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', handleResize);
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    // Nothing needed here for static logo display
   }, [darkMode]);
 
   // About section animations
@@ -1055,41 +979,41 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         `
       }} />
       <div className="overflow-x-hidden">
-      {/* Hero Section with HeroDesign background */}
+      {/* Hero Section with Hero Image background */}
       <section ref={heroSectionRef} className="relative h-screen overflow-hidden z-10">
-        {/* Desktop: HeroDesign background */}
-        <div className="hidden lg:block absolute inset-0 z-0">
-          <HeroDesign />
+        {/* Hero Image background for all screen sizes */}
+        <div className="absolute inset-0 z-0">
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(/images/hero_imagev2.png)',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover'
+            }}
+          ></div>
         </div>
         
-        {/* Mobile: Simple gradient background */}
-        <div className="lg:hidden absolute inset-0 z-0 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-          {/* Subtle pattern overlay */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-gray-300 dark:bg-gray-600 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-gray-400 dark:bg-gray-500 rounded-full blur-2xl"></div>
-          </div>
-        </div>
+        {/* Dark overlay to ensure logo visibility */}
+        <div className="absolute inset-0 bg-black bg-opacity-30 z-0"></div>
         
         {/* Hero content */}
         <div className="relative h-full z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-            <div className="text-center sm:text-left w-full">
-              <div ref={logoContainerRef} className="mb-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-end">
+            <div className="text-center sm:text-right w-full">
+              <div className="mb-8">
                 <img
-                  ref={logoRef}
-                  src={darkMode ? "/images/main_logo_white.png" : "/images/main_logo_black.png"}
+                  src="/images/main_logo_white.png"
                   alt="Stitch In Logo"
-                  className="h-24 sm:h-28 lg:h-32 w-auto mx-auto sm:mx-0 drop-shadow-lg"
+                  className="h-24 sm:h-28 lg:h-32 w-auto mx-auto sm:ml-auto sm:mr-0 drop-shadow-lg"
                 />
               </div>
               
               {/* Mobile: Add a subtitle */}
-              <div className="lg:hidden text-center">
+              <div className="lg:hidden text-center sm:text-right">
                 <h1 className="text-2xl sm:text-3xl font-light text-gray-700 dark:text-gray-300 mb-4">
                   Architecture & Design
                 </h1>
-                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-md mx-auto sm:ml-auto sm:mr-0">
                   Creating spaces that inspire, connect, and transform lives through innovative design.
                 </p>
               </div>
@@ -1883,7 +1807,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="gallery-image group cursor-pointer">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg">
                 <img
-                  src="/images/work_images/building1.jpg"
+                  src="/images/gallery1.png"
                   alt="Modern Architecture"
                   className="w-full h-full object-cover transition-transform duration-700"
                 />
@@ -1899,7 +1823,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="gallery-image group cursor-pointer">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg">
                 <img
-                  src="/images/work_images/apt1.jpg"
+                  src="/images/gallery2.png"
                   alt="Interior Design"
                   className="w-full h-full object-cover transition-transform duration-700"
                 />
@@ -1915,7 +1839,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="gallery-image group cursor-pointer">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg">
                 <img
-                  src="/images/work_images/building2.jpg"
+                  src="/images/gallery3.png"
                   alt="Urban Planning"
                   className="w-full h-full object-cover transition-transform duration-700"
                 />
@@ -1931,7 +1855,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="gallery-image group cursor-pointer">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg">
                 <img
-                  src="/images/work_images/house1.jpg"
+                  src="/images/gallery4.png"
                   alt="Residential Design"
                   className="w-full h-full object-cover transition-transform duration-700"
                 />
@@ -1984,8 +1908,40 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 </h2>
               </div>
               
-              {/* Contact Form */}
-              <form className="space-y-4 sm:space-y-6">
+              {/* Contact Form with Formspree Integration */}
+              <form 
+                className="space-y-4 sm:space-y-6" 
+                action="https://formspree.io/f/mvgvogap" 
+                method="POST"
+                onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                  e.preventDefault();
+                  const form = e.currentTarget;
+                  const formData = new FormData(form);
+                  
+                  fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                      Accept: 'application/json'
+                    }
+                  })
+                    .then(response => {
+                      if (response.ok) {
+                        setFormSubmitted(true);
+                        setSubmissionMessage('Thank you! Your message has been sent. We will be in touch shortly.');
+                        form.reset();
+                      } else {
+                        setFormSubmitted(true);
+                        setSubmissionMessage('Oops! There was a problem sending your message. Please try again later.');
+                      }
+                    })
+                    .catch(() => {
+                      setFormSubmitted(true);
+                      setSubmissionMessage('Oops! There was a problem sending your message. Please try again later.');
+                    });
+                }}
+              >
+                <input type="hidden" name="subject" value="Website Enquiry" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="cta-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
@@ -1997,6 +1953,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                       name="name"
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
                       placeholder="Your name"
+                      required
                     />
                   </div>
                   
@@ -2010,20 +1967,60 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                       name="email"
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
                       placeholder="your@email.com"
+                      required
                     />
                   </div>
                 </div>
                 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <div>
+                    <label htmlFor="cta-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                      Phone
+                    </label>
+                    <input
+                      type="tel"
+                      id="cta-phone"
+                      name="phone"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
+                      placeholder="Your phone number"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="cta-project-type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                      Project Type
+                    </label>
+                    <select
+                      id="cta-project-type"
+                      name="project-type"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
+                      required
+                    >
+                      <option value="" disabled selected>Select a project type</option>
+                      <option value="Residential">Residential</option>
+                      <option value="Commercial">Commercial</option>
+                      <option value="Education">Education</option>
+                      <option value="Hospitality">Hospitality</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Retail">Retail</option>
+                      <option value="Industrial">Industrial</option>
+                      <option value="Mixed-Use">Mixed-Use</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                
                 <div>
-                  <label htmlFor="cta-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
-                    Phone
+                  <label htmlFor="cta-location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                    Location
                   </label>
                   <input
-                    type="tel"
-                    id="cta-phone"
-                    name="phone"
+                    type="text"
+                    id="cta-location"
+                    name="location"
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
-                    placeholder="Your phone number"
+                    placeholder="City, Country"
+                    required
                   />
                 </div>
                 
@@ -2037,13 +2034,20 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors resize-none"
                     placeholder="Tell us about your project..."
+                    required
                   ></textarea>
                 </div>
                 
-                <div className="text-left">
+                <div className="text-left space-y-4">
                   <button ref={ctaButtonRef} type="submit" className="w-full md:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-transparent text-base sm:text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105">
                     Send Message
                   </button>
+                  
+                  {formSubmitted && (
+                    <div className={`text-sm md:text-base mt-4 ${submissionMessage.includes('Oops') ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
+                      {submissionMessage}
+                    </div>
+                  )}
                 </div>
               </form>
             </div>
@@ -2052,7 +2056,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="relative">
               <div ref={ctaImageRef} className="relative h-[400px] sm:h-[500px] lg:h-[700px] mt-8 sm:-mt-16 lg:-mt-32">
                 <img
-                  src="/images/work_images/building1.jpg"
+                  src="/images/gallery5.png"
                   alt="Architecture Project"
                   className="w-full h-full object-cover shadow-2xl"
                 />
