@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
@@ -16,49 +17,11 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   
-  const logoRef = useRef<HTMLImageElement>(null);
-  const logoContainerRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const aboutSectionRef = useRef<HTMLElement>(null);
   const aboutHeadingRef = useRef<HTMLHeadingElement>(null);
   const aboutText1Ref = useRef<HTMLParagraphElement>(null);
   const aboutText2Ref = useRef<HTMLParagraphElement>(null);
-  
-  // Services section refs
-  const servicesSectionRef = useRef<HTMLElement>(null);
-  const servicesHeadingRef = useRef<HTMLHeadingElement>(null);
-  const servicesContentRef = useRef<HTMLDivElement>(null);
-  
-  // Individual service refs
-  const service0Ref = useRef<HTMLDivElement>(null);
-  const service0ImageRef = useRef<HTMLDivElement>(null);
-  const service1Ref = useRef<HTMLDivElement>(null);
-  const service1ImageRef = useRef<HTMLDivElement>(null);
-  const service2Ref = useRef<HTMLDivElement>(null);
-  const service2ImageRef = useRef<HTMLDivElement>(null);
-  const service3Ref = useRef<HTMLDivElement>(null);
-  const service3ImageRef = useRef<HTMLDivElement>(null);
-  const service4Ref = useRef<HTMLDivElement>(null);
-  const service4ImageRef = useRef<HTMLDivElement>(null);
-
-  // Business Services section refs
-  const businessServicesSectionRef = useRef<HTMLElement>(null);
-  const businessServicesHeadingRef = useRef<HTMLHeadingElement>(null);
-  const businessServicesContentRef = useRef<HTMLDivElement>(null);
-  
-  // Individual business service refs
-  const businessService1Ref = useRef<HTMLDivElement>(null);
-  const businessService1ImageRef = useRef<HTMLDivElement>(null);
-  const businessService2Ref = useRef<HTMLDivElement>(null);
-  const businessService2ImageRef = useRef<HTMLDivElement>(null);
-  const businessService3Ref = useRef<HTMLDivElement>(null);
-  const businessService3ImageRef = useRef<HTMLDivElement>(null);
-  const businessService4Ref = useRef<HTMLDivElement>(null);
-  const businessService4ImageRef = useRef<HTMLDivElement>(null);
-  const businessService5Ref = useRef<HTMLDivElement>(null);
-  const businessService5ImageRef = useRef<HTMLDivElement>(null);
-  const businessService6Ref = useRef<HTMLDivElement>(null);
-  const businessService6ImageRef = useRef<HTMLDivElement>(null);
 
   // Projects section refs
   const projectsSectionRef = useRef<HTMLElement>(null);
@@ -108,31 +71,37 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         const isMobile = window.innerWidth < 768;
         
         // Set initial state - visible on mobile, hidden on desktop
-        gsap.set([aboutHeadingRef.current, aboutText1Ref.current, aboutText2Ref.current], {
-          opacity: isMobile ? 1 : 0,
-          y: isMobile ? 0 : 50
-        });
+        const aboutElements = [aboutHeadingRef.current, aboutText1Ref.current, aboutText2Ref.current].filter(Boolean);
+        if (aboutElements.length > 0) {
+          gsap.set(aboutElements, {
+            opacity: isMobile ? 1 : 0,
+            y: isMobile ? 0 : 50
+          });
+        }
 
         // Create a simple scroll-triggered animation (only on desktop)
-        if (!isMobile) {
+        if (!isMobile && aboutSectionRef.current && aboutHeadingRef.current && aboutText1Ref.current && aboutText2Ref.current) {
           ScrollTrigger.create({
             trigger: aboutSectionRef.current,
             start: "top 80%",
             once: true,
             onEnter: () => {
-              gsap.fromTo([aboutHeadingRef.current, aboutText1Ref.current, aboutText2Ref.current], 
-                {
-                  opacity: 0,
-                  y: 50
-                },
-                {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  ease: "power2.out",
-                  stagger: 0.2
-                }
-              );
+              const elements = [aboutHeadingRef.current, aboutText1Ref.current, aboutText2Ref.current].filter(Boolean);
+              if (elements.length > 0) {
+                gsap.fromTo(elements, 
+                  {
+                    opacity: 0,
+                    y: 50
+                  },
+                  {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    stagger: 0.2
+                  }
+                );
+              }
             }
           });
         }
@@ -144,360 +113,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     // Add resize listener for responsive behavior
     const handleResize = () => {
       setupAboutAnimations();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Services section animations
-  useEffect(() => {
-    const setupServicesAnimations = () => {
-      if (servicesSectionRef.current) {
-        // Check if mobile device
-        const isMobile = window.innerWidth < 768;
-        
-        // Set initial state for all service items
-        const serviceItems = [
-          service0Ref.current, service0ImageRef.current,
-          service1Ref.current, service1ImageRef.current,
-          service2Ref.current, service2ImageRef.current,
-          service3Ref.current, service3ImageRef.current,
-          service4Ref.current, service4ImageRef.current
-        ].filter(Boolean);
-
-        gsap.set(serviceItems, {
-          opacity: isMobile ? 1 : 0,
-          y: isMobile ? 0 : 80,
-          scale: isMobile ? 1 : 0.9
-        });
-
-        // Individual ScrollTrigger for Service 0 - Consultancy (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: service0Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(service0Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(service0ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Service 1 - Architecture (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: service1Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(service1Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(service1ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Service 2 - Interior Design (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: service2Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(service2Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(service2ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Service 3 - Urban Planning (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: service3Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(service3Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(service3ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Service 4 - Project Management (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: service4Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(service4Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(service4ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-      }
-    };
-
-    const timer = setTimeout(setupServicesAnimations, 100);
-
-    // Add resize listener for responsive behavior
-    const handleResize = () => {
-      setupServicesAnimations();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Business Services animations
-  useEffect(() => {
-    const setupBusinessServicesAnimations = () => {
-      if (businessServicesSectionRef.current) {
-        // Check if mobile device
-        const isMobile = window.innerWidth < 768;
-        
-        // Set initial state for all business service items
-        const businessServiceItems = [
-          businessService1Ref.current, businessService1ImageRef.current,
-          businessService2Ref.current, businessService2ImageRef.current,
-          businessService3Ref.current, businessService3ImageRef.current,
-          businessService4Ref.current, businessService4ImageRef.current,
-          businessService5Ref.current, businessService5ImageRef.current,
-          businessService6Ref.current, businessService6ImageRef.current
-        ].filter(Boolean);
-
-        gsap.set(businessServiceItems, {
-          opacity: isMobile ? 1 : 0,
-          y: isMobile ? 0 : 80,
-          scale: isMobile ? 1 : 0.9
-        });
-
-        // Individual ScrollTrigger for Business Service 1 - Scan to BIM (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: businessService1Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(businessService1Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(businessService1ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Business Service 2 - Architectural and Interior Design (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: businessService2Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(businessService2Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(businessService2ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Business Service 3 - Architectural Visualisation and Animation (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: businessService3Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(businessService3Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(businessService3ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Business Service 4 - Technical Drawings (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: businessService4Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(businessService4Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(businessService4ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Business Service 5 - Product BIM Modelling (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: businessService5Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(businessService5Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(businessService5ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-
-        // Individual ScrollTrigger for Business Service 6 - BIM Management and Environment Implementation (only on desktop)
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: businessService6Ref.current,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.to(businessService6Ref.current, {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                duration: 0.6,
-                ease: "back.out(1.7)"
-              });
-              gsap.to(businessService6ImageRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out"
-              });
-            }
-          });
-        }
-      }
-    };
-
-    const timer = setTimeout(setupBusinessServicesAnimations, 100);
-
-    // Add resize listener for responsive behavior
-    const handleResize = () => {
-      setupBusinessServicesAnimations();
     };
 
     window.addEventListener('resize', handleResize);
@@ -545,9 +160,12 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           });
         } else {
           // On mobile, images are visible immediately
-          gsap.set([project1ImageRef.current, project2ImageRef.current, project3ImageRef.current], {
-            clipPath: "inset(0 0 0 0)"
-          });
+          const projectImages = [project1ImageRef.current, project2ImageRef.current, project3ImageRef.current].filter(Boolean);
+          if (projectImages.length > 0) {
+            gsap.set(projectImages, {
+              clipPath: "inset(0 0 0 0)"
+            });
+          }
         }
 
         // Set initial state for cards - visible on mobile, hidden on desktop
@@ -558,7 +176,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         });
 
         // Create scroll-triggered animation for projects heading (only on desktop)
-        if (!isMobile) {
+        if (!isMobile && projectsSectionRef.current && projectsHeadingRef.current) {
           ScrollTrigger.create({
             trigger: projectsSectionRef.current,
             start: "top 80%",
@@ -576,7 +194,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         }
 
         // Individual ScrollTrigger for Project 1 - Coastal Villa (only on desktop)
-        if (!isMobile) {
+        if (!isMobile && project1Ref.current && project1ImageRef.current && project1CardRef.current) {
           ScrollTrigger.create({
           trigger: project1Ref.current,
           start: "top 85%",
@@ -599,48 +217,52 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         });
 
         // Individual ScrollTrigger for Project 2 - Modern Residence
-        ScrollTrigger.create({
-          trigger: project2Ref.current,
-          start: "top 85%",
-          once: true,
-          onEnter: () => {
-            // Project 2 - swipe reveal from left to right
-            gsap.to(project2ImageRef.current, {
-              clipPath: "inset(0 0 0 0%)", // Reveal from left to right
-              duration: 1.2,
-              ease: "power2.out"
-            });
-            gsap.to(project2CardRef.current, {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.8,
-              ease: "back.out(1.7)"
-            });
-          }
-        });
+        if (project2Ref.current && project2ImageRef.current && project2CardRef.current) {
+          ScrollTrigger.create({
+            trigger: project2Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              // Project 2 - swipe reveal from left to right
+              gsap.to(project2ImageRef.current, {
+                clipPath: "inset(0 0 0 0%)", // Reveal from left to right
+                duration: 1.2,
+                ease: "power2.out"
+              });
+              gsap.to(project2CardRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+              });
+            }
+          });
+        }
 
         // Individual ScrollTrigger for Project 3 - Urban Loft
-        ScrollTrigger.create({
-          trigger: project3Ref.current,
-          start: "top 85%",
-          once: true,
-          onEnter: () => {
-            // Project 3 - swipe reveal from right to left
-            gsap.to(project3ImageRef.current, {
-              clipPath: "inset(0 0% 0 0)",
-              duration: 1.2,
-              ease: "power2.out"
-            });
-            gsap.to(project3CardRef.current, {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.8,
-              ease: "back.out(1.7)"
-            });
-          }
-        });
+        if (project3Ref.current && project3ImageRef.current && project3CardRef.current) {
+          ScrollTrigger.create({
+            trigger: project3Ref.current,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              // Project 3 - swipe reveal from right to left
+              gsap.to(project3ImageRef.current, {
+                clipPath: "inset(0 0% 0 0)",
+                duration: 1.2,
+                ease: "power2.out"
+              });
+              gsap.to(project3CardRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+              });
+            }
+          });
+        }
         }
       }
     };
@@ -684,18 +306,28 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         });
 
         // Create scroll-triggered animation for gallery
-        ScrollTrigger.create({
-          trigger: gallerySectionRef.current,
-          start: "top 80%",
-          once: true,
-          onEnter: () => {
-            // Animate title first
-            gsap.to(galleryTitleRef.current, {
-              opacity: 1,
-              y: 0,
-              duration: 1,
-              ease: "power2.out"
-            });
+        if (gallerySectionRef.current && galleryTitleRef.current) {
+          ScrollTrigger.create({
+            trigger: gallerySectionRef.current,
+            start: "top 80%",
+            once: true,
+            onEnter: () => {
+              // Animate title first
+              gsap.to(galleryTitleRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+              });
+
+            // Define gallery images array
+            const galleryImages = [
+              galleryImage1Ref.current,
+              galleryImage2Ref.current,
+              galleryImage3Ref.current,
+              galleryImage4Ref.current,
+              galleryImage5Ref.current
+            ].filter(Boolean);
 
             // Animate gallery images with stagger
             gsap.to(galleryImages, {
@@ -709,6 +341,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             });
           }
         });
+        }
 
         // Add hover animations for each gallery image
         galleryImages.forEach((image, index) => {
@@ -806,11 +439,14 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       
       if (testimonialsSectionRef.current && quoteTextRef.current) {
         // Set initial state conditionally for mobile
-        gsap.set([testimonialsTitleRef.current, authorRef.current], {
-          opacity: isMobile ? 1 : 0,
-          y: isMobile ? 0 : 50,
-          scale: isMobile ? 1 : 0.9
-        });
+        const testimonialsElements = [testimonialsTitleRef.current, authorRef.current].filter(Boolean);
+        if (testimonialsElements.length > 0) {
+          gsap.set(testimonialsElements, {
+            opacity: isMobile ? 1 : 0,
+            y: isMobile ? 0 : 50,
+            scale: isMobile ? 1 : 0.9
+          });
+        }
         
         gsap.set(quoteTextRef.current, {
           opacity: isMobile ? 1 : 0
@@ -834,7 +470,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         }
 
         // Only create scroll-triggered animation on desktop
-        if (!isMobile) {
+        if (!isMobile && testimonialsSectionRef.current && testimonialsTitleRef.current && authorRef.current && quoteTextRef.current) {
           ScrollTrigger.create({
             trigger: testimonialsSectionRef.current,
             start: "top 80%",
@@ -912,10 +548,13 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       
       if (ctaSectionRef.current && ctaTitleRef.current) {
         // Set initial state conditionally for mobile
-        gsap.set([ctaTitleRef.current, ctaButtonRef.current], {
-          opacity: isMobile ? 1 : 0,
-          y: isMobile ? 0 : 50
-        });
+        const ctaElements = [ctaTitleRef.current, ctaButtonRef.current].filter(Boolean);
+        if (ctaElements.length > 0) {
+          gsap.set(ctaElements, {
+            opacity: isMobile ? 1 : 0,
+            y: isMobile ? 0 : 50
+          });
+        }
         
         gsap.set(ctaImageRef.current, {
           opacity: isMobile ? 1 : 0,
@@ -924,30 +563,35 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         });
 
         // Only create scroll-triggered animation on desktop
-        if (!isMobile) {
+        if (!isMobile && ctaSectionRef.current && ctaTitleRef.current && ctaButtonRef.current && ctaImageRef.current) {
           ScrollTrigger.create({
             trigger: ctaSectionRef.current,
             start: "top 80%",
             once: true,
             onEnter: () => {
               // Animate text elements
-              gsap.to([ctaTitleRef.current, ctaButtonRef.current], {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power2.out",
-                stagger: 0.2
-              });
+              const textElements = [ctaTitleRef.current, ctaButtonRef.current].filter(Boolean);
+              if (textElements.length > 0) {
+                gsap.to(textElements, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 1,
+                  ease: "power2.out",
+                  stagger: 0.2
+                });
+              }
 
               // Animate image with delay
-              gsap.to(ctaImageRef.current, {
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                duration: 1.2,
-                delay: 0.5,
-                ease: "back.out(1.7)"
-              });
+              if (ctaImageRef.current) {
+                gsap.to(ctaImageRef.current, {
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  duration: 1.2,
+                  delay: 0.5,
+                  ease: "back.out(1.7)"
+                });
+              }
             }
           });
         }
@@ -986,7 +630,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           <div 
             className="w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage: 'url(/images/hero_imagev2.png)',
+              backgroundImage: 'url(/images/hero_imagev3.png)',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover'
             }}
@@ -1010,10 +654,10 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
               
               {/* Mobile: Add a subtitle */}
               <div className="lg:hidden text-center sm:text-right">
-                <h1 className="text-2xl sm:text-3xl font-light text-gray-700 dark:text-gray-300 mb-4">
+                <h1 className="text-2xl sm:text-3xl font-light text-white mb-4">
                   Architecture & Design
                 </h1>
-                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-md mx-auto sm:ml-auto sm:mr-0">
+                <p className="text-base sm:text-lg text-white max-w-md mx-auto sm:ml-auto sm:mr-0">
                   Creating spaces that inspire, connect, and transform lives through innovative design.
                 </p>
               </div>
@@ -1033,8 +677,8 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
             {/* Left side - ABOUT heading */}
-            <div className="flex-shrink-0">
-              <h2 ref={aboutHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white">
+            <div className="flex-shrink-0 text-left">
+              <h2 ref={aboutHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white text-left">
                 ABOUT
               </h2>
             </div>
@@ -1056,628 +700,90 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         </div>
       </section>
 
-      {/* Individuals Section */}
-      <section id="individuals" className="py-12 sm:py-16 lg:py-20 relative z-25" 
+
+
+      {/* Services Navigation Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800 relative z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-left mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+              OUR SERVICES
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+              Choose the service category that best fits your needs
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
+            {/* Individuals Card */}
+            <Link 
+              to="/individuals"
+              className="group relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105"
+            >
+              <div 
+                className="relative h-80 sm:h-96 lg:h-[500px] bg-cover bg-center"
                style={{
                  backgroundImage: 'url(/images/individuals.png)',
                  backgroundSize: 'cover',
                  backgroundPosition: 'center',
                  backgroundRepeat: 'no-repeat'
-               }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
+                }}
+              >
+                <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 group-hover:scale-110 transition-transform duration-300">
               INDIVIDUALS
-            </h2>
-            <div className="max-w-4xl mx-auto">
-              <p className="text-lg sm:text-xl text-white leading-relaxed">
-                  Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Third Section - Services */}
-      <section id="services" ref={servicesSectionRef} className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
-            {/* Service details */}
-            <div ref={servicesContentRef} className="flex-1 w-full">
-              {/* Horizontal line at top */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-              
-              {/* Consultancy Service content - responsive layout */}
-              <div ref={service0Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Consultancy
                     </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                      Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
+                    <p className="text-lg sm:text-xl max-w-md mx-auto opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                      Personal architectural solutions for homes, offices, and individual projects
                     </p>
                   </div>
-                  
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-left">
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Space Optimization</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Thoughtful Planning</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cost-Effective Solutions</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Clear Design Vision</span>
-                      </li>
-                    </ul>
                   </div>
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                 </div>
-                
-                {/* Right side - Building image */}
-                <div ref={service0ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/service0.png"
-                    alt="Architectural Consultancy"
-                    className="w-full h-full object-cover"
-                  />
                 </div>
               </div>
-              
-              {/* Horizontal line separator */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
-              
-              {/* Service content - responsive layout */}
-              <div ref={service1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Architectural design
-                    </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                      Whether you want to design a nice family house or a cosy office in the back yard, we can create elegant and practical functional spaces for you to feel the best at home
-                    </p>
-                  </div>
-                  
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-left">
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Family House Design</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cozy Office Spaces</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Elegant & Practical Solutions</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Functional Home Spaces</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                
-                {/* Right side - Building image */}
-                <div ref={service1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/service2.png"
-                    alt="Modern Architecture"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              
-               {/* Horizontal line at bottom */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
+            </Link>
 
-               {/* Service 2 - Interior Design */}
-               {/* Horizontal line at top */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-               
-              {/* Service content - responsive layout */}
-              <div ref={service2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Interior Design
-                     </h3>
-                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                       Creating functional and beautiful interior spaces that enhance the human experience and reflect your unique vision.
-                     </p>
-                   </div>
-                   
-                   {/* Bullet points at bottom */}
-                   <div className="mt-auto">
-                     <ul className="space-y-2 text-left">
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Space Planning</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Material Selection</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Lighting Design</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Furniture Layout</span>
-                       </li>
-                     </ul>
-                   </div>
-                 </div>
-                 
-                {/* Right side - Building image */}
-                <div ref={service2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/service3.png"
-                     alt="Interior Design"
-                     className="w-full h-full object-cover"
-                   />
-                 </div>
-               </div>
-               
-               {/* Horizontal line at bottom */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
-
-               {/* Service 3 - Planning Uplift */}
-               {/* Horizontal line at top */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-               
-              {/* Service content - responsive layout */}
-              <div ref={service3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                      Planning Uplift
-                     </h3>
-                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                       Our planning uplift service focuses on maximising the potential of your property. From well-considered home extensions to new-build developments, we identify design and planning strategies that add measurable value. Whether you're improving your home or preparing land for investment, we create proposals that are both commercially and architecturally strong.
-                     </p>
-                   </div>
-                   
-                   {/* Bullet points at bottom */}
-                   <div className="mt-auto">
-                     <ul className="space-y-2 text-left">
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Property Potential Maximisation</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Home Extensions & New Builds</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Value-Adding Strategies</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Commercial & Architectural Proposals</span>
-                       </li>
-                     </ul>
-                   </div>
-                 </div>
-                 
-                {/* Right side - Building image */}
-                <div ref={service3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/service6.png"
-                     alt="Planning Uplift"
-                     className="w-full h-full object-cover"
-                   />
-                 </div>
-               </div>
-               
-               {/* Horizontal line at bottom */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
-
-               {/* Service 4 - Architectural Supervision */}
-               {/* Horizontal line at top */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-               
-              {/* Service content - responsive layout */}
-              <div ref={service4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                    Architectural supervision
-                     </h3>
-                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                       Shaping sustainable communities through thoughtful planning and design that connects people with their environment.
-                     </p>
-                   </div>
-                   
-                   {/* Bullet points at bottom */}
-                   <div className="mt-auto">
-                     <ul className="space-y-2 text-left">
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Master Planning</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Zoning Analysis</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Community Engagement</span>
-                       </li>
-                       <li className="flex items-start">
-                         <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                         <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Sustainability Planning</span>
-                       </li>
-                     </ul>
-                   </div>
-                 </div>
-                 
-                {/* Right side - Building image */}
-                <div ref={service4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/service4.png"
-                     alt="Architectural Supervision"
-                     className="w-full h-full object-cover"
-                   />
-                 </div>
-               </div>
-               
-               {/* Horizontal line at bottom */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
-
-             </div>
-           </div>
-         </div>
-       </section>
-
-      {/* For Businesses Section */}
-      <section id="businesses" className="py-12 sm:py-16 lg:py-20 relative z-35" 
+            {/* Businesses Card */}
+            <Link 
+              to="/businesses"
+              className="group relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105"
+            >
+              <div 
+                className="relative h-80 sm:h-96 lg:h-[500px] bg-cover bg-center"
                style={{
                  backgroundImage: 'url(/images/business.png)',
                  backgroundSize: 'cover',
                  backgroundPosition: 'center',
                  backgroundRepeat: 'no-repeat'
-               }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
+                }}
+              >
+                <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 group-hover:scale-110 transition-transform duration-300">
               FOR BUSINESSES
-            </h2>
-            <div className="max-w-4xl mx-auto">
-                <p className="text-lg sm:text-xl text-white leading-relaxed">
-                  Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
-                </p>
-              </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Business Services Section */}
-      <section id="business-services" ref={businessServicesSectionRef} className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
-            {/* Business Service details */}
-            <div ref={businessServicesContentRef} className="flex-1 w-full">
-               {/* Horizontal line at top */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-               
-              {/* Scan to BIM Service content - responsive layout */}
-              <div ref={businessService1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Building image */}
-                <div ref={businessService1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/bim.png"
-                    alt="Scan to BIM"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Right side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div className="text-right">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
-                      Scan to BIM
                     </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
-                      We transform existing buildings into accurate digital models through advanced 3D scanning. Our Scan to BIM service provides precise data that forms the foundation for renovation, extension, or new construction projects, saving time, reducing errors, and enabling informed decision-making.
+                    <p className="text-lg sm:text-xl max-w-md mx-auto opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                      Professional BIM, design, and technical services for commercial projects
                     </p>
                   </div>
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-right">
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Advanced 3D Scanning</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Accurate Digital Models</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Time & Cost Savings</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Informed Decision-Making</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                    </ul>
                   </div>
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                 </div>
               </div>
-              
-              {/* Horizontal line separator */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
-              
-              {/* Architectural and Interior Design Service content - responsive layout */}
-              <div ref={businessService2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Building image */}
-                <div ref={businessService2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/pic2.png"
-                    alt="Architectural and Interior Design"
-                    className="w-full h-full object-cover"
-                  />
                 </div>
-                
-                {/* Right side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div className="text-right">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
-                      Architectural and Interior Design
-                    </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
-                      Whether you need a full design solution or specific design elements, we create functional, elegant spaces that align with your brand and operational needs. From offices and commercial interiors to large-scale developments, our designs combine creativity, efficiency, and practical value.
-                    </p>
-                  </div>
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-right">
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Full Design Solutions</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Brand-Aligned Spaces</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Commercial Interiors</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Creative & Practical Value</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Horizontal line separator */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
-              
-              {/* Architectural Visualisation and Animation Service content - responsive layout */}
-              <div ref={businessService3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Building image */}
-                <div ref={businessService3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/projects2.png"
-                    alt="Architectural Visualisation and Animation"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Right side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div className="text-right">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
-                      Architectural Visualisation and Animation
-                    </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
-                      Bring your projects to life before a single brick is laid. Our high-quality visualisations and animations communicate design intent clearly, impress stakeholders, and support marketing or investor presentations with striking realism and clarity.
-                    </p>
-                  </div>
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-right">
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">High-Quality Visualisations</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Clear Design Communication</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Stakeholder Presentations</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Marketing Support</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Horizontal line separator */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
-              
-              {/* Technical Drawings Service content - responsive layout */}
-              <div ref={businessService4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Building image */}
-                <div ref={businessService4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/work_images/building4.jpg"
-                    alt="Technical Drawings"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Right side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div className="text-right">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
-                      Technical Drawings
-                    </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
-                      We produce detailed technical drawings that ensure construction accuracy and compliance with all standards. Our precise documentation reduces errors on site, simplifies coordination, and keeps projects on schedule and within budget.
-                    </p>
-                  </div>
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-right">
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Detailed Documentation</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Construction Accuracy</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Standards Compliance</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Project Coordination</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Horizontal line separator */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
-              
-              {/* Product BIM Modelling Service content - responsive layout */}
-              <div ref={businessService5Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Building image */}
-                <div ref={businessService5ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/work_images/building5.jpg"
-                    alt="Product BIM Modelling"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Right side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div className="text-right">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
-                      Product BIM Modelling
-                    </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
-                      We create detailed BIM models for products such as furniture, fixtures, and equipment, enabling seamless integration into your projects. Accurate product models improve design coordination, reduce conflicts, and streamline procurement and construction workflows.
-                    </p>
-                  </div>
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-right">
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Detailed Product Models</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Seamless Integration</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Design Coordination</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Streamlined Workflows</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Horizontal line separator */}
-              <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
-              
-              {/* BIM Management and Environment Implementation Service content - responsive layout */}
-              <div ref={businessService6Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
-                {/* Left side - Building image */}
-                <div ref={businessService6ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
-                  <img
-                    src="/images/work_images/building6.jpg"
-                    alt="BIM Management and Environment Implementation"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Right side - Text content */}
-                <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                  <div className="text-right">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
-                      BIM Management and Environment Implementation
-                    </h3>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
-                      We set up and manage BIM environments for your teams of designers and engineers, ensuring smooth collaboration and consistent data standards. Our BIM management services improve efficiency, reduce errors, and enable better-informed design and construction decisions across all project stages.
-                    </p>
-                  </div>
-                  
-                  {/* Bullet points at bottom */}
-                  <div className="mt-auto">
-                    <ul className="space-y-2 text-right">
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">BIM Environment Setup</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Team Collaboration</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Data Standards</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                      <li className="flex items-start justify-end">
-                        <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Project Efficiency</span>
-                        <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-               
-               {/* Horizontal line at bottom */}
-               <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
-             </div>
+            </Link>
            </div>
          </div>
        </section>
@@ -1698,8 +804,8 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
             {/* Left side - PROJECTS heading */}
-            <div className="flex-shrink-0 lg:w-auto w-full">
-              <h2 ref={projectsHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white">
+            <div className="flex-shrink-0 lg:w-auto w-full text-left">
+              <h2 ref={projectsHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white text-left">
                 PROJECTS
               </h2>
             </div>
@@ -1885,7 +991,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           {/* Company Statement */}
           <div className="mb-8 sm:mb-10 lg:mb-12">
             <blockquote ref={quoteTextRef} className="text-base sm:text-lg md:text-xl lg:text-2xl text-white italic leading-relaxed font-serif">
-              We believe architecture is more than just buildings—it's about creating spaces that inspire, connect, and transform lives. Our vision is to design sustainable, innovative solutions that honor both tradition and progress, crafting environments where people thrive and communities flourish.
+              We thrive on challenges that push boundaries and demand smarter solutions. The unknown doesn't intimidate us; it inspires us to explore, adapt, and innovate. Through curiosity and precision, we turn complexity into clarity — and ideas into meaningful, lasting architecture.
             </blockquote>
           </div>
 
@@ -1973,16 +1079,16 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                  <div>
-                    <label htmlFor="cta-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      id="cta-phone"
-                      name="phone"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
-                      placeholder="Your phone number"
+                <div>
+                  <label htmlFor="cta-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="cta-phone"
+                    name="phone"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-colors"
+                    placeholder="Your phone number"
                     />
                   </div>
                   

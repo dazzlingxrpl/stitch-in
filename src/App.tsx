@@ -7,6 +7,8 @@ import ServicesPage from './pages/ServicesPage';
 import ProjectsPage from './pages/ProjectsPage';
 import GalleryPage from './pages/GalleryPage';
 import ContactPage from './pages/ContactPage';
+import IndividualsPage from './pages/IndividualsPage';
+import BusinessesPage from './pages/BusinessesPage';
 import ScrollToTop from './components/ScrollToTop';
 
 interface MenuItem {
@@ -134,6 +136,8 @@ function AppContent() {
   const menuItems: MenuItem[] = [
     { href: '#', label: 'Home', onClick: scrollToHome },
     { href: '#', label: 'About', onClick: scrollToAbout },
+    { href: '/individuals', label: 'Individuals' },
+    { href: '/businesses', label: 'Businesses' },
     { href: '#', label: 'Services', onClick: scrollToServices },
     { href: '#', label: 'Projects', onClick: scrollToProjects },
     { href: '#', label: 'Gallery', onClick: scrollToGallery },
@@ -280,6 +284,8 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage darkMode={darkMode} />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/individuals" element={<IndividualsPage darkMode={darkMode} />} />
+            <Route path="/businesses" element={<BusinessesPage darkMode={darkMode} />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />

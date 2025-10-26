@@ -109,6 +109,31 @@ const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
+                <Link 
+                  to="/individuals"
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
+                >
+                  Individuals
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/businesses"
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
+                >
+                  Businesses
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* More Links */}
+          <div className="text-left">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 text-left">
+              More Links
+            </h3>
+            <ul className="space-y-3">
+              <li>
                 <button 
                   onClick={scrollToServices}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
@@ -139,39 +164,6 @@ const Footer: React.FC = () => {
                 >
                   Contact
                 </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* References */}
-          <div className="text-left">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 text-left">
-              References
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <a 
-                  href="#" 
-                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
-                >
-                  Style guide
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#" 
-                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
-                >
-                  Licenses
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#" 
-                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
-                >
-                  Changelog
-                </a>
               </li>
             </ul>
           </div>
