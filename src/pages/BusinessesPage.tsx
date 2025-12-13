@@ -558,7 +558,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
         <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800 relative z-30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <button 
-              onClick={() => window.history.back()}
+              onClick={() => window.location.href = '/'}
               className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
             >
               ← Back to Main Page

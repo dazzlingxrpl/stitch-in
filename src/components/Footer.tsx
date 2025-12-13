@@ -18,13 +18,13 @@ const Footer: React.FC = () => {
 
   const scrollToServices = () => {
     if (location.pathname === '/') {
-      const servicesSection = document.getElementById('services');
-      if (servicesSection) {
-        servicesSection.scrollIntoView({ behavior: 'smooth' });
+      const partnersSection = document.getElementById('partners');
+      if (partnersSection) {
+        partnersSection.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // Navigate to home page first, then scroll to services section
-      window.location.href = '/#services';
+      // Navigate to home page first, then scroll to partners section
+      window.location.href = '/#partners';
     }
   };
 
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
                   onClick={scrollToAbout}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
-                  About
+                  About Us
                 </button>
               </li>
               <li>
@@ -113,7 +113,7 @@ const Footer: React.FC = () => {
                   to="/individuals"
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
-                  Individuals
+                  For Individuals
                 </Link>
               </li>
               <li>
@@ -121,7 +121,7 @@ const Footer: React.FC = () => {
                   to="/businesses"
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
-                  Businesses
+                  For Businesses
                 </Link>
               </li>
             </ul>
@@ -135,18 +135,10 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <button 
-                  onClick={scrollToServices}
-                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
-                >
-                  Services
-                </button>
-              </li>
-              <li>
-                <button 
                   onClick={scrollToProjects}
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
-                  Projects
+                  Case Studies
                 </button>
               </li>
               <li>
@@ -155,6 +147,14 @@ const Footer: React.FC = () => {
                   className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
                 >
                   Gallery
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={scrollToServices}
+                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-left"
+                >
+                  Our Partners
                 </button>
               </li>
               <li>

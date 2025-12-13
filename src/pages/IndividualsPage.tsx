@@ -233,7 +233,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                   <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
                     <div>
                       <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                        Consultancy
+                        Planning Applications
                       </h3>
                       <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
                         Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
@@ -306,15 +306,15 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cozy Office Spaces</span>
+                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cozy Home Spaces</span>
+                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        </li>
+                        <li className="flex items-start justify-end">
+                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Functional Office Spaces</span>
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
                           <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Elegant & Practical Solutions</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
-                        </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Functional Home Spaces</span>
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                       </ul>
@@ -338,7 +338,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                         Interior Design
                       </h3>
                       <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                        Creating functional and beautiful interior spaces that enhance the human experience and reflect your unique vision.
+                        We transform homes and interiors into spaces that truly reflect you. Whether you're renovating a beloved property or redesigning your living environment, our designs combine beauty, functionality, and thoughtful detail, helping you enjoy every corner of your home to the fullest.
                       </p>
                     </div>
                     
@@ -441,10 +441,10 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                   <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
                     <div>
                       <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                        Architectural supervision
+                        Architectural Supervision and Design Management
                       </h3>
                       <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
-                        Shaping sustainable communities through thoughtful planning and design that connects people with their environment.
+                        Our architectural supervision ensures your project is built right the first time. By carefully monitoring construction and coordinating every detail, we help prevent costly mistakes and unnecessary revisions, saving time and money while making sure your design is executed flawlessly.
                       </p>
                     </div>
                     
@@ -453,19 +453,19 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Master Planning</span>
+                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Quality Assurance</span>
                         </li>
                         <li className="flex items-start">
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Zoning Analysis</span>
+                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cost and Time Efficiency</span>
                         </li>
                         <li className="flex items-start">
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Community Engagement</span>
+                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Smooth Coordination</span>
                         </li>
                         <li className="flex items-start">
                           <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Sustainability Planning</span>
+                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Design Integrity</span>
                         </li>
                       </ul>
                     </div>
@@ -493,7 +493,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
          <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800 relative z-30">
            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
              <button 
-               onClick={() => window.history.back()}
+               onClick={() => window.location.href = '/'}
                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
              >
                ← Back to Main Page

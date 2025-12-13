@@ -45,6 +45,9 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const galleryImage4Ref = useRef<HTMLDivElement>(null);
   const galleryImage5Ref = useRef<HTMLDivElement>(null);
 
+  // Partners section refs
+  const partnersSectionRef = useRef<HTMLElement>(null);
+
   // Testimonials section refs
   const testimonialsSectionRef = useRef<HTMLElement>(null);
   const testimonialsTitleRef = useRef<HTMLHeadingElement>(null);
@@ -57,6 +60,20 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const ctaSubtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaButtonRef = useRef<HTMLButtonElement>(null);
   const ctaImageRef = useRef<HTMLDivElement>(null);
+
+  // Handle hash navigation on page load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Wait for page to fully load, then scroll to the section
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, []);
 
   // No animation effect for the logo - static display
   useEffect(() => {
@@ -648,7 +665,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 <img
                   src="/images/main_logo_white.png"
                   alt="Stitch In Logo"
-                  className="h-24 sm:h-28 lg:h-32 w-auto mx-auto sm:ml-auto sm:mr-0 drop-shadow-lg"
+                  className="h-28 sm:h-32 lg:h-36 w-auto mx-auto sm:ml-auto sm:mr-0 drop-shadow-lg"
                 />
               </div>
               
@@ -679,7 +696,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             {/* Left side - ABOUT heading */}
             <div className="flex-shrink-0 text-left">
               <h2 ref={aboutHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white text-left">
-                ABOUT
+                ABOUT US
               </h2>
             </div>
             
@@ -803,10 +820,10 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         <div className="hidden lg:block absolute inset-0 z-0 bg-white dark:bg-gray-900"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
-            {/* Left side - PROJECTS heading */}
+            {/* Left side - CASE STUDIES heading */}
             <div className="flex-shrink-0 lg:w-auto w-full text-left">
               <h2 ref={projectsHeadingRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white text-left">
-                PROJECTS
+                CASE STUDIES
               </h2>
             </div>
             
@@ -827,17 +844,17 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             {/* Project description card overlay */}
             <div ref={project1CardRef} className="absolute top-1/2 left-1/2 lg:left-auto lg:right-0 transform -translate-y-1/2 -translate-x-1/2 lg:translate-x-1/2 lg:-translate-x-0 bg-white/90 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 p-4 sm:p-6 w-64 sm:w-72 lg:w-64 text-left">
               <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2 text-left">
-                Coastal Villa
+                One-Stop Border Post
               </h3>
               <div className="flex items-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 text-left">
-                <span>Aspen</span>
+                <span>Ukraine</span>
                 <span className="mx-2">•</span>
-                <span>Residential</span>
+                <span>Project</span>
                 <span className="mx-2">•</span>
-                <span>2024</span>
+                <span>2018</span>
               </div>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed text-left">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Bilateral Customs and Border Crossing Facility designed to streamline movement, ensure security and support efficient operations for vehicles, pedestrians and staff.
               </p>
             </div>
           </div>
@@ -854,17 +871,17 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             {/* Project description card overlay - mirrored to left side */}
             <div ref={project2CardRef} className="absolute top-1/2 left-1/2 lg:left-0 transform -translate-y-1/2 -translate-x-1/2 lg:-translate-x-1/2 bg-white/90 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 p-4 sm:p-6 w-64 sm:w-72 lg:w-64 text-left">
               <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2 text-left">
-                Modern Residence
+                Residential Development
               </h3>
               <div className="flex items-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 text-left">
-                <span>London</span>
+                <span>Ukraine</span>
                 <span className="mx-2">•</span>
-                <span>Commercial</span>
+                <span>Residential</span>
                 <span className="mx-2">•</span>
-                <span>2023</span>
+                <span>2022</span>
               </div>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed text-left">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                A five-storey residential development with commercial spaces on the ground floor, designed to support vibrant street life and efficient urban living
               </p>
             </div>
           </div>
@@ -881,17 +898,17 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             {/* Project description card overlay - same as first (right side) */}
             <div ref={project3CardRef} className="absolute top-1/2 left-1/2 lg:left-auto lg:right-0 transform -translate-y-1/2 -translate-x-1/2 lg:translate-x-1/2 lg:-translate-x-0 bg-white/90 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 p-4 sm:p-6 w-64 sm:w-72 lg:w-64 text-left">
               <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2 text-left">
-                Urban Loft
+                Family dwelling
               </h3>
               <div className="flex items-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 text-left">
-                <span>New York</span>
+                <span>Ukraine</span>
                 <span className="mx-2">•</span>
                 <span>Residential</span>
                 <span className="mx-2">•</span>
-                <span>2024</span>
+                <span>2025</span>
               </div>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed text-left">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                A thoughtfully designed detached house combining functional layouts, natural light and elegant detailing to support comfortable everyday living
               </p>
             </div>
           </div>
@@ -978,6 +995,31 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
         </div>
       </section>
 
+      {/* Partners Section */}
+      <section id="partners" ref={partnersSectionRef} className="py-12 sm:py-16 lg:py-20 bg-gray-200 dark:bg-gray-800 relative z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4">
+              OUR PARTNERS
+            </h2>
+          </div>
+          <div className="flex justify-center items-center">
+            <a
+              href="https://www.consedge.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-all duration-300 hover:scale-110 hover:opacity-80 cursor-pointer"
+            >
+              <img
+                src="/images/consedge_logo.svg"
+                alt="Consedge Logo"
+                className="h-12 sm:h-16 lg:h-20 w-auto"
+              />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Sixth Section - Our Vision */}
       <section ref={testimonialsSectionRef} className="relative min-h-screen flex items-center justify-center z-30 py-12 sm:py-16 lg:py-0" style={{ backgroundColor: '#1e1e1e' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -991,7 +1033,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
           {/* Company Statement */}
           <div className="mb-8 sm:mb-10 lg:mb-12">
             <blockquote ref={quoteTextRef} className="text-base sm:text-lg md:text-xl lg:text-2xl text-white italic leading-relaxed font-serif">
-              We thrive on challenges that push boundaries and demand smarter solutions. The unknown doesn't intimidate us; it inspires us to explore, adapt, and innovate. Through curiosity and precision, we turn complexity into clarity — and ideas into meaningful, lasting architecture.
+              We believe that great design balances function, elegance, and sustainability. Every project - from the simplest layout to the most complex development - is an opportunity to create spaces that work beautifully and endure thoughtfully. We thrive on challenges that push boundaries and demand smarter solutions. The unknown doesn't intimidate us; it inspires us to explore, adapt, and innovate. Through curiosity and precision, we turn complexity into clarity - and ideas into meaningful, lasting architecture.
             </blockquote>
           </div>
 

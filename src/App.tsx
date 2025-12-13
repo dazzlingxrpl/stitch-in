@@ -77,13 +77,13 @@ function AppContent() {
 
   const scrollToServices = () => {
     if (location.pathname === '/') {
-      const servicesSection = document.getElementById('services');
-      if (servicesSection) {
-        servicesSection.scrollIntoView({ behavior: 'smooth' });
+      const partnersSection = document.getElementById('partners');
+      if (partnersSection) {
+        partnersSection.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // Navigate to home page first, then scroll to services section
-      window.location.href = '/#services';
+      // Navigate to home page first, then scroll to partners section
+      window.location.href = '/#partners';
     }
   };
 
@@ -135,12 +135,12 @@ function AppContent() {
 
   const menuItems: MenuItem[] = [
     { href: '#', label: 'Home', onClick: scrollToHome },
-    { href: '#', label: 'About', onClick: scrollToAbout },
-    { href: '/individuals', label: 'Individuals' },
-    { href: '/businesses', label: 'Businesses' },
-    { href: '#', label: 'Services', onClick: scrollToServices },
-    { href: '#', label: 'Projects', onClick: scrollToProjects },
+    { href: '#', label: 'About Us', onClick: scrollToAbout },
+    { href: '/individuals', label: 'For Individuals' },
+    { href: '/businesses', label: 'For Businesses' },
+    { href: '#', label: 'Case Studies', onClick: scrollToProjects },
     { href: '#', label: 'Gallery', onClick: scrollToGallery },
+    { href: '#', label: 'Our Partners', onClick: scrollToServices },
     { href: '#', label: 'Contact', onClick: scrollToContact },
   ];
 
