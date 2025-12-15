@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Footer from '../components/Footer';
@@ -11,6 +12,19 @@ interface IndividualsPageProps {
 }
 
 const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
+  const location = useLocation();
+
+  const scrollToContact = () => {
+    if (location.pathname === '/') {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page with hash - HomePage will handle scrolling
+      window.location.href = '/#contact';
+    }
+  };
   // Services section refs
   const servicesSectionRef = useRef<HTMLElement>(null);
   const servicesHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -198,7 +212,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
         {/* Hero Section - Individuals */}
         <section className="relative min-h-screen flex items-center justify-center z-10" 
                  style={{
-                   backgroundImage: 'url(/images/individuals.png)',
+                   backgroundImage: 'url(/images/homepage_home_op1.png)',
                    backgroundSize: 'cover',
                    backgroundPosition: 'center',
                    backgroundRepeat: 'no-repeat'
@@ -233,7 +247,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                   <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
                     <div>
                       <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
-                        Planning Applications
+                        Consultancy
                       </h3>
                       <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
                         Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
@@ -491,13 +505,21 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
 
          {/* Back Button Section */}
          <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800 relative z-30">
-           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-             <button 
-               onClick={() => window.location.href = '/'}
-               className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
-             >
-               ← Back to Main Page
-             </button>
+           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+               <button 
+                 onClick={() => window.location.href = '/'}
+                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+               >
+                 ← Back to Main Page
+               </button>
+               <button 
+                 onClick={scrollToContact}
+                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+               >
+                 Ready to start? →
+               </button>
+             </div>
            </div>
          </section>
 

@@ -66,12 +66,17 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     const hash = window.location.hash;
     if (hash) {
       // Wait for page to fully load, then scroll to the section
-      setTimeout(() => {
+      const scrollToHash = () => {
         const element = document.querySelector(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100);
+      };
+      
+      // Try multiple times to ensure the element is loaded
+      setTimeout(scrollToHash, 100);
+      setTimeout(scrollToHash, 300);
+      setTimeout(scrollToHash, 500);
     }
   }, []);
 
@@ -709,7 +714,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
               </div>
               <div>
                 <p ref={aboutText2Ref} className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-left md:text-right">
-                  We specialize in sustainable, forward-thinking architecture that respects the surrounding environment and cultural context. Our ability to work across borders enables us to offer solutions that are globally informed yet locally relevant, ensuring each project meets its full potential.
+                  We specialize in sustainable, forward-thinking architecture that respects the environment and cultural context. Our ability to work across borders offers innovative solutions globally informed yet locally relevant, ensuring each project meets its full potential.
                 </p>
               </div>
             </div>
@@ -740,7 +745,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
               <div 
                 className="relative h-80 sm:h-96 lg:h-[500px] bg-cover bg-center"
                style={{
-                 backgroundImage: 'url(/images/individuals.png)',
+                 backgroundImage: 'url(/images/homepage_home_op1.png)',
                  backgroundSize: 'cover',
                  backgroundPosition: 'center',
                  backgroundRepeat: 'no-repeat'
@@ -750,7 +755,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white">
                     <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 group-hover:scale-110 transition-transform duration-300">
-              INDIVIDUALS
+              FOR INDIVIDUALS
                     </h3>
                     <p className="text-lg sm:text-xl max-w-md mx-auto opacity-90 group-hover:opacity-100 transition-opacity duration-300">
                       Personal architectural solutions for homes, offices, and individual projects
@@ -775,7 +780,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
               <div 
                 className="relative h-80 sm:h-96 lg:h-[500px] bg-cover bg-center"
                style={{
-                 backgroundImage: 'url(/images/business.png)',
+                 backgroundImage: 'url(/images/homepage_business_op1.png)',
                  backgroundSize: 'cover',
                  backgroundPosition: 'center',
                  backgroundRepeat: 'no-repeat'
@@ -930,7 +935,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="gallery-image group cursor-pointer">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg">
                 <img
-                  src="/images/gallery1.png"
+                  src="/images/service2.png"
                   alt="Modern Architecture"
                   className="w-full h-full object-cover transition-transform duration-700"
                 />
@@ -1204,7 +1209,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             <div className="relative">
               <div ref={ctaImageRef} className="relative h-[400px] sm:h-[500px] lg:h-[700px] mt-8 sm:-mt-16 lg:-mt-32">
                 <img
-                  src="/images/gallery5.png"
+                  src="/images/Architectural_and_Interior_Design.png"
                   alt="Architecture Project"
                   className="w-full h-full object-cover shadow-2xl"
                 />

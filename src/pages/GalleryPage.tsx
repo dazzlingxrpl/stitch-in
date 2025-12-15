@@ -3,7 +3,7 @@ import React from 'react';
 const GalleryPage = () => {
   const galleryImages = [
     {
-      src: '/images/work_images/house1.jpg',
+      src: '/images/service2.png',
       alt: 'Residential House 1',
       category: 'Residential'
     },

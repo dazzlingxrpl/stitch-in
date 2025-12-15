@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Footer from '../components/Footer';
@@ -11,6 +12,19 @@ interface BusinessesPageProps {
 }
 
 const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
+  const location = useLocation();
+
+  const scrollToContact = () => {
+    if (location.pathname === '/') {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home page with hash - HomePage will handle scrolling
+      window.location.href = '/#contact';
+    }
+  };
   // Business Services section refs
   const businessServicesSectionRef = useRef<HTMLElement>(null);
   const businessServicesHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -226,7 +240,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
         {/* Hero Section - For Businesses */}
         <section className="relative min-h-screen flex items-center justify-center z-10" 
                  style={{
-                   backgroundImage: 'url(/images/business.png)',
+                   backgroundImage: 'url(/images/homepage_business_op1.png)',
                    backgroundSize: 'cover',
                    backgroundPosition: 'center',
                    backgroundRepeat: 'no-repeat'
@@ -343,7 +357,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                   {/* Right side - Building image */}
                   <div ref={businessService2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
                     <img
-                      src="/images/pic2.png"
+                      src="/images/warehouses.png"
                       alt="Architectural Design"
                       className="w-full h-full object-cover"
                     />
@@ -358,7 +372,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                   {/* Left side - Building image */}
                   <div ref={businessService3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
                     <img
-                      src="/images/service3.png"
+                      src="/images/office_space.png"
                       alt="Interior Design"
                       className="w-full h-full object-cover"
                     />
@@ -556,13 +570,21 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
 
         {/* Back Button Section */}
         <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800 relative z-30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <button 
-              onClick={() => window.location.href = '/'}
-              className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
-            >
-              ← Back to Main Page
-            </button>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button 
+                onClick={() => window.location.href = '/'}
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+              >
+                ← Back to Main Page
+              </button>
+              <button 
+                onClick={scrollToContact}
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+              >
+                Ready to start? →
+              </button>
+            </div>
           </div>
         </section>
 
