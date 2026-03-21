@@ -20,6 +20,7 @@ interface MenuItem {
 function AppContent() {
   const [darkMode, setDarkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPastHeroSection, setIsPastHeroSection] = useState(false);
   const location = useLocation();
 
   React.useEffect(() => {
@@ -46,6 +47,27 @@ function AppContent() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
+  React.useEffect(() => {
+    const handleHeaderStateOnScroll = () => {
+      if (location.pathname !== '/') {
+        setIsPastHeroSection(true);
+        return;
+      }
+
+      const heroHeight = window.innerHeight;
+      setIsPastHeroSection(window.scrollY > heroHeight - 80);
+    };
+
+    handleHeaderStateOnScroll();
+    window.addEventListener('scroll', handleHeaderStateOnScroll, { passive: true });
+    window.addEventListener('resize', handleHeaderStateOnScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleHeaderStateOnScroll);
+      window.removeEventListener('resize', handleHeaderStateOnScroll);
+    };
+  }, [location.pathname]);
+
   const updateThemeColor = (color: string) => {
     // Find existing theme-color meta tag
     let themeColorMeta = document.querySelector('meta[name="theme-color"]');
@@ -62,6 +84,16 @@ function AppContent() {
   };
 
   const isHeroDesignPage = location.pathname === '/hero-design';
+  const isHomeHeroHeader = location.pathname === '/' && !isPastHeroSection;
+  const headerContainerClasses = isHomeHeroHeader
+    ? 'bg-transparent'
+    : 'backdrop-blur-sm bg-white/80 dark:bg-gray-900/80';
+  const headerTextClasses = isHomeHeroHeader
+    ? 'text-white hover:border-white hover:text-gray-100'
+    : 'text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300';
+  const headerLogo = isHomeHeroHeader
+    ? '/images/roundlogo_trans_white.png'
+    : '/images/roundlogo_trans_black.png';
 
   const scrollToAbout = () => {
     if (location.pathname === '/') {
@@ -148,14 +180,14 @@ function AppContent() {
     <div className="App">
       {/* Desktop Navigation - Hide on hero-design page */}
       {!isHeroDesignPage && (
-        <nav className="fixed w-full z-[60] backdrop-blur-sm bg-white/80 dark:bg-gray-900/80">
+        <nav className={`fixed w-full z-[60] transition-colors duration-300 ${headerContainerClasses}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/">
                   <img
-                    src={darkMode ? "/images/main_logo_white.png" : "/images/main_logo_black.png"}
-                    alt="Architecture Logo"
+                    src={headerLogo}
+                    alt="Stitch In Logo"
                     className="h-8 w-auto"
                   />
                 </Link>
@@ -166,7 +198,7 @@ function AppContent() {
                     <button
                       key={`${item.label}-${index}`}
                       onClick={item.onClick}
-                      className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300 inline-flex items-center px-1 border-b-2 text-sm font-medium"
+                      className={`border-transparent inline-flex items-center px-1 border-b-2 text-sm font-medium transition-colors ${headerTextClasses}`}
                     >
                       {item.label}
                     </button>
@@ -174,7 +206,7 @@ function AppContent() {
                     <Link
                       key={`${item.label}-${index}`}
                       to={item.href}
-                      className="border-transparent text-gray-900 dark:text-gray-100 hover:border-gray-900 hover:text-gray-700 dark:hover:border-white dark:hover:text-gray-300 inline-flex items-center px-1 border-b-2 text-sm font-medium"
+                      className={`border-transparent inline-flex items-center px-1 border-b-2 text-sm font-medium transition-colors ${headerTextClasses}`}
                     >
                       {item.label}
                     </Link>

@@ -16,6 +16,7 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
+  const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
   
   const heroSectionRef = useRef<HTMLElement>(null);
   const aboutSectionRef = useRef<HTMLElement>(null);
@@ -84,6 +85,20 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   useEffect(() => {
     // Nothing needed here for static logo display
   }, [darkMode]);
+
+  // Preload the hero video so playback starts faster on first visit.
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = '/images/stitch_in_video.mp4';
+    link.type = 'video/mp4';
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   // About section animations
   useEffect(() => {
@@ -647,16 +662,25 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       <div className="overflow-x-hidden">
       {/* Hero Section with Hero Image background */}
       <section ref={heroSectionRef} className="relative h-screen overflow-hidden z-10">
-        {/* Hero Image background for all screen sizes */}
+        {/* Hero video background for all screen sizes */}
         <div className="absolute inset-0 z-0">
-          <div 
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage: 'url(/images/hero_imagev3.png)',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover'
-            }}
-          ></div>
+          <video
+            className={`w-full h-full object-cover transition-opacity duration-500 ${isHeroVideoReady ? 'opacity-100' : 'opacity-0'}`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onLoadedData={() => setIsHeroVideoReady(true)}
+            onCanPlay={() => setIsHeroVideoReady(true)}
+            aria-label="Stitch In hero video background"
+          >
+            <source src="/images/stitch_in_video.mp4" type="video/mp4" />
+          </video>
+
+          {!isHeroVideoReady && (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black animate-pulse"></div>
+          )}
         </div>
         
         {/* Dark overlay to ensure logo visibility */}
