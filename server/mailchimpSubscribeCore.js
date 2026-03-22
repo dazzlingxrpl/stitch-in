@@ -78,13 +78,21 @@ async function subscribeToMailchimp(body) {
   }
 
   const email = body.email && String(body.email).trim();
-  const name = body.name && String(body.name).trim();
   const message = body.message && String(body.message).trim();
 
-  if (!email || !name || !message) {
+  let fname = body.firstName != null ? String(body.firstName).trim() : '';
+  let lname = body.lastName != null ? String(body.lastName).trim() : '';
+  const legacyName = body.name != null ? String(body.name).trim() : '';
+  if (!fname && legacyName) {
+    const parts = legacyName.split(/\s+/).filter(Boolean);
+    fname = parts[0] || '';
+    lname = parts.slice(1).join(' ') || '';
+  }
+
+  if (!email || !fname || !message) {
     const missingKeys = [];
     if (!email) missingKeys.push('email');
-    if (!name) missingKeys.push('name');
+    if (!fname) missingKeys.push('firstName');
     if (!message) missingKeys.push('message');
     const err = `Missing required fields: ${missingKeys.join(', ')}`;
     if (DEBUG) {
@@ -104,11 +112,11 @@ async function subscribeToMailchimp(body) {
 
   const phone = body.phone != null ? String(body.phone).trim() : '';
   const projectType = body.projectType != null ? String(body.projectType).trim() : '';
-  const location = body.location != null ? String(body.location).trim() : '';
-
-  const parts = name.split(/\s+/).filter(Boolean);
-  const fname = parts[0] || '';
-  const lname = parts.slice(1).join(' ') || '';
+  const companyName = body.company != null ? String(body.company).trim() : '';
+  const addressLine =
+    (body.address != null && String(body.address).trim()) ||
+    (body.location != null && String(body.location).trim()) ||
+    '';
 
   /**
    * Map form fields to merge tags. Do not use ADDRESS for a free-text “City, Country” line — Mailchimp validates
@@ -116,7 +124,8 @@ async function subscribeToMailchimp(body) {
    *
    * - FNAME / LNAME: name
    * - PHONE: phone
-   * - COMPANY: message (and, if no location merge tag, “Location: …” appended, truncated to 255 chars)
+   * - COMPANY: organization name when provided (optional)
+   * - Enquiry message: MAILCHIMP_MERGE_MESSAGE tag if set; else packed into COMPANY with company + message + address fallback
    * - Optional MAILCHIMP_MERGE_LOCATION / MAILCHIMP_MERGE_PROJECT_TYPE → custom text field merge tags
    */
   const mergeFields = {
@@ -135,8 +144,8 @@ async function subscribeToMailchimp(body) {
     rawLocationTag === undefined || rawLocationTag === null
       ? 'LOCATION'
       : String(rawLocationTag).trim();
-  if (location && locationMergeTag) {
-    mergeFields[locationMergeTag] = location.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
+  if (addressLine && locationMergeTag) {
+    mergeFields[locationMergeTag] = addressLine.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   }
 
   const projectMergeTag = (process.env.MAILCHIMP_MERGE_PROJECT_TYPE || '').trim();
@@ -144,11 +153,26 @@ async function subscribeToMailchimp(body) {
     mergeFields[projectMergeTag] = projectType.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   }
 
-  let companyText = message;
-  if (location && !locationMergeTag) {
-    companyText = `${message}\n\nLocation: ${location}`;
+  const messageMergeTag = (process.env.MAILCHIMP_MERGE_MESSAGE || '').trim();
+  if (messageMergeTag) {
+    let msgBlock = message;
+    if (addressLine && !locationMergeTag) {
+      msgBlock = `${message}\n\nAddress: ${addressLine}`;
+    }
+    mergeFields[messageMergeTag] = msgBlock.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
+    if (companyName) {
+      mergeFields.COMPANY = companyName.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
+    }
+  } else {
+    let companyText = message;
+    if (companyName) {
+      companyText = `${companyName}\n\n${message}`;
+    }
+    if (addressLine && !locationMergeTag) {
+      companyText = `${companyText}\n\nAddress: ${addressLine}`;
+    }
+    mergeFields.COMPANY = companyText.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   }
-  mergeFields.COMPANY = companyText.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
 
   const subscriberHash = md5Hex(email);
   const url = `https://${dc}.api.mailchimp.com/3.0/lists/${encodeURIComponent(listId)}/members/${subscriberHash}`;

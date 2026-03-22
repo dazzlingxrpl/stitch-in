@@ -6,6 +6,7 @@ import { SplitText } from 'gsap/SplitText';
 import Footer from '../components/Footer';
 import CoverImageCard from '../components/CoverImageCard';
 import GalleryLightbox from '../components/GalleryLightbox';
+import AddressAutocompleteInput from '../components/AddressAutocompleteInput';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -1236,11 +1237,13 @@ const HomePage: React.FC = () => {
                   const form = e.currentTarget;
                   const formData = new FormData(form);
                   const email = String(formData.get('email') ?? '').trim();
-                  const name = String(formData.get('name') ?? '').trim();
+                  const firstName = String(formData.get('firstName') ?? '').trim();
+                  const lastName = String(formData.get('lastName') ?? '').trim();
                   const message = String(formData.get('message') ?? '').trim();
                   const phone = String(formData.get('phone') ?? '').trim();
                   const projectType = String(formData.get('project-type') ?? '').trim();
-                  const location = String(formData.get('location') ?? '').trim();
+                  const company = String(formData.get('company') ?? '').trim();
+                  const address = String(formData.get('address') ?? '').trim();
 
                   setContactSendSucceeded(false);
                   setIsContactSubmitting(true);
@@ -1249,11 +1252,13 @@ const HomePage: React.FC = () => {
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                     body: JSON.stringify({
                       email,
-                      name,
+                      firstName,
+                      lastName,
                       message,
                       phone,
                       projectType,
-                      location
+                      company,
+                      address
                     })
                   })
                     .then(async (response) => {
@@ -1321,20 +1326,33 @@ const HomePage: React.FC = () => {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label htmlFor="cta-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
-                      Name
+                    <label htmlFor="cta-first-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                      First name
                     </label>
                     <input
                       type="text"
-                      id="cta-name"
-                      name="name"
+                      id="cta-first-name"
+                      name="firstName"
+                      autoComplete="given-name"
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
-                      placeholder="Your name"
+                      placeholder="First name"
                       required
                     />
                   </div>
-                  
                   <div>
+                    <label htmlFor="cta-last-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                      Last name
+                    </label>
+                    <input
+                      type="text"
+                      id="cta-last-name"
+                      name="lastName"
+                      autoComplete="family-name"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                      placeholder="Last name"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
                     <label htmlFor="cta-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
                       Email
                     </label>
@@ -1342,6 +1360,7 @@ const HomePage: React.FC = () => {
                       type="email"
                       id="cta-email"
                       name="email"
+                      autoComplete="email"
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
                       placeholder="your@email.com"
                       required
@@ -1389,17 +1408,35 @@ const HomePage: React.FC = () => {
                     </select>
                   </div>
                 </div>
-                
+
                 <div>
-                  <label htmlFor="cta-location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
-                    Location
+                  <label htmlFor="cta-company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                    Company
                   </label>
+                  <p className="mb-2 text-left text-sm text-gray-500 dark:text-gray-400">Optional — organization or business name, if relevant.</p>
                   <input
                     type="text"
-                    id="cta-location"
-                    name="location"
+                    id="cta-company"
+                    name="company"
+                    autoComplete="organization"
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
-                    placeholder="City, Country"
+                    placeholder="Company or organization"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="cta-address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
+                    Address of land or plot for plans
+                  </label>
+                  <p className="mb-2 text-left text-sm text-gray-500 dark:text-gray-400">
+                    Start typing to search for an address, or enter it manually (e.g. rural or unmapped plots).
+                  </p>
+                  <AddressAutocompleteInput
+                    type="text"
+                    id="cta-address"
+                    name="address"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                    placeholder="Street, city, region, or description of the site"
                     required
                   />
                 </div>
