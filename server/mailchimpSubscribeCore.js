@@ -3,6 +3,9 @@
  */
 const crypto = require('crypto');
 
+/** Mailchimp text merge fields reject values over 255 chars (API returns 400). */
+const MAILCHIMP_TEXT_MERGE_MAX = 255;
+
 function md5Hex(email) {
   return crypto.createHash('md5').update(String(email).toLowerCase().trim()).digest('hex');
 }
@@ -38,22 +41,25 @@ async function subscribeToMailchimp(body) {
 
   // Phone goes in the inquiry text — many audiences do not have a PHONE merge tag (or use a custom tag name),
   // which causes Mailchimp to return 400 for invalid merge fields.
+  // Message first so if we must truncate to 255 chars, the enquiry text is preserved as much as possible.
   const inquiry = [
+    message,
     projectType && `Project type: ${projectType}`,
     location && `Location: ${location}`,
-    phone && `Phone: ${phone}`,
-    message
+    phone && `Phone: ${phone}`
   ]
     .filter(Boolean)
     .join('\n\n');
 
-  const company = inquiry.slice(0, 500);
+  const company = inquiry.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
 
   const mergeFields = {
     FNAME: fname.slice(0, 50),
-    LNAME: lname.slice(0, 50),
     COMPANY: company
   };
+  if (lname) {
+    mergeFields.LNAME = lname.slice(0, 50);
+  }
 
   const subscriberHash = md5Hex(email);
   const url = `https://${dc}.api.mailchimp.com/3.0/lists/${encodeURIComponent(listId)}/members/${subscriberHash}`;
@@ -82,6 +88,12 @@ async function subscribeToMailchimp(body) {
       let errText = 'Mailchimp request failed';
       if (typeof data.detail === 'string') {
         errText = data.detail;
+      } else if (data.detail != null && typeof data.detail !== 'string') {
+        try {
+          errText = JSON.stringify(data.detail);
+        } catch {
+          errText = String(data.detail);
+        }
       } else if (Array.isArray(data.errors) && data.errors.length > 0) {
         errText = data.errors
           .map((e) => (e && typeof e.message === 'string' ? e.message : ''))

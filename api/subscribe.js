@@ -9,6 +9,31 @@ function sendJson(res, status, obj) {
   res.end(JSON.stringify(obj));
 }
 
+/** Vercel usually parses JSON into req.body; also handle string / Buffer. */
+function readJsonBody(req) {
+  if (req.body == null) {
+    return {};
+  }
+  if (typeof req.body === 'string') {
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return null;
+    }
+  }
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      return JSON.parse(req.body.toString('utf8'));
+    } catch {
+      return null;
+    }
+  }
+  if (typeof req.body === 'object') {
+    return req.body;
+  }
+  return {};
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -22,10 +47,8 @@ module.exports = async (req, res) => {
     return sendJson(res, 405, { error: 'Method not allowed' });
   }
 
-  let body;
-  try {
-    body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-  } catch {
+  const body = readJsonBody(req);
+  if (body === null) {
     return sendJson(res, 400, { error: 'Invalid JSON' });
   }
 
