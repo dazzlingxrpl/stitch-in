@@ -124,13 +124,11 @@ async function subscribeToMailchimp(body) {
    * - FNAME / LNAME: name
    * - PHONE: phone
    * - MESSAGE (default merge tag): enquiry text only (no address appended)
-   * - ADDRESS (default): site / plot line as Mailchimp Address merge (structured object), unless
-   *   MAILCHIMP_MERGE_LOCATION points at a Text field instead
+   * - ADDRESS (default): site / plot line as a Text merge (plain string). For Mailchimp’s native Address-type
+   *   field instead, set MAILCHIMP_ADDRESS_STRUCTURED=1 (object with addr1, city, …).
+   * - Optional MAILCHIMP_MERGE_LOCATION: send address to a different Text merge tag (takes precedence over ADDRESS).
    * - COMPANY: organization name when provided (optional)
    * - PROJECT (default merge tag): project type from the dropdown when provided
-   *
-   * If Mailchimp rejects ADDRESS (e.g. “incomplete address”), set MAILCHIMP_MERGE_LOCATION to a custom Text
-   * merge tag and optionally MAILCHIMP_MERGE_ADDRESS= (empty) to skip the ADDRESS object.
    */
   const mergeFields = {
     FNAME: fname.slice(0, 50)
@@ -143,8 +141,8 @@ async function subscribeToMailchimp(body) {
   }
 
   /**
-   * Site address: either Mailchimp’s Address-type merge (default tag ADDRESS) or a custom Text field via
-   * MAILCHIMP_MERGE_LOCATION (takes precedence — no ADDRESS object in that case).
+   * Site address: Text merge (default tag ADDRESS) as a string, unless MAILCHIMP_MERGE_LOCATION is set
+   * (send to that tag instead). Native Mailchimp Address fields need MAILCHIMP_ADDRESS_STRUCTURED=1.
    */
   const rawLocationTag = process.env.MAILCHIMP_MERGE_LOCATION;
   const locationMergeTag =
@@ -158,18 +156,26 @@ async function subscribeToMailchimp(body) {
       ? 'ADDRESS'
       : String(rawAddressMergeTag).trim();
 
+  const addressStructured =
+    process.env.MAILCHIMP_ADDRESS_STRUCTURED === '1' ||
+    process.env.MAILCHIMP_ADDRESS_STRUCTURED === 'true';
+
   if (addressLine && locationMergeTag) {
     mergeFields[locationMergeTag] = addressLine.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   } else if (addressLine && addressMergeTag) {
-    const country = (process.env.MAILCHIMP_ADDRESS_COUNTRY || '').trim();
-    mergeFields[addressMergeTag] = {
-      addr1: addressLine.slice(0, 255),
-      addr2: '',
-      city: '',
-      state: '',
-      zip: '',
-      country
-    };
+    if (addressStructured) {
+      const country = (process.env.MAILCHIMP_ADDRESS_COUNTRY || '').trim();
+      mergeFields[addressMergeTag] = {
+        addr1: addressLine.slice(0, 255),
+        addr2: '',
+        city: '',
+        state: '',
+        zip: '',
+        country
+      };
+    } else {
+      mergeFields[addressMergeTag] = addressLine.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
+    }
   }
 
   /** Default PROJECT matches a Text field “Project Type” (merge tag PROJECT). If Mailchimp returns 400, try MMERGE7. */
