@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Google Places suggestions render in .pac-container on document.body — must sit above sticky UI */
+.pac-container {
+  z-index: 20000 !important;
+}
+
 @layer base {
   html {
     @apply bg-white transition-colors duration-300;

@@ -37,10 +37,19 @@ const AddressAutocompleteInput: React.FC<AddressAutocompleteInputProps> = (props
 
     const script = document.createElement('script');
     script.id = SCRIPT_ID;
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places&v=weekly`;
     script.async = true;
     script.defer = true;
-    script.onload = () => setSdkReady(true);
+    script.onload = () => {
+      // Places sometimes attaches one tick after script load
+      requestAnimationFrame(() => setSdkReady(true));
+    };
+    script.onerror = () => {
+      // eslint-disable-next-line no-console -- deploy / key diagnostics
+      console.error(
+        '[AddressAutocomplete] Failed to load Google Maps JS. Check REACT_APP_GOOGLE_PLACES_API_KEY, billing, and API enablement (Maps JavaScript API + Places API).'
+      );
+    };
     document.head.appendChild(script);
   }, [apiKey]);
 
@@ -52,7 +61,7 @@ const AddressAutocompleteInput: React.FC<AddressAutocompleteInputProps> = (props
     const input = inputRef.current;
     const Autocomplete = g.maps.places.Autocomplete;
     const autocomplete = new Autocomplete(input, {
-      fields: ['formatted_address', 'name'],
+      fields: ['formatted_address', 'name', 'address_components'],
     });
 
     const handlePlace = () => {
@@ -67,6 +76,7 @@ const AddressAutocompleteInput: React.FC<AddressAutocompleteInputProps> = (props
 
     return () => {
       listener.remove();
+      g.maps.event.clearInstanceListeners(input);
     };
   }, [apiKey, sdkReady]);
 
