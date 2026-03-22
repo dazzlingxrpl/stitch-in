@@ -119,15 +119,18 @@ async function subscribeToMailchimp(body) {
     '';
 
   /**
-   * Map form fields to merge tags. Do not use ADDRESS for a free-text “City, Country” line — Mailchimp validates
-   * ADDRESS as a full postal address (“complete address” error). Use a custom Text field + MAILCHIMP_MERGE_LOCATION.
+   * Map form fields to merge tags.
    *
    * - FNAME / LNAME: name
    * - PHONE: phone
+   * - MESSAGE (default merge tag): enquiry text only (no address appended)
+   * - ADDRESS (default): site / plot line as Mailchimp Address merge (structured object), unless
+   *   MAILCHIMP_MERGE_LOCATION points at a Text field instead
    * - COMPANY: organization name when provided (optional)
-   * - MESSAGE (default merge tag): enquiry text; site address appended here unless MAILCHIMP_MERGE_LOCATION is set
-   * - COMPANY: organization name only when MESSAGE path is used
-   * - Optional MAILCHIMP_MERGE_LOCATION / MAILCHIMP_MERGE_PROJECT_TYPE
+   * - PROJECT (default merge tag): project type from the dropdown when provided
+   *
+   * If Mailchimp rejects ADDRESS (e.g. “incomplete address”), set MAILCHIMP_MERGE_LOCATION to a custom Text
+   * merge tag and optionally MAILCHIMP_MERGE_ADDRESS= (empty) to skip the ADDRESS object.
    */
   const mergeFields = {
     FNAME: fname.slice(0, 50)
@@ -140,19 +143,41 @@ async function subscribeToMailchimp(body) {
   }
 
   /**
-   * Site address: optional separate Text merge tag (e.g. MMERGE7). If unset, address is appended under MESSAGE.
-   * Do not default to LOCATION — many audiences use only Mailchimp’s default fields (MESSAGE, COMPANY, etc.).
+   * Site address: either Mailchimp’s Address-type merge (default tag ADDRESS) or a custom Text field via
+   * MAILCHIMP_MERGE_LOCATION (takes precedence — no ADDRESS object in that case).
    */
   const rawLocationTag = process.env.MAILCHIMP_MERGE_LOCATION;
   const locationMergeTag =
     rawLocationTag === undefined || rawLocationTag === null
       ? ''
       : String(rawLocationTag).trim();
+
+  const rawAddressMergeTag = process.env.MAILCHIMP_MERGE_ADDRESS;
+  const addressMergeTag =
+    rawAddressMergeTag === undefined || rawAddressMergeTag === null
+      ? 'ADDRESS'
+      : String(rawAddressMergeTag).trim();
+
   if (addressLine && locationMergeTag) {
     mergeFields[locationMergeTag] = addressLine.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
+  } else if (addressLine && addressMergeTag) {
+    const country = (process.env.MAILCHIMP_ADDRESS_COUNTRY || '').trim();
+    mergeFields[addressMergeTag] = {
+      addr1: addressLine.slice(0, 255),
+      addr2: '',
+      city: '',
+      state: '',
+      zip: '',
+      country
+    };
   }
 
-  const projectMergeTag = (process.env.MAILCHIMP_MERGE_PROJECT_TYPE || '').trim();
+  /** Default PROJECT matches a Text field “Project Type” (merge tag PROJECT). If Mailchimp returns 400, try MMERGE7. */
+  const rawProjectTag = process.env.MAILCHIMP_MERGE_PROJECT_TYPE;
+  const projectMergeTag =
+    rawProjectTag === undefined || rawProjectTag === null
+      ? 'PROJECT'
+      : String(rawProjectTag).trim();
   if (projectMergeTag && projectType) {
     mergeFields[projectMergeTag] = projectType.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   }
@@ -165,11 +190,7 @@ async function subscribeToMailchimp(body) {
       : String(rawMessageTag).trim();
 
   if (messageMergeTag) {
-    let msgBlock = message;
-    if (addressLine && !locationMergeTag) {
-      msgBlock = `${message}\n\nAddress of land/plot: ${addressLine}`;
-    }
-    mergeFields[messageMergeTag] = msgBlock.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
+    mergeFields[messageMergeTag] = message.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
     if (companyName) {
       mergeFields.COMPANY = companyName.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
     }
@@ -177,9 +198,6 @@ async function subscribeToMailchimp(body) {
     let companyText = message;
     if (companyName) {
       companyText = `${companyName}\n\n${message}`;
-    }
-    if (addressLine && !locationMergeTag) {
-      companyText = `${companyText}\n\nAddress of land/plot: ${addressLine}`;
     }
     mergeFields.COMPANY = companyText.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   }
