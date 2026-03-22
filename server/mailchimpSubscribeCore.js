@@ -6,13 +6,62 @@ const crypto = require('crypto');
 /** Mailchimp text merge fields reject values over 255 chars (API returns 400). */
 const MAILCHIMP_TEXT_MERGE_MAX = 255;
 
+const DEBUG =
+  process.env.MAILCHIMP_DEBUG === '1' ||
+  process.env.MAILCHIMP_DEBUG === 'true' ||
+  process.env.SUBSCRIBE_DEBUG === '1';
+
 function md5Hex(email) {
   return crypto.createHash('md5').update(String(email).toLowerCase().trim()).digest('hex');
 }
 
 /**
+ * Build a single human-readable line from Mailchimp error JSON.
+ * @param {Record<string, unknown>} data
+ */
+function formatMailchimpError(data) {
+  if (!data || typeof data !== 'object') {
+    return 'Mailchimp request failed';
+  }
+  const parts = [];
+  if (typeof data.detail === 'string' && data.detail.trim()) {
+    parts.push(data.detail.trim());
+  } else if (Array.isArray(data.detail)) {
+    for (const d of data.detail) {
+      if (d != null && String(d).trim()) parts.push(String(d).trim());
+    }
+  }
+  if (Array.isArray(data.errors)) {
+    for (const e of data.errors) {
+      if (e && typeof e === 'object') {
+        const msg = typeof e.message === 'string' ? e.message : typeof e.error === 'string' ? e.error : '';
+        const field = typeof e.field === 'string' ? e.field : '';
+        if (msg) parts.push(field ? `${field}: ${msg}` : msg);
+      }
+    }
+  }
+  if (parts.length > 0) {
+    return parts.join(' — ');
+  }
+  if (typeof data.title === 'string' && data.title.trim()) {
+    return data.title.trim();
+  }
+  return 'Mailchimp request failed';
+}
+
+/**
  * @param {Record<string, unknown>} body
- * @returns {Promise<{ ok: true } | { ok: false; status: number; error: string }>}
+ * @returns {Promise<
+ *   | { ok: true }
+ *   | {
+ *       ok: false;
+ *       status: number;
+ *       error: string;
+ *       code: string;
+ *       missingKeys?: string[];
+ *       mailchimpDebug?: { httpStatus: number; body: unknown };
+ *     }
+ * >}
  */
 async function subscribeToMailchimp(body) {
   const apiKey = process.env.MAILCHIMP_API_KEY;
@@ -20,7 +69,12 @@ async function subscribeToMailchimp(body) {
   const dc = process.env.MAILCHIMP_DC || 'us19';
 
   if (!apiKey || !listId) {
-    return { ok: false, status: 500, error: 'Mailchimp is not configured on the server' };
+    return {
+      ok: false,
+      status: 500,
+      error: 'Mailchimp is not configured on the server',
+      code: 'server_config'
+    };
   }
 
   const email = body.email && String(body.email).trim();
@@ -28,7 +82,24 @@ async function subscribeToMailchimp(body) {
   const message = body.message && String(body.message).trim();
 
   if (!email || !name || !message) {
-    return { ok: false, status: 400, error: 'Missing required fields' };
+    const missingKeys = [];
+    if (!email) missingKeys.push('email');
+    if (!name) missingKeys.push('name');
+    if (!message) missingKeys.push('message');
+    const err = `Missing required fields: ${missingKeys.join(', ')}`;
+    if (DEBUG) {
+      console.error('[subscribe] validation failed', {
+        missingKeys,
+        bodyKeys: body && typeof body === 'object' ? Object.keys(body) : []
+      });
+    }
+    return {
+      ok: false,
+      status: 400,
+      error: err,
+      code: 'validation_missing',
+      missingKeys
+    };
   }
 
   const phone = body.phone != null ? String(body.phone).trim() : '';
@@ -39,9 +110,6 @@ async function subscribeToMailchimp(body) {
   const fname = parts[0] || '';
   const lname = parts.slice(1).join(' ') || '';
 
-  // Phone goes in the inquiry text — many audiences do not have a PHONE merge tag (or use a custom tag name),
-  // which causes Mailchimp to return 400 for invalid merge fields.
-  // Message first so if we must truncate to 255 chars, the enquiry text is preserved as much as possible.
   const inquiry = [
     message,
     projectType && `Project type: ${projectType}`,
@@ -66,13 +134,28 @@ async function subscribeToMailchimp(body) {
 
   const auth = Buffer.from(`anystring:${apiKey}`, 'utf8').toString('base64');
 
+  /** Double opt-in audiences often need `pending`; use MAILCHIMP_STATUS_IF_NEW=pending if subscribed fails. */
+  const rawStatus = (process.env.MAILCHIMP_STATUS_IF_NEW || 'subscribed').toLowerCase();
+  const allowedStatus = new Set(['subscribed', 'pending', 'transactional']);
+  const statusIfNew = allowedStatus.has(rawStatus) ? rawStatus : 'subscribed';
+
   const payload = {
     email_address: email.toLowerCase(),
-    status_if_new: 'subscribed',
+    status_if_new: statusIfNew,
     merge_fields: mergeFields
   };
 
   try {
+    if (DEBUG) {
+      console.log('[subscribe] Mailchimp PUT', {
+        dc,
+        listId: `${String(listId).slice(0, 4)}…`,
+        mergeKeys: Object.keys(mergeFields),
+        companyLen: company.length,
+        status_if_new: statusIfNew
+      });
+    }
+
     const mcRes = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -85,32 +168,30 @@ async function subscribeToMailchimp(body) {
     const data = await mcRes.json().catch(() => ({}));
 
     if (!mcRes.ok) {
-      let errText = 'Mailchimp request failed';
-      if (typeof data.detail === 'string') {
-        errText = data.detail;
-      } else if (data.detail != null && typeof data.detail !== 'string') {
-        try {
-          errText = JSON.stringify(data.detail);
-        } catch {
-          errText = String(data.detail);
-        }
-      } else if (Array.isArray(data.errors) && data.errors.length > 0) {
-        errText = data.errors
-          .map((e) => (e && typeof e.message === 'string' ? e.message : ''))
-          .filter(Boolean)
-          .join(' ') || errText;
-      } else if (typeof data.title === 'string' && data.title) {
-        errText = data.title;
-      }
+      const errText = formatMailchimpError(data);
       const status = mcRes.status >= 400 && mcRes.status < 600 ? mcRes.status : 502;
-      console.error('[Mailchimp]', mcRes.status, data);
-      return { ok: false, status, error: errText };
+      console.error('[Mailchimp] HTTP', mcRes.status, errText, DEBUG ? data : '');
+      const out = {
+        ok: false,
+        status,
+        error: errText,
+        code: 'mailchimp_api'
+      };
+      if (DEBUG) {
+        out.mailchimpDebug = { httpStatus: mcRes.status, body: data };
+      }
+      return out;
     }
 
     return { ok: true };
   } catch (err) {
     console.error(err);
-    return { ok: false, status: 502, error: 'Could not reach Mailchimp' };
+    return {
+      ok: false,
+      status: 502,
+      error: 'Could not reach Mailchimp',
+      code: 'network'
+    };
   }
 }
 

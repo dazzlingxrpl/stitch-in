@@ -16,13 +16,24 @@ const app = express();
 const buildDir = path.join(__dirname, 'build');
 
 app.use(express.json({ limit: '48kb' }));
+app.use(express.urlencoded({ extended: true, limit: '48kb' }));
 
 app.post('/api/subscribe', async (req, res) => {
+  if (process.env.MAILCHIMP_DEBUG === '1' || process.env.SUBSCRIBE_DEBUG === '1') {
+    console.log('[subscribe] POST /api/subscribe', {
+      contentType: req.headers['content-type'],
+      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : typeof req.body
+    });
+  }
   const result = await subscribeToMailchimp(req.body || {});
   if (result.ok) {
     return res.status(200).json({ ok: true });
   }
-  return res.status(result.status).json({ error: result.error });
+  const out = { error: result.error };
+  if (result.code) out.code = result.code;
+  if (result.missingKeys) out.missingKeys = result.missingKeys;
+  if (result.mailchimpDebug) out.mailchimpDebug = result.mailchimpDebug;
+  return res.status(result.status).json(out);
 });
 
 app.use(express.static(buildDir));

@@ -56,5 +56,9 @@ module.exports = async (req, res) => {
   if (result.ok) {
     return sendJson(res, 200, { ok: true });
   }
-  return sendJson(res, result.status, { error: result.error });
+  const out = { error: result.error };
+  if (result.code) out.code = result.code;
+  if (result.missingKeys) out.missingKeys = result.missingKeys;
+  if (result.mailchimpDebug) out.mailchimpDebug = result.mailchimpDebug;
+  return sendJson(res, result.status, out);
 };

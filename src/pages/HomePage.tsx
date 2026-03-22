@@ -1263,23 +1263,34 @@ const HomePage: React.FC = () => {
                   })
                     .then(async (response) => {
                       const raw = await response.text();
-                      let data: { error?: string } = {};
+                      let data: {
+                        error?: string;
+                        code?: string;
+                        missingKeys?: string[];
+                        mailchimpDebug?: unknown;
+                      } = {};
                       try {
-                        data = raw ? (JSON.parse(raw) as { error?: string }) : {};
+                        data = raw ? (JSON.parse(raw) as typeof data) : {};
                       } catch {
                         data = {};
                       }
                       const apiError =
                         typeof data.error === 'string' && data.error.trim() ? data.error.trim() : '';
+                      const codeSuffix =
+                        typeof data.code === 'string' && data.code.trim() ? ` [${data.code}]` : '';
                       setFormSubmitted(true);
                       if (response.ok) {
                         setSubmissionMessage('Thank you! Your message has been sent. We will be in touch shortly.');
                         form.reset();
                         queueMicrotask(() => setContactSendSucceeded(true));
                       } else {
+                        // Full API payload (incl. mailchimpDebug when server has MAILCHIMP_DEBUG=1)
+                        // eslint-disable-next-line no-console
+                        console.error('[subscribe] failed', response.status, data);
                         setSubmissionMessage(
-                          apiError ||
-                            `Something went wrong (${response.status}). Please try again later.`
+                          (apiError ||
+                            `Something went wrong (${response.status}). Please try again later.`) +
+                            codeSuffix
                         );
                       }
                     })
