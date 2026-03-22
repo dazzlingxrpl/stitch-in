@@ -105,11 +105,11 @@ const ServicesPage = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen pt-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-midnight dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-5xl lg:text-6xl font-bold text-midnight dark:text-white mb-6">
             Our Services
           </h1>
           <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
@@ -130,7 +130,7 @@ const ServicesPage = () => {
                       alt={category.category}
                       className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 via-transparent to-transparent"></div>
                   </div>
                   <div className="absolute bottom-6 left-6 right-6 text-left">
                     <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2">
@@ -157,12 +157,12 @@ const ServicesPage = () => {
                         alt={service.title}
                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-midnight/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
 
                     {/* Service Content */}
                     <div className="p-6">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
+                      <h3 className="text-xl font-bold text-midnight dark:text-white mb-3 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
                         {service.title}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
@@ -190,7 +190,7 @@ const ServicesPage = () => {
 
         {/* Call to Action */}
         <div className="mt-20 text-center">
-          <div className="bg-gray-900 dark:bg-gray-800 rounded-3xl p-12 shadow-2xl">
+          <div className="bg-midnight dark:bg-gray-800 rounded-3xl p-12 shadow-2xl">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
               Ready to Start Your Project?
             </h2>
@@ -209,7 +209,7 @@ const ServicesPage = () => {
                   }
                 }, 100);
               }}
-              className="inline-flex items-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+              className="inline-flex items-center px-8 py-4 bg-white text-midnight font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
             >
               <span>Get Started Today</span>
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

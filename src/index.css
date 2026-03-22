@@ -9,12 +9,23 @@
   }
   
   html.dark {
-    @apply bg-gray-900;
+    @apply bg-midnight;
   }
 
   body {
-    @apply bg-transparent;
+    @apply bg-transparent font-sans antialiased text-midnight;
     overflow-x: hidden;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  /* Editorial display type for headings — sharp, architectural */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-tight;
   }
 }
 
@@ -41,7 +52,7 @@ html, body {
   }
   
   html.dark {
-    background-color: #111827; /* gray-900 */
+    background-color: #09090b; /* midnight — matches text-midnight */
   }
 }
 
@@ -53,15 +64,12 @@ html, body {
   }
   
   html.dark {
-    background-color: #111827;
+    background-color: #09090b;
   }
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

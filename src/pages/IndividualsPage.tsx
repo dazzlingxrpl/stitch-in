@@ -209,15 +209,18 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
   return (
     <>
       <div className="overflow-x-hidden">
-        {/* Hero Section - Individuals */}
-        <section className="relative min-h-screen flex items-center justify-center z-10" 
-                 style={{
-                   backgroundImage: 'url(/images/homepage_home_op1.png)',
-                   backgroundSize: 'cover',
-                   backgroundPosition: 'center',
-                   backgroundRepeat: 'no-repeat'
-                 }}>
-          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        {/* Hero — rounded frame matches case-study / CTA image treatment */}
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+        <section
+          className="relative z-10 flex min-h-[calc(100vh-2rem)] items-center justify-center overflow-hidden rounded-3xl sm:min-h-[calc(100vh-2.5rem)]"
+          style={{
+            backgroundImage: 'url(/images/homepage_home_op1.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
@@ -231,6 +234,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
             </div>
           </div>
         </section>
+        </div>
 
         {/* Services Section */}
         <section id="services" ref={servicesSectionRef} className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative z-30">
@@ -242,47 +246,51 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                 
                 {/* Consultancy Service content - responsive layout */}
-                <div ref={service0Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={service0Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
                         Consultancy
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
                         Our architectural consultancy helps you make the most of your space — beautifully, functionally, and efficiently. With thoughtful planning from the start, we ensure your project works seamlessly, avoiding costly revisions later. Every design decision is guided by clarity, creativity, and practicality, so your vision takes shape with confidence.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Space Optimization</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Space Optimization</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Thoughtful Planning</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Thoughtful Planning</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cost-Effective Solutions</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Cost-Effective Solutions</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Clear Design Vision</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Clear Design Vision</span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Right side - Building image */}
-                  <div ref={service0ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={service0ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/service0.png"
                       alt="Architectural Consultancy"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                 </div>
@@ -291,47 +299,51 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
                 {/* Service content - responsive layout */}
-                <div ref={service1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={service1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
-                  <div ref={service1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={service1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/service2.png"
                       alt="Modern Architecture"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                   
                   {/* Right side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div className="text-right">
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
                         Architectural design
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
                         Whether you want to design a nice family house or a cosy office in the back yard, we can create elegant and practical functional spaces for you to feel the best at home
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-right">
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Family House Design</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Family House Design</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cozy Home Spaces</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Cozy Home Spaces</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Functional Office Spaces</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Functional Office Spaces</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Elegant & Practical Solutions</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Elegant & Practical Solutions</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -344,47 +356,51 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                  <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                  
                 {/* Service content - responsive layout */}
-                <div ref={service2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={service2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
                         Interior Design
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
                         We transform homes and interiors into spaces that truly reflect you. Whether you're renovating a beloved property or redesigning your living environment, our designs combine beauty, functionality, and thoughtful detail, helping you enjoy every corner of your home to the fullest.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Space Planning</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Space Planning</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Material Selection</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Material Selection</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Lighting Design</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Lighting Design</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Furniture Layout</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Furniture Layout</span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Right side - Building image */}
-                  <div ref={service2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={service2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/service3.png"
                       alt="Interior Design"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                 </div>
@@ -397,47 +413,51 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                  <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                  
                 {/* Service content - responsive layout */}
-                <div ref={service3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={service3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
-                  <div ref={service3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={service3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/service6.png"
                       alt="Planning Uplift"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                   
                   {/* Right side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div className="text-right">
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
                         Planning Uplift
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
                         Our planning uplift service focuses on maximising the potential of your property. From well-considered home extensions to new-build developments, we identify design and planning strategies that add measurable value. Whether you're improving your home or preparing land for investment, we create proposals that are both commercially and architecturally strong.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-right">
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Property Potential Maximisation</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Property Potential Maximisation</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Home Extensions & New Builds</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Home Extensions & New Builds</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Value-Adding Strategies</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Value-Adding Strategies</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Commercial & Architectural Proposals</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Commercial & Architectural Proposals</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -450,47 +470,51 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                  <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                  
                 {/* Service content - responsive layout */}
-                <div ref={service4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={service4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
                         Architectural Supervision and Design Management
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
                         Our architectural supervision ensures your project is built right the first time. By carefully monitoring construction and coordinating every detail, we help prevent costly mistakes and unnecessary revisions, saving time and money while making sure your design is executed flawlessly.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Quality Assurance</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Quality Assurance</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Cost and Time Efficiency</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Cost and Time Efficiency</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Smooth Coordination</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Smooth Coordination</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Design Integrity</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Design Integrity</span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Right side - Building image */}
-                  <div ref={service4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={service4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/service4.png"
                       alt="Architectural Supervision"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                 </div>
@@ -509,13 +533,13 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                <button 
                  onClick={() => window.location.href = '/'}
-                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
                >
                  ← Back to Main Page
                </button>
                <button 
                  onClick={scrollToContact}
-                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
                >
                  Ready to start? →
                </button>

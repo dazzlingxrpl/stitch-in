@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
               href="mailto:juliet@stitch-in-architecture.com" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="text-midnight dark:text-gray-300 hover:text-zinc-700 dark:hover:text-white transition-colors"
               aria-label="Email"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
               href="https://www.linkedin.com/in/juliet-niha-4a38918b/" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="text-midnight dark:text-gray-300 hover:text-zinc-700 dark:hover:text-white transition-colors"
               aria-label="LinkedIn"
             >
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
               href="https://www.instagram.com/stitch_in_architecture" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="text-midnight dark:text-gray-300 hover:text-zinc-700 dark:hover:text-white transition-colors"
               aria-label="Instagram"
             >
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
               href="https://www.facebook.com/stitch.in.architecture/" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="text-midnight dark:text-gray-300 hover:text-zinc-700 dark:hover:text-white transition-colors"
               aria-label="Facebook"
             >
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">

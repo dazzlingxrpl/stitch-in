@@ -25,7 +25,7 @@ const BlogPage = () => {
   return (
     <div className="min-h-screen pt-16 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Blog</h1>
+        <h1 className="text-4xl font-bold text-midnight dark:text-white mb-8">Blog</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post, index) => (
             <div key={index} className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700" style={{ position: 'relative', zIndex: '10' }}>
@@ -36,9 +36,9 @@ const BlogPage = () => {
               />
               <div className="p-6 h-64 relative">
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">{post.date}</div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h2>
+                <h2 className="text-xl font-semibold text-midnight dark:text-white mb-2">{post.title}</h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">{post.excerpt}</p>
-                <button className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 font-medium absolute bottom-6">Read More →</button>
+                <button className="text-midnight dark:text-white hover:text-gray-700 dark:hover:text-gray-300 font-medium absolute bottom-6">Read More →</button>
               </div>
             </div>
           ))}

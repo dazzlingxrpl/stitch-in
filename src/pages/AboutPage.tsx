@@ -4,12 +4,12 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen pt-16 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">About Us</h1>
+        <h1 className="text-4xl font-bold text-midnight dark:text-white mb-8">About Us</h1>
 
         {/* Company Vision and Approach */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border-2 border-gray-200 dark:border-gray-700" style={{ position: 'relative', zIndex: '10' }}>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Our Vision</h2>
+            <h2 className="text-2xl font-semibold text-midnight dark:text-white mb-4">Our Vision</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               At Stitch In, we believe in creating spaces that inspire, function seamlessly, and stand the test of time. 
               Our commitment to sustainable practices and innovative design sets us apart in the industry.
@@ -21,7 +21,7 @@ const AboutPage = () => {
             />
           </div>
           <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border-2 border-gray-200 dark:border-gray-700" style={{ position: 'relative', zIndex: '10' }}>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Our Approach</h2>
+            <h2 className="text-2xl font-semibold text-midnight dark:text-white mb-4">Our Approach</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               We combine technical expertise with creative vision to deliver projects that exceed expectations. 
               Our collaborative approach ensures that each project benefits from our diverse experience in residential, 
@@ -39,7 +39,7 @@ const AboutPage = () => {
         
         {/* Leadership Section */}
         <div>
-          <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-8 text-left">Our Leadership</h2>
+          <h2 className="text-3xl font-semibold text-midnight dark:text-white mb-8 text-left">Our Leadership</h2>
           <div className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-8 flex flex-col md:flex-row gap-8 shadow-lg" style={{ position: 'relative', zIndex: '10' }}>
             <div className="w-full md:w-1/3">
               <img
@@ -49,13 +49,13 @@ const AboutPage = () => {
               />
             </div>
             <div className="w-full md:w-2/3 text-left">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Juliet Niha</h3>
+              <h3 className="text-2xl font-bold text-midnight dark:text-white mb-2">Juliet Niha</h3>
               <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Principal Architect & Founder</p>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
                 With over 10 years of architectural expertise, Juliet leads our team with a wealth of experience in diverse architectural projects. Her portfolio spans residential, educational, and public architecture, as well as innovative border control infrastructure designs. As a skilled Architect, she brings proficiency in Revit, ArchiCAD, and various architectural software to deliver precise construction drawings and exceptional designs.
               </p>
               <div className="space-y-2">
-                <h4 className="font-semibold text-gray-900 dark:text-white">Core Expertise:</h4>
+                <h4 className="font-semibold text-midnight dark:text-white">Core Expertise:</h4>
                 <ul className="grid grid-cols-2 gap-2 text-gray-600 dark:text-gray-300 mb-6">
                   <li>• Architectural Design</li>
                   <li>• Project Management</li>
@@ -71,7 +71,7 @@ const AboutPage = () => {
                   className="inline-block mt-12"
                 >
                   <svg 
-                    className="w-8 h-8 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" 
+                    className="w-8 h-8 text-midnight dark:text-gray-300 hover:text-zinc-700 dark:hover:text-white transition-colors" 
                     fill="currentColor" 
                     viewBox="0 0 24 24"
                   >

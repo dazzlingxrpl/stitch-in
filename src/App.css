@@ -36,7 +36,13 @@ video {
   border-radius: 0.375rem;
 }
 
-/* Common "box" surfaces used throughout the site */
+/*
+ * Common "box" surfaces — subtle default rounding when a shadow/blur utility is used alone.
+ * WARNING: This rule matches the same specificity as Tailwind `rounded-*` and loads AFTER
+ * the utility bundle (via this file), so it OVERRIDES `rounded-2xl` / `rounded-3xl` on any
+ * element that also uses e.g. `shadow-xl` or `backdrop-blur-md`. Use `!rounded-*` where you
+ * need a larger radius on those elements, or rely on explicit `rounded-*` on parents only.
+ */
 .shadow,
 .shadow-md,
 .shadow-lg,

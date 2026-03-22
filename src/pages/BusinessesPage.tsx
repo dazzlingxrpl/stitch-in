@@ -237,15 +237,17 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
   return (
     <>
       <div className="overflow-x-hidden">
-        {/* Hero Section - For Businesses */}
-        <section className="relative min-h-screen flex items-center justify-center z-10" 
-                 style={{
-                   backgroundImage: 'url(/images/homepage_business_op1.png)',
-                   backgroundSize: 'cover',
-                   backgroundPosition: 'center',
-                   backgroundRepeat: 'no-repeat'
-                 }}>
-          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+        <section
+          className="relative z-10 flex min-h-[calc(100vh-2rem)] items-center justify-center overflow-hidden rounded-3xl sm:min-h-[calc(100vh-2.5rem)]"
+          style={{
+            backgroundImage: 'url(/images/homepage_business_op1.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
@@ -259,6 +261,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
             </div>
           </div>
         </section>
+        </div>
 
         {/* Business Services Section */}
         <section id="business-services" ref={businessServicesSectionRef} className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative z-30">
@@ -270,47 +273,51 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                  <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
                  
                 {/* Scan to BIM Service content - responsive layout */}
-                <div ref={businessService1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={businessService1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
-                  <div ref={businessService1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={businessService1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/bim.png"
                       alt="Scan to BIM"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                   
                   {/* Right side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div className="text-right">
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
                         Scan to BIM
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
                         Transform existing buildings into accurate digital models using advanced 3D scanning technology. Our Scan to BIM service creates precise as-built documentation, enabling better decision-making, efficient renovations, and seamless facility management.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-right">
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">3D Laser Scanning</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">3D Laser Scanning</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Accurate Digital Models</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Accurate Digital Models</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">As-Built Documentation</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">As-Built Documentation</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Facility Management</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Facility Management</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -319,47 +326,51 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
                 {/* Architectural Design Service content - responsive layout */}
-                <div ref={businessService2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={businessService2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
                         Architectural Design
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
                         From concept to completion, we design buildings that inspire and function flawlessly. Our architectural solutions balance aesthetic appeal with practical requirements, creating spaces that enhance productivity and reflect your brand identity.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Concept Development</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Concept Development</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Brand Integration</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Brand Integration</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Functional Design</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Functional Design</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Aesthetic Excellence</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Aesthetic Excellence</span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Right side - Building image */}
-                  <div ref={businessService2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={businessService2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/warehouses.png"
                       alt="Architectural Design"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                 </div>
@@ -368,47 +379,51 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
                 {/* Interior Design Service content - responsive layout */}
-                <div ref={businessService3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={businessService3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
-                  <div ref={businessService3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={businessService3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/office_space.png"
                       alt="Interior Design"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                   
                   {/* Right side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div className="text-right">
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
                         Interior Design
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
                         Create inspiring work environments that boost productivity and employee satisfaction. Our interior design solutions optimize space utilization, enhance workflow efficiency, and create welcoming atmospheres that reflect your company culture.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-right">
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Space Optimization</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Space Optimization</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Workflow Enhancement</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Workflow Enhancement</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Employee Satisfaction</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Employee Satisfaction</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Company Culture</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Company Culture</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -417,47 +432,51 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
                 {/* Technical Drawings Service content - responsive layout */}
-                <div ref={businessService4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={businessService4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
                         Technical Drawings
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
                         We produce detailed technical drawings that ensure construction accuracy and compliance with all standards. Our precise documentation reduces errors on site, simplifies coordination, and keeps projects on schedule and within budget.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Detailed Documentation</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Detailed Documentation</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Construction Accuracy</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Construction Accuracy</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Standards Compliance</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Standards Compliance</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Project Coordination</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Project Coordination</span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Right side - Building image */}
-                  <div ref={businessService4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={businessService4ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                       <img
                         src="/images/technical_drawings.png"
                         alt="Technical Drawings"
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover !rounded-3xl"
                       />
                     </div>
                 </div>
@@ -466,47 +485,51 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
                 {/* Product BIM Modelling Service content - responsive layout */}
-                <div ref={businessService5Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={businessService5Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
-                  <div ref={businessService5ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={businessService5ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                       <img
                         src="/images/product_bim_modelling.png"
                         alt="Product BIM Modelling"
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover !rounded-3xl"
                       />
                     </div>
                     
                     {/* Right side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div className="text-right">
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-right">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
                         Product BIM Modelling
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-right">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
                         Develop comprehensive BIM models for products and components that integrate seamlessly with building systems. Our detailed 3D models enable better coordination, reduce conflicts, and streamline the construction process.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-right">
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">3D Component Models</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">3D Component Models</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">System Integration</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">System Integration</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Conflict Resolution</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Conflict Resolution</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                         <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Construction Streamlining</span>
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Construction Streamlining</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -515,47 +538,51 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
                 {/* BIM Management and Environment Implementation Service content - responsive layout */}
-                <div ref={businessService6Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-center w-full min-h-[400px] lg:min-h-0">
+                <div ref={businessService6Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
-                  <div className="flex-1 relative text-center flex flex-col h-auto lg:h-96 justify-center w-full lg:w-auto">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 text-left">
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
                         BIM Management and Environment Implementation
                       </h3>
-                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6 text-left">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
                         Implement comprehensive BIM workflows and standards across your organization. We establish robust BIM environments, train your teams, and ensure consistent data management throughout the project lifecycle.
                       </p>
                     </div>
+                    </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="mt-auto">
+                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
+                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
                       <ul className="space-y-2 text-left">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Workflow Implementation</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Workflow Implementation</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Team Training</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Team Training</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Data Management</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Data Management</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-900 dark:bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Standards Compliance</span>
+                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-sm sm:text-base text-gray-300">Standards Compliance</span>
                         </li>
                       </ul>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Right side - Building image */}
-                  <div ref={businessService6ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0">
+                  <div ref={businessService6ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/BIM Management and Environment Implementation.png"
                       alt="BIM Management and Environment Implementation"
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
                 </div>
@@ -574,13 +601,13 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={() => window.location.href = '/'}
-                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
               >
                 ← Back to Main Page
               </button>
               <button 
                 onClick={scrollToContact}
-                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
               >
                 Ready to start? →
               </button>
