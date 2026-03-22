@@ -27,7 +27,6 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
   };
   // Business Services section refs
   const businessServicesSectionRef = useRef<HTMLElement>(null);
-  const businessServicesHeadingRef = useRef<HTMLHeadingElement>(null);
   const businessServicesContentRef = useRef<HTMLDivElement>(null);
   
   // Individual business service refs

@@ -22,7 +22,7 @@ interface MenuItem {
 const TRANSPARENT_HERO_PATHS = ['/', '/individuals', '/businesses'] as const;
 
 function AppContent() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPastHeroSection, setIsPastHeroSection] = useState(false);
   const location = useLocation();

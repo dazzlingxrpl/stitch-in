@@ -352,11 +352,6 @@ const HomePage: React.FC = () => {
           y: isMobile ? 0 : 50
         });
 
-        // Set initial state for all project images and cards
-        const projectImages = [
-          project1ImageRef.current, project2ImageRef.current, project3ImageRef.current
-        ].filter(Boolean);
-
         const projectCards = [
           project1CardRef.current, project2CardRef.current, project3CardRef.current
         ].filter(Boolean);
@@ -1263,34 +1258,57 @@ const HomePage: React.FC = () => {
                   })
                     .then(async (response) => {
                       const raw = await response.text();
+                      const trimmed = raw.trim();
+                      const contentType = response.headers.get('content-type') || '';
                       let data: {
                         error?: string;
                         code?: string;
                         missingKeys?: string[];
                         mailchimpDebug?: unknown;
                       } = {};
-                      try {
-                        data = raw ? (JSON.parse(raw) as typeof data) : {};
-                      } catch {
-                        data = {};
+                      let jsonParseOk = false;
+                      if (trimmed) {
+                        try {
+                          data = JSON.parse(trimmed) as typeof data;
+                          jsonParseOk = true;
+                        } catch {
+                          data = {};
+                        }
                       }
                       const apiError =
                         typeof data.error === 'string' && data.error.trim() ? data.error.trim() : '';
                       const codeSuffix =
                         typeof data.code === 'string' && data.code.trim() ? ` [${data.code}]` : '';
+                      /** Our Node server always returns JSON with an `error` string; empty body or `{}` means POST likely never hit the API (e.g. static-only hosting). */
+                      const emptyParsedObject =
+                        jsonParseOk && Object.keys(data as Record<string, unknown>).length === 0;
+                      const responseLooksLikeStaticHost =
+                        !response.ok &&
+                        !apiError &&
+                        (!trimmed ||
+                          !jsonParseOk ||
+                          trimmed.startsWith('<') ||
+                          trimmed === '{}' ||
+                          emptyParsedObject ||
+                          !contentType.toLowerCase().includes('application/json'));
                       setFormSubmitted(true);
                       if (response.ok) {
                         setSubmissionMessage('Thank you! Your message has been sent. We will be in touch shortly.');
                         form.reset();
                         queueMicrotask(() => setContactSendSucceeded(true));
                       } else {
-                        // Full API payload (incl. mailchimpDebug when server has MAILCHIMP_DEBUG=1)
                         // eslint-disable-next-line no-console
-                        console.error('[subscribe] failed', response.status, data);
+                        console.error('[subscribe] failed', response.status, {
+                          data,
+                          contentType,
+                          rawPreview: trimmed.slice(0, 400)
+                        });
                         setSubmissionMessage(
-                          (apiError ||
-                            `Something went wrong (${response.status}). Please try again later.`) +
-                            codeSuffix
+                          responseLooksLikeStaticHost
+                            ? 'The contact form needs a server-side API. This site is probably deployed as static files only — POST /api/subscribe must be handled by Node (npm run serve / server.js), Vercel serverless (api/subscribe.js), or another backend. Deploy the app server, or set REACT_APP_MAILCHIMP_API_URL at build time to an API base URL that runs the subscribe handler.'
+                            : (apiError ||
+                                `Something went wrong (${response.status}). Please try again later.`) +
+                                codeSuffix
                         );
                       }
                     })

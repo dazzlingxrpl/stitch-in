@@ -27,7 +27,6 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
   };
   // Services section refs
   const servicesSectionRef = useRef<HTMLElement>(null);
-  const servicesHeadingRef = useRef<HTMLHeadingElement>(null);
   const servicesContentRef = useRef<HTMLDivElement>(null);
   
   // Individual service refs
