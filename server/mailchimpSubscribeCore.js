@@ -110,23 +110,37 @@ async function subscribeToMailchimp(body) {
   const fname = parts[0] || '';
   const lname = parts.slice(1).join(' ') || '';
 
-  const inquiry = [
-    message,
-    projectType && `Project type: ${projectType}`,
-    location && `Location: ${location}`,
-    phone && `Phone: ${phone}`
-  ]
-    .filter(Boolean)
-    .join('\n\n');
-
-  const company = inquiry.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
-
+  /**
+   * Map each form field to its own Mailchimp merge tag (not one blob in COMPANY).
+   * - FNAME / LNAME: name
+   * - PHONE: phone (your audience has Phone Number → PHONE)
+   * - ADDRESS: location (structured object; your audience has Address → ADDRESS)
+   * - COMPANY: message text only (255 char cap)
+   * - Project type: no default tag — set MAILCHIMP_MERGE_PROJECT_TYPE to a custom field’s merge tag in Mailchimp
+   */
   const mergeFields = {
     FNAME: fname.slice(0, 50),
-    COMPANY: company
+    COMPANY: message.slice(0, MAILCHIMP_TEXT_MERGE_MAX)
   };
   if (lname) {
     mergeFields.LNAME = lname.slice(0, 50);
+  }
+  if (phone) {
+    mergeFields.PHONE = phone.slice(0, 50);
+  }
+  if (location) {
+    mergeFields.ADDRESS = {
+      addr1: location.slice(0, 255),
+      addr2: '',
+      city: '',
+      state: '',
+      zip: '',
+      country: ''
+    };
+  }
+  const projectMergeTag = (process.env.MAILCHIMP_MERGE_PROJECT_TYPE || '').trim();
+  if (projectMergeTag && projectType) {
+    mergeFields[projectMergeTag] = projectType.slice(0, MAILCHIMP_TEXT_MERGE_MAX);
   }
 
   const subscriberHash = md5Hex(email);
@@ -151,7 +165,7 @@ async function subscribeToMailchimp(body) {
         dc,
         listId: `${String(listId).slice(0, 4)}…`,
         mergeKeys: Object.keys(mergeFields),
-        companyLen: company.length,
+        companyLen: mergeFields.COMPANY ? String(mergeFields.COMPANY).length : 0,
         status_if_new: statusIfNew
       });
     }
