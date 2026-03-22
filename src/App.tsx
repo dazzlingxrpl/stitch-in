@@ -7,6 +7,7 @@ import ServicesPage from './pages/ServicesPage';
 import ProjectsPage from './pages/ProjectsPage';
 import GalleryPage from './pages/GalleryPage';
 import ContactPage from './pages/ContactPage';
+import TermsPage from './pages/TermsPage';
 import IndividualsPage from './pages/IndividualsPage';
 import BusinessesPage from './pages/BusinessesPage';
 import ScrollToTop from './components/ScrollToTop';
@@ -46,7 +47,7 @@ function AppContent() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen]);
 
@@ -205,7 +206,7 @@ function AppContent() {
           {/* Same shell as page sections (e.g. gallery grid) so the pill aligns with images, not the full 7xl track */}
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div
-              className={`flex w-full items-center justify-center gap-2 !rounded-2xl border-0 py-2 pl-4 pr-3 transition-[background-color,box-shadow,backdrop-filter] duration-300 sm:justify-between sm:gap-3 sm:px-6 sm:py-2.5 ${
+              className={`flex w-full items-center justify-center gap-2 !rounded-3xl border-0 py-2 pl-4 pr-3 transition-[background-color,box-shadow,backdrop-filter] duration-300 sm:justify-between sm:gap-3 sm:px-6 sm:py-2.5 ${
                 isTransparentHeroHeader
                   ? 'bg-transparent shadow-none backdrop-blur-none'
                   : 'bg-white/90 shadow-sm backdrop-blur-md dark:bg-gray-950/85 dark:backdrop-blur-md'
@@ -295,7 +296,7 @@ function AppContent() {
             isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
           } transition-transform duration-300 ease-in-out`}
         >
-          <div className="bg-white dark:bg-gray-900 shadow-lg rounded-t-3xl border-t-2 border-midnight dark:border-gray-100">
+          <div className="bg-white dark:bg-gray-900 shadow-lg rounded-t-[2rem] border-t-2 border-midnight dark:border-gray-100">
             <div className="px-4 pt-6 pb-8">
                <div className="flex flex-col space-y-4 text-left">
                  {menuItems.map((item, index) => (
@@ -351,6 +352,7 @@ function AppContent() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/terms" element={<TermsPage />} />
           </Routes>
         </main>
         

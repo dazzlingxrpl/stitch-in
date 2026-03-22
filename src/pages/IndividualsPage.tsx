@@ -261,27 +261,25 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-left">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Space Optimization</span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Space Optimization</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Thoughtful Planning</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Thoughtful Planning</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Cost-Effective Solutions</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Cost-Effective Solutions</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Clear Design Vision</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Clear Design Vision</span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                   
@@ -323,27 +321,25 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-right">
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Family House Design</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Family House Design</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Cozy Home Spaces</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Cozy Home Spaces</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Functional Office Spaces</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Functional Office Spaces</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Elegant & Practical Solutions</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Elegant & Practical Solutions</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -371,27 +367,25 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-left">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Space Planning</span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Space Planning</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Material Selection</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Material Selection</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Lighting Design</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Lighting Design</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Furniture Layout</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Furniture Layout</span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                   
@@ -437,27 +431,25 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-right">
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Property Potential Maximisation</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Property Potential Maximisation</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Home Extensions & New Builds</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Home Extensions & New Builds</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Value-Adding Strategies</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Value-Adding Strategies</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Commercial & Architectural Proposals</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Commercial & Architectural Proposals</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -485,27 +477,25 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-left">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Quality Assurance</span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Quality Assurance</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Cost and Time Efficiency</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Cost and Time Efficiency</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Smooth Coordination</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Smooth Coordination</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Design Integrity</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Design Integrity</span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                   
@@ -533,13 +523,13 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                <button 
                  onClick={() => window.location.href = '/'}
-                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-2xl text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
                >
                  ← Back to Main Page
                </button>
                <button 
                  onClick={scrollToContact}
-                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                 className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-2xl text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
                >
                  Ready to start? →
                </button>

@@ -9,6 +9,16 @@ import GalleryLightbox from '../components/GalleryLightbox';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, SplitText);
+/** Fewer sync passes during scroll; ignore iOS/Android resize noise (URL bar) that refreshes triggers */
+ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
+
+function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number) {
+  let id: ReturnType<typeof setTimeout> | undefined;
+  return (...args: Parameters<T>) => {
+    if (id !== undefined) clearTimeout(id);
+    id = setTimeout(() => fn(...args), ms);
+  };
+}
 
 /** Gallery tiles: existing portfolio images + new set (2.png–8.png) */
 const GALLERY_ITEMS = [
@@ -23,10 +33,21 @@ const GALLERY_ITEMS = [
   { src: '/images/5.png', alt: 'Modern townhouse exterior', title: 'Facade', caption: 'Clean lines' },
   { src: '/images/7.png', alt: 'Living room interior', title: 'Living space', caption: 'Indoor–outdoor' },
   { src: '/images/8.png', alt: 'Modern home at twilight', title: 'Twilight exterior', caption: 'Wood & render' },
+  { src: '/images/office_space.png', alt: 'Modern open-plan office workspace', title: 'Office space', caption: 'Professional environment' },
 ] as const;
 
 /** First N items use the arched “featured” frame; remaining items are square with rounded corners */
 const GALLERY_FEATURED_COUNT = 3;
+
+/** Hover: black mullions like an old window — 2 vertical + 2 horizontal lines → 3×3 panes (~2px stroke) */
+const GALLERY_WINDOW_PANE_STYLE: React.CSSProperties = {
+  backgroundImage: [
+    'linear-gradient(to right, transparent calc(100% / 3 - 1px), #000 calc(100% / 3 - 1px), #000 calc(100% / 3 + 1px), transparent calc(100% / 3 + 1px))',
+    'linear-gradient(to right, transparent calc(200% / 3 - 1px), #000 calc(200% / 3 - 1px), #000 calc(200% / 3 + 1px), transparent calc(200% / 3 + 1px))',
+    'linear-gradient(to bottom, transparent calc(100% / 3 - 1px), #000 calc(100% / 3 - 1px), #000 calc(100% / 3 + 1px), transparent calc(100% / 3 + 1px))',
+    'linear-gradient(to bottom, transparent calc(200% / 3 - 1px), #000 calc(200% / 3 - 1px), #000 calc(200% / 3 + 1px), transparent calc(200% / 3 + 1px))',
+  ].join(', '),
+};
 
 /** Case studies — desktop uses overlay cards; mobile uses tap-to-open modal (below `lg`) */
 const CASE_STUDIES = [
@@ -62,8 +83,8 @@ const CASE_STUDIES = [
   },
 ] as const;
 
-/** Must match gallery card `aspect-[3/4.5]` → height/width = 4.5/3 (shorter body under arch than 3/5) */
-const GALLERY_ASPECT_H_OVER_W = 4.5 / 3;
+/** Must match gallery card `aspect-[3/3.85]` → height/width = 3.85/3 (a touch shorter than 3/3.95) */
+const GALLERY_ASPECT_H_OVER_W = 3.85 / 3;
 /**
  * objectBoundingBox Y where semicircle meets the sides: (true radius W/2 in px) / H.
  * Fixes “arch too tall” — a circle in 0–1 coords was stretched into an ellipse; ry must track aspect.
@@ -74,10 +95,18 @@ interface HomePageProps {
   darkMode: boolean;
 }
 
+const mailchimpApiBase = (process.env.REACT_APP_MAILCHIMP_API_URL ?? '').replace(/\/$/, '');
+const mailchimpSubscribeUrl = `${mailchimpApiBase}/api/subscribe`;
+
 const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
+  const [isContactSubmitting, setIsContactSubmitting] = useState(false);
+  /** True after a successful Mailchimp submit until the user starts a new submission */
+  const [contactSendSucceeded, setContactSendSucceeded] = useState(false);
   const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
+  /** Mobile: avoid competing with images for bandwidth; desktop: full preload */
+  const [heroVideoPreload, setHeroVideoPreload] = useState<'auto' | 'metadata'>('metadata');
   const [galleryLightboxIndex, setGalleryLightboxIndex] = useState<number | null>(null);
   /** Mobile / tablet: case study detail modal (`lg` and up use overlay cards only) */
   const [caseStudyModalIndex, setCaseStudyModalIndex] = useState<number | null>(null);
@@ -171,19 +200,29 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     // Nothing needed here for static logo display
   }, [darkMode]);
 
-  // Preload the hero video so playback starts faster on first visit.
+  // Hero video preload strategy: desktop only (mobile avoids starving images / main thread).
   useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const applyPreloadMode = () => {
+      setHeroVideoPreload(mq.matches ? 'auto' : 'metadata');
+    };
+    applyPreloadMode();
+    mq.addEventListener('change', applyPreloadMode);
+    return () => mq.removeEventListener('change', applyPreloadMode);
+  }, []);
+
+  useEffect(() => {
+    if (heroVideoPreload !== 'auto') return;
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'video';
     link.href = '/images/stitch_in_video.mp4';
     link.type = 'video/mp4';
     document.head.appendChild(link);
-
     return () => {
       document.head.removeChild(link);
     };
-  }, []);
+  }, [heroVideoPreload]);
 
   // About section animations
   useEffect(() => {
@@ -315,10 +354,10 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
 
     const timer = setTimeout(setupServicesAnimations, 100);
 
-    const handleResize = () => {
+    const handleResize = debounce(() => {
       ScrollTrigger.refresh();
-    };
-    window.addEventListener('resize', handleResize);
+    }, 200);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
       clearTimeout(timer);
@@ -486,58 +525,55 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     };
   }, []);
 
-  // Gallery section animations
+  // Gallery section animations (desktop only — mobile keeps content visible; no ScrollTrigger jank)
   useEffect(() => {
+    let galleryScrollTrigger: ScrollTrigger | null = null;
+
     const timer = setTimeout(() => {
-      if (gallerySectionRef.current && galleryTitleRef.current) {
-        // Set initial state for title
-        gsap.set(galleryTitleRef.current, {
-          opacity: 0,
-          y: 50
-        });
+      if (!gallerySectionRef.current || !galleryTitleRef.current) return;
 
-        // Set initial state for all gallery images
-        const galleryImages = galleryItemRefs.current.filter(Boolean) as HTMLDivElement[];
+      const isMobile = window.innerWidth < 768;
+      const galleryImages = galleryItemRefs.current.filter(Boolean) as HTMLDivElement[];
 
-        gsap.set(galleryImages, {
-          opacity: 0,
-          y: 28,
-        });
-
-        // Create scroll-triggered animation for gallery
-        if (gallerySectionRef.current && galleryTitleRef.current) {
-          ScrollTrigger.create({
-            trigger: gallerySectionRef.current,
-            start: "top 80%",
-            once: true,
-            onEnter: () => {
-              gsap.to(galleryTitleRef.current, {
-                opacity: 1,
-                y: 0,
-                duration: 0.55,
-                ease: "power2.out"
-              });
-
-            const toAnimate = galleryItemRefs.current.filter(Boolean) as HTMLDivElement[];
-
-            // Standard gallery reveal: fade + slight lift-in (no scale bounce)
-            gsap.to(toAnimate, {
-              opacity: 1,
-              y: 0,
-              duration: 0.55,
-              ease: "power2.out",
-              stagger: {
-                each: 0.08,
-                from: "start",
-              },
-            });
-          }
-        });
+      if (isMobile) {
+        gsap.set(galleryTitleRef.current, { opacity: 1, y: 0, clearProps: 'transform' });
+        if (galleryImages.length > 0) {
+          gsap.set(galleryImages, { opacity: 1, y: 0, clearProps: 'transform' });
         }
+        return;
       }
+
+      gsap.set(galleryTitleRef.current, { opacity: 0, y: 50 });
+      gsap.set(galleryImages, { opacity: 0, y: 28 });
+
+      galleryScrollTrigger = ScrollTrigger.create({
+        trigger: gallerySectionRef.current,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          gsap.to(galleryTitleRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power2.out',
+          });
+
+          const toAnimate = galleryItemRefs.current.filter(Boolean) as HTMLDivElement[];
+          gsap.to(toAnimate, {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power2.out',
+            stagger: { each: 0.08, from: 'start' },
+          });
+        },
+      });
     }, 100);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      galleryScrollTrigger?.kill();
+    };
   }, []);
 
   // Testimonials section animations
@@ -759,7 +795,8 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             muted
             loop
             playsInline
-            preload="auto"
+            preload={heroVideoPreload}
+            poster="/images/homepage_home_op1.png"
             onLoadedData={() => setIsHeroVideoReady(true)}
             onCanPlay={() => setIsHeroVideoReady(true)}
             aria-label="Stitch In hero video background"
@@ -1094,7 +1131,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 }}
               >
                 {isFeatured ? (
-                <div className="aspect-[3/4.5] w-full overflow-hidden rounded-b-xl">
+                <div className="aspect-[3/3.85] w-full overflow-hidden rounded-b-xl">
                   <div className="gallery-arch-shell relative h-full w-full overflow-hidden isolate">
                     <img
                       src={item.src}
@@ -1104,7 +1141,12 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                       decoding="async"
                       draggable={false}
                     />
-                    <div className="gallery-overlay pointer-events-none absolute inset-0 flex items-center justify-center bg-black/55 opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100 group-hover:pointer-events-auto">
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100"
+                      style={GALLERY_WINDOW_PANE_STYLE}
+                    />
+                    <div className="gallery-overlay pointer-events-none absolute inset-0 z-[2] flex items-center justify-center bg-black/55 opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100 group-hover:pointer-events-auto">
                       <div className="text-center text-white px-3">
                         <h3 className="mb-1 text-lg font-bold sm:text-xl">{item.title}</h3>
                         <p className="text-xs sm:text-sm">{item.caption}</p>
@@ -1123,7 +1165,12 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                       decoding="async"
                       draggable={false}
                     />
-                    <div className="gallery-overlay pointer-events-none absolute inset-0 flex items-center justify-center bg-black/55 opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100 group-hover:pointer-events-auto">
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100"
+                      style={GALLERY_WINDOW_PANE_STYLE}
+                    />
+                    <div className="gallery-overlay pointer-events-none absolute inset-0 z-[2] flex items-center justify-center bg-black/55 opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100 group-hover:pointer-events-auto">
                       <div className="text-center text-white px-3">
                         <h3 className="mb-1 text-lg font-bold sm:text-xl">{item.title}</h3>
                         <p className="text-xs sm:text-sm">{item.caption}</p>
@@ -1208,40 +1255,59 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                 </h2>
               </div>
               
-              {/* Contact Form with Formspree Integration */}
-              <form 
-                className="space-y-4 sm:space-y-6" 
-                action="https://formspree.io/f/mvgvogap" 
-                method="POST"
+              {/* Contact form → Mailchimp via /api/subscribe (serverless; key stays on server) */}
+              <form
+                className="space-y-4 sm:space-y-6"
+                onChange={() => {
+                  if (contactSendSucceeded) setContactSendSucceeded(false);
+                }}
                 onSubmit={(e: FormEvent<HTMLFormElement>) => {
                   e.preventDefault();
                   const form = e.currentTarget;
                   const formData = new FormData(form);
-                  
-                  fetch(form.action, {
-                    method: form.method,
-                    body: formData,
-                    headers: {
-                      Accept: 'application/json'
-                    }
+                  const email = formData.get('email');
+                  const name = formData.get('name');
+                  const message = formData.get('message');
+                  const phone = formData.get('phone');
+                  const projectType = formData.get('project-type');
+                  const location = formData.get('location');
+
+                  setContactSendSucceeded(false);
+                  setIsContactSubmitting(true);
+                  fetch(mailchimpSubscribeUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify({
+                      email,
+                      name,
+                      message,
+                      phone,
+                      projectType,
+                      location
+                    })
                   })
-                    .then(response => {
+                    .then(async (response) => {
+                      const data = (await response.json().catch(() => ({}))) as { error?: string };
+                      setFormSubmitted(true);
                       if (response.ok) {
-                        setFormSubmitted(true);
                         setSubmissionMessage('Thank you! Your message has been sent. We will be in touch shortly.');
                         form.reset();
+                        queueMicrotask(() => setContactSendSucceeded(true));
                       } else {
-                        setFormSubmitted(true);
-                        setSubmissionMessage('Oops! There was a problem sending your message. Please try again later.');
+                        setSubmissionMessage(
+                          data.error && typeof data.error === 'string'
+                            ? data.error
+                            : 'Oops! There was a problem sending your message. Please try again later.'
+                        );
                       }
                     })
                     .catch(() => {
                       setFormSubmitted(true);
                       setSubmissionMessage('Oops! There was a problem sending your message. Please try again later.');
-                    });
+                    })
+                    .finally(() => setIsContactSubmitting(false));
                 }}
               >
-                <input type="hidden" name="subject" value="Website Enquiry" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="cta-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-left">
@@ -1251,7 +1317,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                       type="text"
                       id="cta-name"
                       name="name"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
                       placeholder="Your name"
                       required
                     />
@@ -1265,7 +1331,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                       type="email"
                       id="cta-email"
                       name="email"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
                       placeholder="your@email.com"
                       required
                     />
@@ -1281,7 +1347,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     type="tel"
                     id="cta-phone"
                     name="phone"
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
                     placeholder="Your phone number"
                     />
                   </div>
@@ -1293,10 +1359,13 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     <select
                       id="cta-project-type"
                       name="project-type"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                      defaultValue=""
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
                       required
                     >
-                      <option value="" disabled selected>Select a project type</option>
+                      <option value="" disabled>
+                        Select a project type
+                      </option>
                       <option value="Residential">Residential</option>
                       <option value="Commercial">Commercial</option>
                       <option value="Education">Education</option>
@@ -1318,7 +1387,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     type="text"
                     id="cta-location"
                     name="location"
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors"
                     placeholder="City, Country"
                     required
                   />
@@ -1332,15 +1401,49 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     id="cta-message"
                     name="message"
                     rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-midnight dark:text-white focus:ring-2 focus:ring-midnight dark:focus:ring-white focus:border-transparent transition-colors resize-none"
                     placeholder="Tell us about your project..."
                     required
                   ></textarea>
                 </div>
+
+                <div className="flex items-start gap-3 text-left">
+                  <input
+                    id="cta-terms"
+                    name="terms_consent"
+                    type="checkbox"
+                    value="accepted"
+                    required
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-midnight focus:ring-midnight dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-white"
+                  />
+                  <label htmlFor="cta-terms" className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    I have read and agree to the{' '}
+                    <Link to="/terms" className="font-medium text-midnight dark:text-white underline hover:no-underline">
+                      Terms & Conditions
+                    </Link>
+                    . I consent to Stitch In Architecture using my details to respond to this enquiry and, where applicable,
+                    to send me promotional material, updates, and industry-related content. I understand my personal data
+                    will not be sold or shared with third parties for their marketing, and that I may unsubscribe at any
+                    time.
+                  </label>
+                </div>
                 
                 <div className="text-left space-y-4">
-                  <button ref={ctaButtonRef} type="submit" className="w-full md:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-transparent text-base sm:text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105">
-                    Send Message
+                  <button
+                    ref={ctaButtonRef}
+                    type="submit"
+                    disabled={isContactSubmitting}
+                    className={`w-full md:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border text-base sm:text-lg font-medium rounded-2xl transition-all duration-300 disabled:pointer-events-none disabled:hover:scale-100 ${
+                      contactSendSucceeded
+                        ? 'border-green-600 bg-green-50 text-green-800 dark:border-green-500 dark:bg-green-950/40 dark:text-green-300'
+                        : 'border-transparent text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 hover:scale-105 disabled:opacity-60'
+                    }`}
+                  >
+                    {isContactSubmitting
+                      ? 'Sending…'
+                      : contactSendSucceeded
+                        ? 'Message sent'
+                        : 'Send Message'}
                   </button>
                   
                   {formSubmitted && (
@@ -1394,7 +1497,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
               </h3>
               <button
                 type="button"
-                className="shrink-0 rounded-lg p-2 text-midnight hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
+                className="shrink-0 rounded-xl p-2 text-midnight hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
                 aria-label="Close"
                 onClick={() => setCaseStudyModalIndex(null)}
               >

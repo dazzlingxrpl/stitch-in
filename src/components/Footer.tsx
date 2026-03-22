@@ -1,9 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-gray-900 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center sm:text-left">
+          <Link
+            to="/terms"
+            className="text-sm text-gray-600 dark:text-gray-400 hover:text-midnight dark:hover:text-white underline underline-offset-2 transition-colors"
+          >
+            Terms & Conditions / Privacy
+          </Link>
+        </div>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
           {/* Main Logo */}
           <div className="flex justify-start">

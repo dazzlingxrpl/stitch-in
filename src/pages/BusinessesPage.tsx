@@ -297,27 +297,25 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-right">
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">3D Laser Scanning</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">3D Laser Scanning</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Accurate Digital Models</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Accurate Digital Models</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">As-Built Documentation</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">As-Built Documentation</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Facility Management</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Facility Management</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -341,27 +339,25 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-left">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Concept Development</span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Concept Development</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Brand Integration</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Brand Integration</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Functional Design</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Functional Design</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Aesthetic Excellence</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Aesthetic Excellence</span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                   
@@ -403,27 +399,25 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-right">
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Space Optimization</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Space Optimization</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Workflow Enhancement</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Workflow Enhancement</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Employee Satisfaction</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Employee Satisfaction</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Company Culture</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Company Culture</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -447,27 +441,25 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-left">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Detailed Documentation</span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Detailed Documentation</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Construction Accuracy</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Construction Accuracy</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Standards Compliance</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Standards Compliance</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Project Coordination</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Project Coordination</span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                   
@@ -509,27 +501,25 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-end">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-right">
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">3D Component Models</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">3D Component Models</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">System Integration</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">System Integration</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Conflict Resolution</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Conflict Resolution</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
-                        <li className="flex items-start justify-end">
-                          <span className="text-sm sm:text-base text-gray-300">Construction Streamlining</span>
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 ml-3 flex-shrink-0"></span>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Construction Streamlining</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -553,27 +543,25 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     </div>
                     
                     {/* Bullet points at bottom */}
-                    <div className="w-full lg:w-96 lg:max-w-full flex flex-col min-w-0 lg:self-start">
-                      <div className="bg-midnight rounded-3xl p-6 sm:p-8 w-full">
-                      <ul className="space-y-2 text-left">
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Workflow Implementation</span>
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Workflow Implementation</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Team Training</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Team Training</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Data Management</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Data Management</span>
                         </li>
-                        <li className="flex items-start">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-sm sm:text-base text-gray-300">Standards Compliance</span>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Standards Compliance</span>
                         </li>
                       </ul>
-                      </div>
                     </div>
                   </div>
                   
@@ -601,13 +589,13 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={() => window.location.href = '/'}
-                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-2xl text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
               >
                 ← Back to Main Page
               </button>
               <button 
                 onClick={scrollToContact}
-                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-2xl text-white bg-midnight hover:bg-zinc-800 dark:bg-white dark:text-midnight dark:hover:bg-gray-200 transition-all duration-300 hover:scale-105"
               >
                 Ready to start? →
               </button>

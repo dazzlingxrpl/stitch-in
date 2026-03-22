@@ -81,6 +81,11 @@ const GalleryPage = () => {
       src: '/images/work_images/windows.jpg',
       alt: 'Window Design',
       category: 'Details'
+    },
+    {
+      src: '/images/office_space.png',
+      alt: 'Modern open-plan office workspace',
+      category: 'Commercial'
     }
   ];
 
