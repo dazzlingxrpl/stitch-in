@@ -39,4 +39,10 @@ if (productionUrl) {
 if (base) {
   fs.writeFileSync(out, `REACT_APP_MAILCHIMP_API_URL=${base}\n`, 'utf8');
   process.stdout.write(`[prebuild] REACT_APP_MAILCHIMP_API_URL=${base}\n`);
+} else {
+  process.stderr.write(
+    '[prebuild] WARN: On Vercel but VERCEL_PROJECT_PRODUCTION_URL and VERCEL_URL were empty; ' +
+      'REACT_APP_MAILCHIMP_API_URL not set. Enable System Environment Variables in Project Settings, ' +
+      'or set REACT_APP_MAILCHIMP_API_URL manually.\n'
+  );
 }

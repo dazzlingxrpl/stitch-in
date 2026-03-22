@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import CoverImageCard from '../components/CoverImageCard';
 import GalleryLightbox from '../components/GalleryLightbox';
 import AddressAutocompleteInput from '../components/AddressAutocompleteInput';
+import { getMailchimpSubscribeUrl } from '../utils/mailchimpSubscribeUrl';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -91,9 +92,6 @@ const GALLERY_ASPECT_H_OVER_W = 3.85 / 3;
  * Fixes “arch too tall” — a circle in 0–1 coords was stretched into an ellipse; ry must track aspect.
  */
 const GALLERY_ARCH_CHORD_Y = 0.5 / GALLERY_ASPECT_H_OVER_W;
-
-const mailchimpApiBase = (process.env.REACT_APP_MAILCHIMP_API_URL ?? '').replace(/\/$/, '');
-const mailchimpSubscribeUrl = `${mailchimpApiBase}/api/subscribe`;
 
 const HomePage: React.FC = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -1247,7 +1245,7 @@ const HomePage: React.FC = () => {
 
                   setContactSendSucceeded(false);
                   setIsContactSubmitting(true);
-                  fetch(mailchimpSubscribeUrl, {
+                  fetch(getMailchimpSubscribeUrl(), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                     body: JSON.stringify({
@@ -1284,7 +1282,7 @@ const HomePage: React.FC = () => {
                         typeof data.error === 'string' && data.error.trim() ? data.error.trim() : '';
                       const codeSuffix =
                         typeof data.code === 'string' && data.code.trim() ? ` [${data.code}]` : '';
-                      /** Our Node server always returns JSON with an `error` string; empty body or `{}` means POST likely never hit the API (e.g. static-only hosting). */
+                      /** Parsed `{}` with no `error` is not “no API”; avoid false “static hosting” message. */
                       const emptyParsedObject =
                         jsonParseOk && Object.keys(data as Record<string, unknown>).length === 0;
                       const looksLikeNonApiResponse =
@@ -1294,11 +1292,10 @@ const HomePage: React.FC = () => {
                       const responseLooksLikeStaticHost =
                         !response.ok &&
                         !apiError &&
+                        !emptyParsedObject &&
                         (!trimmed ||
                           !jsonParseOk ||
                           looksLikeNonApiResponse ||
-                          trimmed === '{}' ||
-                          emptyParsedObject ||
                           !contentType.toLowerCase().includes('application/json'));
                       setFormSubmitted(true);
                       if (response.ok) {
@@ -1312,15 +1309,21 @@ const HomePage: React.FC = () => {
                           contentType,
                           rawPreview: trimmed.slice(0, 400)
                         });
-                        setSubmissionMessage(
-                          looksLikeNonApiResponse && !apiError
-                            ? 'The contact form could not reach the subscribe API on this domain (the server returned a non-JSON reply). On Vercel, ensure the custom domain is assigned to this project and DNS points only at Vercel. Production builds set the API URL from your deployment automatically; if needed, add REACT_APP_MAILCHIMP_API_URL=https://<your-project>.vercel.app and redeploy.'
-                            : responseLooksLikeStaticHost
-                              ? 'The contact form needs a server-side API. This site is probably deployed as static files only — POST /api/subscribe must be handled by Node (npm run serve / server.js), Vercel serverless (api/subscribe.js), or another backend. Deploy the app server, or set REACT_APP_MAILCHIMP_API_URL at build time to an API base URL that runs the subscribe handler.'
-                              : (apiError ||
-                                  `Something went wrong (${response.status}). Please try again later.`) +
-                                  codeSuffix
-                        );
+                        if (emptyParsedObject && !apiError) {
+                          setSubmissionMessage(
+                            `Something went wrong (${response.status}). Please try again later.`
+                          );
+                        } else {
+                          setSubmissionMessage(
+                            looksLikeNonApiResponse && !apiError
+                              ? 'The contact form could not reach the subscribe API on this domain (the server returned a non-JSON reply). On Vercel, ensure the custom domain is assigned to this project and DNS points only at Vercel. Production builds set the API URL from your deployment automatically; if needed, add REACT_APP_MAILCHIMP_API_URL=https://<your-project>.vercel.app and redeploy.'
+                              : responseLooksLikeStaticHost
+                                ? 'The contact form needs a server-side API. This site is probably deployed as static files only — POST /api/subscribe must be handled by Node (npm run serve / server.js), Vercel serverless (api/subscribe.js), or another backend. Deploy the app server, or set REACT_APP_MAILCHIMP_API_URL at build time to an API base URL that runs the subscribe handler.'
+                                : (apiError ||
+                                    `Something went wrong (${response.status}). Please try again later.`) +
+                                    codeSuffix
+                          );
+                        }
                       }
                     })
                     .catch(() => {
