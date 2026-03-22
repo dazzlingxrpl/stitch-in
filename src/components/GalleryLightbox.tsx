@@ -127,6 +127,7 @@ const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
             src={current.src}
             alt={current.alt}
             className="max-h-[min(78vh,calc(100dvh-160px))] max-w-[min(92vw,1200px)] rounded-lg object-contain shadow-2xl ring-1 ring-white/10 select-none"
+            decoding="async"
             draggable={false}
           />
 
