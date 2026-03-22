@@ -36,7 +36,14 @@ async function subscribeToMailchimp(body) {
   const fname = parts[0] || '';
   const lname = parts.slice(1).join(' ') || '';
 
-  const inquiry = [projectType && `Project type: ${projectType}`, location && `Location: ${location}`, message]
+  // Phone goes in the inquiry text — many audiences do not have a PHONE merge tag (or use a custom tag name),
+  // which causes Mailchimp to return 400 for invalid merge fields.
+  const inquiry = [
+    projectType && `Project type: ${projectType}`,
+    location && `Location: ${location}`,
+    phone && `Phone: ${phone}`,
+    message
+  ]
     .filter(Boolean)
     .join('\n\n');
 
@@ -45,7 +52,6 @@ async function subscribeToMailchimp(body) {
   const mergeFields = {
     FNAME: fname.slice(0, 50),
     LNAME: lname.slice(0, 50),
-    PHONE: phone.slice(0, 50),
     COMPANY: company
   };
 
@@ -73,9 +79,19 @@ async function subscribeToMailchimp(body) {
     const data = await mcRes.json().catch(() => ({}));
 
     if (!mcRes.ok) {
-      const detail = data.detail || data.title || 'Mailchimp request failed';
-      const errText = typeof detail === 'string' ? detail : 'Mailchimp request failed';
+      let errText = 'Mailchimp request failed';
+      if (typeof data.detail === 'string') {
+        errText = data.detail;
+      } else if (Array.isArray(data.errors) && data.errors.length > 0) {
+        errText = data.errors
+          .map((e) => (e && typeof e.message === 'string' ? e.message : ''))
+          .filter(Boolean)
+          .join(' ') || errText;
+      } else if (typeof data.title === 'string' && data.title) {
+        errText = data.title;
+      }
       const status = mcRes.status >= 400 && mcRes.status < 600 ? mcRes.status : 502;
+      console.error('[Mailchimp]', mcRes.status, data);
       return { ok: false, status, error: errText };
     }
 

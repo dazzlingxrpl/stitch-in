@@ -91,14 +91,10 @@ const GALLERY_ASPECT_H_OVER_W = 3.85 / 3;
  */
 const GALLERY_ARCH_CHORD_Y = 0.5 / GALLERY_ASPECT_H_OVER_W;
 
-interface HomePageProps {
-  darkMode: boolean;
-}
-
 const mailchimpApiBase = (process.env.REACT_APP_MAILCHIMP_API_URL ?? '').replace(/\/$/, '');
 const mailchimpSubscribeUrl = `${mailchimpApiBase}/api/subscribe`;
 
-const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
+const HomePage: React.FC = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isContactSubmitting, setIsContactSubmitting] = useState(false);
@@ -129,7 +125,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   /** Stable id for SVG clipPath (arched gallery frames) */
   const galleryArchClipId = `gallery-arch-${useId().replace(/:/g, '')}`;
   
-  const heroSectionRef = useRef<HTMLElement>(null);
   const aboutSectionRef = useRef<HTMLElement>(null);
   const aboutHeadingRef = useRef<HTMLHeadingElement>(null);
   const aboutText1Ref = useRef<HTMLParagraphElement>(null);
@@ -160,9 +155,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   const galleryTitleRef = useRef<HTMLHeadingElement>(null);
   const galleryItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Partners section refs
-  const partnersSectionRef = useRef<HTMLElement>(null);
-
   // Testimonials section refs
   const testimonialsSectionRef = useRef<HTMLElement>(null);
   const testimonialsTitleRef = useRef<HTMLHeadingElement>(null);
@@ -172,7 +164,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
   // CTA section refs
   const ctaSectionRef = useRef<HTMLElement>(null);
   const ctaTitleRef = useRef<HTMLHeadingElement>(null);
-  const ctaSubtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaButtonRef = useRef<HTMLButtonElement>(null);
   const ctaImageRef = useRef<HTMLDivElement>(null);
 
@@ -195,11 +186,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     }
   }, []);
 
-  // No animation effect for the logo - static display
-  useEffect(() => {
-    // Nothing needed here for static logo display
-  }, [darkMode]);
-
   // Hero video preload strategy: desktop only (mobile avoids starving images / main thread).
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)');
@@ -210,19 +196,6 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
     mq.addEventListener('change', applyPreloadMode);
     return () => mq.removeEventListener('change', applyPreloadMode);
   }, []);
-
-  useEffect(() => {
-    if (heroVideoPreload !== 'auto') return;
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'video';
-    link.href = '/images/stitch_in_video.mp4';
-    link.type = 'video/mp4';
-    document.head.appendChild(link);
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, [heroVideoPreload]);
 
   // About section animations
   useEffect(() => {
@@ -784,11 +757,10 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       {/* Hero — rounded frame matches Individuals / Businesses hero */}
       <div className="px-4 pt-4 sm:px-6 lg:px-8">
       <section
-        ref={heroSectionRef}
         className="relative z-10 flex h-[calc(100vh-2rem)] items-center overflow-hidden rounded-3xl sm:h-[calc(100vh-2.5rem)]"
       >
-        {/* Hero video background for all screen sizes */}
-        <div className="absolute inset-0 z-0 overflow-hidden !rounded-3xl">
+        {/* Hero video — solid bg avoids flash; no poster (extra image competing with MP4) */}
+        <div className="absolute inset-0 z-0 overflow-hidden !rounded-3xl bg-black">
           <video
             className={`h-full w-full object-cover !rounded-3xl transition-opacity duration-500 ${isHeroVideoReady ? 'opacity-100' : 'opacity-0'}`}
             autoPlay
@@ -796,21 +768,24 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
             loop
             playsInline
             preload={heroVideoPreload}
-            poster="/images/homepage_home_op1.png"
             onLoadedData={() => setIsHeroVideoReady(true)}
-            onCanPlay={() => setIsHeroVideoReady(true)}
             aria-label="Stitch In hero video background"
           >
             <source src="/images/stitch_in_video.mp4" type="video/mp4" />
           </video>
-
-          {!isHeroVideoReady && (
-            <div className="absolute inset-0 bg-gradient-to-br from-midnight via-gray-800 to-black animate-pulse"></div>
-          )}
         </div>
-        
+
         {/* Dark overlay to ensure logo visibility */}
-        <div className="absolute inset-0 bg-black bg-opacity-30 z-0"></div>
+        <div className="absolute inset-0 z-[1] bg-black bg-opacity-30"></div>
+
+        {!isHeroVideoReady && (
+          <div
+            className="pointer-events-none absolute bottom-8 right-8 z-[5] flex items-center gap-2 text-white/90"
+            aria-hidden
+          >
+            <span className="h-6 w-6 shrink-0 rounded-full border-2 border-white/25 border-t-white animate-spin" />
+          </div>
+        )}
         
         {/* Hero content — tagline center/right; logo bottom-left (aligned with nav column) */}
         <div className="relative z-10 h-full">
@@ -1188,7 +1163,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
       </section>
 
       {/* Partners Section */}
-      <section id="partners" ref={partnersSectionRef} className="py-12 sm:py-16 lg:py-20 bg-gray-200 dark:bg-gray-800 relative z-30">
+      <section id="partners" className="py-12 sm:py-16 lg:py-20 bg-gray-200 dark:bg-gray-800 relative z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-midnight dark:text-white mb-4">
@@ -1265,12 +1240,12 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                   e.preventDefault();
                   const form = e.currentTarget;
                   const formData = new FormData(form);
-                  const email = formData.get('email');
-                  const name = formData.get('name');
-                  const message = formData.get('message');
-                  const phone = formData.get('phone');
-                  const projectType = formData.get('project-type');
-                  const location = formData.get('location');
+                  const email = String(formData.get('email') ?? '').trim();
+                  const name = String(formData.get('name') ?? '').trim();
+                  const message = String(formData.get('message') ?? '').trim();
+                  const phone = String(formData.get('phone') ?? '').trim();
+                  const projectType = String(formData.get('project-type') ?? '').trim();
+                  const location = String(formData.get('location') ?? '').trim();
 
                   setContactSendSucceeded(false);
                   setIsContactSubmitting(true);
@@ -1287,7 +1262,15 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                     })
                   })
                     .then(async (response) => {
-                      const data = (await response.json().catch(() => ({}))) as { error?: string };
+                      const raw = await response.text();
+                      let data: { error?: string } = {};
+                      try {
+                        data = raw ? (JSON.parse(raw) as { error?: string }) : {};
+                      } catch {
+                        data = {};
+                      }
+                      const apiError =
+                        typeof data.error === 'string' && data.error.trim() ? data.error.trim() : '';
                       setFormSubmitted(true);
                       if (response.ok) {
                         setSubmissionMessage('Thank you! Your message has been sent. We will be in touch shortly.');
@@ -1295,9 +1278,8 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                         queueMicrotask(() => setContactSendSucceeded(true));
                       } else {
                         setSubmissionMessage(
-                          data.error && typeof data.error === 'string'
-                            ? data.error
-                            : 'Oops! There was a problem sending your message. Please try again later.'
+                          apiError ||
+                            `Something went wrong (${response.status}). Please try again later.`
                         );
                       }
                     })
@@ -1447,7 +1429,7 @@ const HomePage: React.FC<HomePageProps> = ({ darkMode }) => {
                   </button>
                   
                   {formSubmitted && (
-                    <div className={`text-sm md:text-base mt-4 ${submissionMessage.includes('Oops') ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
+                    <div className={`text-sm md:text-base mt-4 ${submissionMessage.includes('Thank you') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                       {submissionMessage}
                     </div>
                   )}

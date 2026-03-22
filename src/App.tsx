@@ -344,7 +344,7 @@ function AppContent() {
 
       <main>
           <Routes>
-            <Route path="/" element={<HomePage darkMode={darkMode} />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/individuals" element={<IndividualsPage darkMode={darkMode} />} />
             <Route path="/businesses" element={<BusinessesPage darkMode={darkMode} />} />
