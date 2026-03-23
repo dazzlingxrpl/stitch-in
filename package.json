@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "node scripts/set-mailchimp-api-base-for-vercel.js && react-scripts build",
+    "build": "node scripts/set-mailchimp-api-base-for-vercel.js && node scripts/write-sitemap.js && react-scripts build",
     "serve": "node server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

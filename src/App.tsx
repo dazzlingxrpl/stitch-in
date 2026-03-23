@@ -11,6 +11,7 @@ import TermsPage from './pages/TermsPage';
 import IndividualsPage from './pages/IndividualsPage';
 import BusinessesPage from './pages/BusinessesPage';
 import ScrollToTop from './components/ScrollToTop';
+import SeoHead from './components/SeoHead';
 
 interface MenuItem {
   href: string;
@@ -200,6 +201,7 @@ function AppContent() {
 
   return (
     <div className="App">
+      <SeoHead />
       {/* Desktop Navigation - Hide on hero-design page */}
       {!isHeroDesignPage && (
         <nav className="fixed left-0 right-0 top-3 z-[60] hidden sm:block sm:top-4">
