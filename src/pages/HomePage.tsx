@@ -1210,7 +1210,7 @@ const HomePage: React.FC = () => {
               OUR PARTNERS
             </h2>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex flex-wrap justify-center items-center gap-12 sm:gap-16 lg:gap-20">
             <a
               href="https://www.consedge.com"
               target="_blank"
@@ -1221,6 +1221,18 @@ const HomePage: React.FC = () => {
                 src="/images/consedge_logo.svg"
                 alt="Consedge Logo"
                 className="h-12 sm:h-16 lg:h-20 w-auto"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/yessdesignlab/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-all duration-300 hover:scale-110 hover:opacity-80 cursor-pointer"
+            >
+              <img
+                src="/images/yess_logo.png"
+                alt="YESS Design Lab logo"
+                className="h-12 sm:h-16 lg:h-20 w-auto brightness-0 dark:brightness-100"
               />
             </a>
           </div>
