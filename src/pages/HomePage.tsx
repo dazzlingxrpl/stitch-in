@@ -22,6 +22,10 @@ function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number) {
   };
 }
 
+/** First frame of hero MP4 — fast LCP-style paint; regenerate with ffmpeg if video changes */
+const HERO_VIDEO_SRC = '/images/stitch_in_video.mp4';
+const HERO_POSTER_SRC = '/images/hero_video_poster.jpg';
+
 /** Gallery tiles: existing portfolio images + new set (2.png–8.png) */
 const GALLERY_ITEMS = [
   { src: '/images/gallery3.png', alt: 'Urban planning', title: 'Urban Planning', caption: 'Sustainable communities' },
@@ -100,8 +104,12 @@ const HomePage: React.FC = () => {
   /** True after a successful Mailchimp submit until the user starts a new submission */
   const [contactSendSucceeded, setContactSendSucceeded] = useState(false);
   const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
-  /** Mobile: avoid competing with images for bandwidth; desktop: full preload */
-  const [heroVideoPreload, setHeroVideoPreload] = useState<'auto' | 'metadata'>('metadata');
+  /** Desktop: eager buffer. Mobile: `none` until deferred start so images win bandwidth. */
+  const [heroVideoPreload, setHeroVideoPreload] = useState<'auto' | 'metadata' | 'none'>('metadata');
+  /** Mobile: no video source until after window load + idle — poster image shows first */
+  const [deferHeroVideo, setDeferHeroVideo] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767.98px)').matches
+  );
   const [galleryLightboxIndex, setGalleryLightboxIndex] = useState<number | null>(null);
   /** Mobile / tablet: case study detail modal (`lg` and up use overlay cards only) */
   const [caseStudyModalIndex, setCaseStudyModalIndex] = useState<number | null>(null);
@@ -185,16 +193,41 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
-  // Hero video preload strategy: desktop only (mobile avoids starving images / main thread).
+  // Hero video: on narrow viewports defer MP4 until after load + idle so logo, poster, and page images load first.
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)');
-    const applyPreloadMode = () => {
-      setHeroVideoPreload(mq.matches ? 'auto' : 'metadata');
+    const mm = window.matchMedia('(min-width: 768px)');
+    const apply = () => {
+      if (mm.matches) {
+        setHeroVideoPreload('auto');
+        setDeferHeroVideo(false);
+        return;
+      }
+      setHeroVideoPreload('none');
+      setDeferHeroVideo(true);
+      const startVideo = () => {
+        const kick = () => setDeferHeroVideo(false);
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(kick, { timeout: 2500 });
+        } else {
+          setTimeout(kick, 1000);
+        }
+      };
+      if (document.readyState === 'complete') {
+        startVideo();
+      } else {
+        window.addEventListener('load', startVideo, { once: true });
+      }
     };
-    applyPreloadMode();
-    mq.addEventListener('change', applyPreloadMode);
-    return () => mq.removeEventListener('change', applyPreloadMode);
+    apply();
+    mm.addEventListener('change', apply);
+    return () => mm.removeEventListener('change', apply);
   }, []);
+
+  useEffect(() => {
+    if (deferHeroVideo) {
+      setIsHeroVideoReady(false);
+    }
+  }, [deferHeroVideo]);
 
   // About section animations
   useEffect(() => {
@@ -753,26 +786,37 @@ const HomePage: React.FC = () => {
       <section
         className="relative z-10 flex h-[calc(100vh-2rem)] items-center overflow-hidden rounded-3xl sm:h-[calc(100vh-2.5rem)]"
       >
-        {/* Hero video — solid bg avoids flash; no poster (extra image competing with MP4) */}
+        {/* Poster first (tiny JPEG), then video fades in — mobile MP4 deferred until after load + idle */}
         <div className="absolute inset-0 z-0 overflow-hidden !rounded-3xl bg-black">
+          <img
+            src={HERO_POSTER_SRC}
+            alt=""
+            width={1920}
+            height={1080}
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover !rounded-3xl"
+            aria-hidden
+          />
           <video
-            className={`h-full w-full object-cover !rounded-3xl transition-opacity duration-500 ${isHeroVideoReady ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute inset-0 h-full w-full object-cover !rounded-3xl transition-opacity duration-500 ${isHeroVideoReady ? 'opacity-100' : 'opacity-0'}`}
             autoPlay
             muted
             loop
             playsInline
             preload={heroVideoPreload}
+            poster={HERO_POSTER_SRC}
             onLoadedData={() => setIsHeroVideoReady(true)}
             aria-label="Stitch In hero video background"
           >
-            <source src="/images/stitch_in_video.mp4" type="video/mp4" />
+            {!deferHeroVideo && <source src={HERO_VIDEO_SRC} type="video/mp4" />}
           </video>
         </div>
 
         {/* Dark overlay to ensure logo visibility */}
         <div className="absolute inset-0 z-[1] bg-black bg-opacity-30"></div>
 
-        {!isHeroVideoReady && (
+        {!deferHeroVideo && !isHeroVideoReady && (
           <div
             className="pointer-events-none absolute bottom-8 right-8 z-[5] flex items-center gap-2 text-white/90"
             aria-hidden
@@ -803,6 +847,8 @@ const HomePage: React.FC = () => {
               <img
                 src="/images/main_logo_white.png"
                 alt="Stitch In Logo"
+                fetchPriority="high"
+                decoding="async"
                 className="h-24 w-auto drop-shadow-lg sm:h-28 lg:h-32"
               />
             </div>
