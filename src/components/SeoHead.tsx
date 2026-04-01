@@ -61,6 +61,7 @@ const SeoHead: React.FC = () => {
 
     document.title = meta.title;
     upsertMetaByName('description', meta.description);
+    upsertMetaByName('keywords', meta.keywords);
 
     upsertMetaByProperty('og:title', meta.title);
     upsertMetaByProperty('og:description', meta.description);
