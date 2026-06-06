@@ -872,7 +872,7 @@ const HomePage: React.FC = () => {
             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-2xl">
               <div>
                 <p ref={aboutText1Ref} className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-left md:text-right">
-                  At Stitch In, we bring fresh perspectives and thoughtful solutions to every project. Our approach combines creativity and practicality, allowing us to adapt to different contexts while delivering designs that are both functional and inspiring.
+                  At Stitch In Architecture, we bring fresh, thoughtful solutions to every project. Our approach combines creativity and practicality, allowing us to adapt to different contexts while delivering designs that are both functional and inspiring.
                 </p>
               </div>
               <div>
@@ -1233,6 +1233,18 @@ const HomePage: React.FC = () => {
                 src="/images/yess_logo.png"
                 alt="YESS Design Lab logo"
                 className="h-12 sm:h-16 lg:h-20 w-auto brightness-0 dark:brightness-100"
+              />
+            </a>
+            <a
+              href="https://parametric.center"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-all duration-300 hover:scale-110 hover:opacity-80 cursor-pointer"
+            >
+              <img
+                src="/images/parametric-center-logo-min.png"
+                alt="Parametric.center logo"
+                className="h-12 sm:h-16 lg:h-20 w-auto"
               />
             </a>
           </div>

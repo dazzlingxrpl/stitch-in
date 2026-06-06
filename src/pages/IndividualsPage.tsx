@@ -54,7 +54,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
           service1Ref.current, service1ImageRef.current,
           service2Ref.current, service2ImageRef.current,
           service3Ref.current, service3ImageRef.current,
-          service4Ref.current, service4ImageRef.current
+          service4Ref.current, service4ImageRef.current,
         ].filter(Boolean);
 
         gsap.set(serviceItems, {
@@ -88,7 +88,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
           });
         }
 
-        // Individual ScrollTrigger for Service 1 - Architecture (only on desktop)
+        // Individual ScrollTrigger for Service 1 - Planning Uplift (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
             trigger: service1Ref.current,
@@ -113,7 +113,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
           });
         }
 
-        // Individual ScrollTrigger for Service 2 - Interior Design (only on desktop)
+        // Individual ScrollTrigger for Service 2 - Planning Applications (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
             trigger: service2Ref.current,
@@ -138,7 +138,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
           });
         }
 
-        // Individual ScrollTrigger for Service 3 - Urban Planning (only on desktop)
+        // Individual ScrollTrigger for Service 3 - Architectural and Interior Design (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
             trigger: service3Ref.current,
@@ -163,7 +163,7 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
           });
         }
 
-        // Individual ScrollTrigger for Service 4 - Project Management (only on desktop)
+        // Individual ScrollTrigger for Service 4 - Architectural Supervision (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
             trigger: service4Ref.current,
@@ -295,120 +295,10 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                 {/* Horizontal line separator */}
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
-                {/* Service content - responsive layout */}
+                {/* Planning Uplift */}
                 <div ref={service1Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
                   <div ref={service1ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
-                    <img
-                      src="/images/service2.png"
-                      alt="Modern Architecture"
-                      className="h-full w-full object-cover !rounded-3xl"
-                    />
-                  </div>
-                  
-                  {/* Right side - Text content */}
-                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
-                    <div className="w-full min-w-0">
-                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
-                        Architectural design
-                      </h3>
-                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
-                        Whether you want to design a nice family house or a cosy office in the back yard, we can create elegant and practical functional spaces for you to feel the best at home
-                      </p>
-                    </div>
-                    </div>
-                    
-                    {/* Bullet points at bottom */}
-                    <div className="w-full flex flex-col min-w-0">
-                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
-                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Family House Design</span>
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                        </li>
-                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Cozy Home Spaces</span>
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                        </li>
-                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Functional Office Spaces</span>
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                        </li>
-                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Elegant & Practical Solutions</span>
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                
-                 {/* Horizontal line at bottom */}
-                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
-
-                 {/* Service 2 - Interior Design */}
-                 {/* Horizontal line at top */}
-                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-                 
-                {/* Service content - responsive layout */}
-                <div ref={service2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
-                  {/* Left side - Text content */}
-                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
-                    <div className="w-full min-w-0">
-                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
-                        Interior Design
-                      </h3>
-                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
-                        We transform homes and interiors into spaces that truly reflect you. Whether you're renovating a beloved property or redesigning your living environment, our designs combine beauty, functionality, and thoughtful detail, helping you enjoy every corner of your home to the fullest.
-                      </p>
-                    </div>
-                    </div>
-                    
-                    {/* Bullet points at bottom */}
-                    <div className="w-full flex flex-col min-w-0">
-                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
-                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Space Planning</span>
-                        </li>
-                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Material Selection</span>
-                        </li>
-                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Lighting Design</span>
-                        </li>
-                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
-                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
-                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Furniture Layout</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  {/* Right side - Building image */}
-                  <div ref={service2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
-                    <img
-                      src="/images/service3.png"
-                      alt="Interior Design"
-                      className="h-full w-full object-cover !rounded-3xl"
-                    />
-                  </div>
-                </div>
-                 
-                 {/* Horizontal line at bottom */}
-                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
-
-                 {/* Service 3 - Planning Uplift */}
-                 {/* Horizontal line at top */}
-                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
-                 
-                {/* Service content - responsive layout */}
-                <div ref={service3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
-                  {/* Left side - Building image */}
-                  <div ref={service3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/service6.png"
                       alt="Planning Uplift"
@@ -429,7 +319,6 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                     </div>
                     
-                    {/* Bullet points at bottom */}
                     <div className="w-full flex flex-col min-w-0">
                       <ul className="grid grid-cols-2 gap-2 w-full text-right">
                         <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
@@ -452,15 +341,108 @@ const IndividualsPage: React.FC<IndividualsPageProps> = ({ darkMode }) => {
                     </div>
                   </div>
                 </div>
-                 
-                 {/* Horizontal line at bottom */}
-                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8"></div>
+                
+                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
 
-                 {/* Service 4 - Architectural Supervision */}
-                 {/* Horizontal line at top */}
-                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-8"></div>
+                 {/* Planning Applications */}
+                <div ref={service2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
+                  {/* Left side - Text content */}
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
+                        Planning Applications
+                      </h3>
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
+                        We prepare and manage all documentation required for planning approval and building control, ensuring your project progresses smoothly from concept to construction. Our experience with local authorities and technical standards allows us to anticipate challenges early, saving time, cost, and stress while keeping your design intent fully intact.
+                      </p>
+                    </div>
+                    </div>
+                    
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-left">
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Documentation Management</span>
+                        </li>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Building Control Compliance</span>
+                        </li>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Local Authority Liaison</span>
+                        </li>
+                        <li className="flex h-full min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Technical Standards</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  {/* Right side - Building image */}
+                  <div ref={service2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
+                    <img
+                      src="/images/planning_application_image.png"
+                      alt="Planning Applications"
+                      className="h-full w-full object-cover !rounded-3xl"
+                    />
+                  </div>
+                </div>
                  
-                {/* Service content - responsive layout */}
+                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+
+                 {/* Architectural and Interior Design */}
+                <div ref={service3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
+                  {/* Left side - Building image */}
+                  <div ref={service3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
+                    <img
+                      src="/images/house10.png"
+                      alt="Architectural and Interior Design"
+                      className="h-full w-full object-cover !rounded-3xl"
+                    />
+                  </div>
+                  
+                  {/* Right side - Text content */}
+                  <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
+                    <div className="w-full min-w-0">
+                    <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
+                        Architectural and Interior Design
+                      </h3>
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
+                        Whether you're dreaming of a beautiful family home or a cosy backyard office, we design spaces that are both elegant and highly functional. Every project is created to enhance your daily life, creating environments where comfort, style, and practicality come together seamlessly.
+                      </p>
+                    </div>
+                    </div>
+                    
+                    <div className="w-full flex flex-col min-w-0">
+                      <ul className="grid grid-cols-2 gap-2 w-full text-right">
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Concept Development</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                        </li>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Functional Design</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                        </li>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Space Optimisation</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                        </li>
+                        <li className="flex h-full min-h-[4.5rem] w-full items-center justify-end gap-2.5 rounded-2xl border border-black bg-white px-3 sm:px-4 py-2.5 text-gray-900">
+                          <span className="min-w-0 flex-1 text-sm sm:text-base text-gray-900">Workflow Enhancement</span>
+                          <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-black"></span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                 
+                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
+
+                 {/* Architectural Supervision and Design Management */}
                 <div ref={service4Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
                   <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">

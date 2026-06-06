@@ -91,7 +91,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
           });
         }
 
-        // Individual ScrollTrigger for Business Service 2 - Architectural Design (only on desktop)
+        // Individual ScrollTrigger for Business Service 2 - Architectural and Interior Design (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
             trigger: businessService2Ref.current,
@@ -116,7 +116,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
           });
         }
 
-        // Individual ScrollTrigger for Business Service 3 - Interior Design (only on desktop)
+        // Individual ScrollTrigger for Business Service 3 - Architectural Visualisation and Animation (only on desktop)
         if (!isMobile) {
           ScrollTrigger.create({
             trigger: businessService3Ref.current,
@@ -290,7 +290,7 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                         Scan to BIM
                       </h3>
                       <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
-                        Transform existing buildings into accurate digital models using advanced 3D scanning technology. Our Scan to BIM service creates precise as-built documentation, enabling better decision-making, efficient renovations, and seamless facility management.
+                        We transform existing buildings into accurate digital models through advanced 3D scanning. Our Scan to BIM service provides precise data that forms the foundation for renovation, extension, or new construction projects, saving time, reducing errors, and enabling informed decision-making.
                       </p>
                     </div>
                     </div>
@@ -322,17 +322,17 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 {/* Horizontal line separator */}
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
-                {/* Architectural Design Service content - responsive layout */}
+                {/* Architectural and Interior Design Service content - responsive layout */}
                 <div ref={businessService2Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Text content */}
                   <div className="flex-1 relative flex flex-col h-auto w-full lg:w-auto gap-3 lg:gap-4">
                     <div className="w-full min-w-0">
                     <div className="text-left bg-midnight rounded-3xl p-6 sm:p-8">
                       <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-left">
-                        Architectural Design
+                        Architectural and Interior Design
                       </h3>
                       <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-left">
-                        From concept to completion, we design buildings that inspire and function flawlessly. Our architectural solutions balance aesthetic appeal with practical requirements, creating spaces that enhance productivity and reflect your brand identity.
+                        Whether you need a full design solution or specific design elements, we create functional, elegant spaces that align with your brand and operational needs. From offices and commercial interiors to large-scale developments, our designs combine creativity, efficiency, and practical value.
                       </p>
                     </div>
                     </div>
@@ -363,8 +363,8 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                   {/* Right side - Building image */}
                   <div ref={businessService2ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
-                      src="/images/warehouses.png"
-                      alt="Architectural Design"
+                      src="/images/architectural_design.png"
+                      alt="Architectural and Interior Design"
                       className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
@@ -373,13 +373,13 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                 {/* Horizontal line separator */}
                 <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mt-8 mb-8"></div>
                 
-                {/* Interior Design Service content - responsive layout */}
+                {/* Architectural Visualisation and Animation Service content - responsive layout */}
                 <div ref={businessService3Ref} className="flex flex-col lg:flex-row gap-6 lg:gap-8 lg:items-start w-full min-h-[400px] lg:min-h-0">
                   {/* Left side - Building image */}
                   <div ref={businessService3ImageRef} className="w-full lg:w-96 h-64 sm:h-80 lg:h-96 overflow-hidden shadow-lg flex-shrink-0 mx-auto lg:mx-0 !rounded-3xl">
                     <img
                       src="/images/office_space.png"
-                      alt="Interior Design"
+                      alt="Architectural Visualisation and Animation"
                       className="h-full w-full object-cover !rounded-3xl"
                     />
                   </div>
@@ -389,10 +389,10 @@ const BusinessesPage: React.FC<BusinessesPageProps> = ({ darkMode }) => {
                     <div className="w-full min-w-0">
                     <div className="text-right bg-midnight rounded-3xl p-6 sm:p-8">
                       <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-right">
-                        Interior Design
+                        Architectural Visualisation and Animation
                       </h3>
                       <p className="text-base sm:text-lg text-gray-300 leading-relaxed text-right">
-                        Create inspiring work environments that boost productivity and employee satisfaction. Our interior design solutions optimize space utilization, enhance workflow efficiency, and create welcoming atmospheres that reflect your company culture.
+                        Bring your projects to life before a single brick is laid. Our high-quality visualisations and animations communicate design intent clearly, impress stakeholders, and support marketing or investor presentations with striking realism and clarity.
                       </p>
                     </div>
                     </div>
