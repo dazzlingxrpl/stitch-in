@@ -28,7 +28,7 @@ function ensurePlaywrightChromium() {
 
 async function launchBrowser() {
   if (ON_VERCEL) {
-    const sparticuz = require('@sparticuz/chromium');
+    const sparticuz = require('@sparticuz/chromium').default;
     sparticuz.setGraphicsMode = false;
     const executablePath = await sparticuz.executablePath();
     const libDir = path.dirname(executablePath);
