@@ -365,10 +365,12 @@ function AppContent() {
 }
 
 function App() {
+  const skipAnalytics =
+    typeof window !== 'undefined' && window.__PRERENDER__ === true;
   return (
     <Router>
       <AppContent />
-      <Analytics />
+      {!skipAnalytics && <Analytics />}
     </Router>
   );
 }

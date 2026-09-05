@@ -17,9 +17,16 @@ const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
 const vercelUrl = process.env.VERCEL_URL;
 
 function normalizeBase(u) {
-  return String(u)
+  let base = String(u)
     .trim()
     .replace(/\/$/, '');
+  if (!base) {
+    return '';
+  }
+  if (!/^https?:\/\//i.test(base)) {
+    base = `https://${base.replace(/^\/+/, '')}`;
+  }
+  return base;
 }
 
 if (!onVercel) {

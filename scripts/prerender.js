@@ -43,7 +43,7 @@ async function launchPuppeteerOnVercel() {
     },
     executablePath,
     headless: 'shell',
-    dumpio: true,
+    dumpio: false,
   });
 }
 
@@ -141,7 +141,17 @@ async function main() {
 
   const app = express();
   app.use(express.static(BUILD_DIR, { index: false }));
+  // Vercel Analytics is injected at runtime; it does not exist on this local static server.
+  // Without this stub the SPA fallback would serve index.html as script.js (SyntaxError: Unexpected token '<').
+  app.use('/_vercel', (_req, res) => {
+    res.status(204).end();
+  });
   app.get('*', (req, res) => {
+    const ext = path.extname(req.path);
+    if (ext && ext !== '.html') {
+      res.status(404).end();
+      return;
+    }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(spaIndex);
   });
