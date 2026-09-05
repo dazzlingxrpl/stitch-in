@@ -8,6 +8,7 @@ import CoverImageCard from '../components/CoverImageCard';
 import GalleryLightbox from '../components/GalleryLightbox';
 import AddressAutocompleteInput from '../components/AddressAutocompleteInput';
 import { getMailchimpSubscribeUrl } from '../utils/mailchimpSubscribeUrl';
+import ProjectStatsSection from '../components/ProjectStatsSection';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -88,6 +89,10 @@ const CASE_STUDIES = [
     imageAlt: 'Urban Loft Project',
   },
 ] as const;
+
+function isPrerender(): boolean {
+  return typeof window !== 'undefined' && window.__PRERENDER__ === true;
+}
 
 /** Must match gallery card `aspect-[3/3.85]` → height/width = 3.85/3 (a touch shorter than 3/3.95) */
 const GALLERY_ASPECT_H_OVER_W = 3.85 / 3;
@@ -231,6 +236,7 @@ const HomePage: React.FC = () => {
 
   // About section animations
   useEffect(() => {
+    if (isPrerender()) return;
     const setupAboutAnimations = () => {
       if (aboutSectionRef.current && aboutHeadingRef.current && aboutText1Ref.current && aboutText2Ref.current) {
         // Check if mobile device
@@ -291,6 +297,7 @@ const HomePage: React.FC = () => {
 
   // Services section (OUR SERVICES) — heading, intro, then two cards with stagger
   useEffect(() => {
+    if (isPrerender()) return;
     let servicesScrollTrigger: ScrollTrigger | null = null;
 
     const setupServicesAnimations = () => {
@@ -373,6 +380,7 @@ const HomePage: React.FC = () => {
 
   // Projects section animations
   useEffect(() => {
+    if (isPrerender()) return;
     const setupProjectsAnimations = () => {
       if (projectsSectionRef.current && projectsHeadingRef.current) {
         // Check if mobile device
@@ -527,6 +535,7 @@ const HomePage: React.FC = () => {
 
   // Gallery section animations (desktop only — mobile keeps content visible; no ScrollTrigger jank)
   useEffect(() => {
+    if (isPrerender()) return;
     let galleryScrollTrigger: ScrollTrigger | null = null;
 
     const timer = setTimeout(() => {
@@ -578,6 +587,7 @@ const HomePage: React.FC = () => {
 
   // Testimonials section animations
   useEffect(() => {
+    if (isPrerender()) return;
     const setupTestimonialsAnimations = () => {
       const isMobile = window.innerWidth < 768;
       
@@ -687,6 +697,7 @@ const HomePage: React.FC = () => {
 
   // CTA section animations
   useEffect(() => {
+    if (isPrerender()) return;
     const setupCTAAnimations = () => {
       const isMobile = window.innerWidth < 768;
       
@@ -885,12 +896,12 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-
+      <ProjectStatsSection />
 
       {/* Services Navigation Section */}
       <section
         ref={servicesSectionRef}
-        className="relative z-30 bg-gray-50 py-12 sm:py-16 lg:py-20 dark:bg-gray-800"
+        className="relative z-30 bg-transparent py-12 backdrop-blur-sm sm:py-16 lg:py-20"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8 text-left sm:mb-12">

@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "node scripts/set-mailchimp-api-base-for-vercel.js && node scripts/write-sitemap.js && react-scripts build",
+    "build": "node scripts/set-mailchimp-api-base-for-vercel.js && node scripts/write-sitemap.js && react-scripts build && node scripts/prerender.js",
     "serve": "node server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -56,6 +56,7 @@
     "@types/google.maps": "^3.58.1",
     "@types/gsap": "^1.20.2",
     "autoprefixer": "^10.4.21",
+    "playwright": "^1.63.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17"
   }

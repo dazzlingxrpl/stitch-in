@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stitchin.com/sitemap.xml
+Sitemap: https://www.stitch-in-architecture.com/sitemap.xml

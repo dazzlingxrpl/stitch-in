@@ -1,6 +1,9 @@
 /** Used in meta + JSON-LD; keep in sync with visible copy where relevant */
 export const SITE_NAME = 'Stitch In Architecture';
 
+/** Canonical production origin (no trailing slash). Used when REACT_APP_SITE_URL is unset. */
+export const CANONICAL_SITE_URL = 'https://www.stitch-in-architecture.com';
+
 /** ~155 chars; names regions you want to be discoverable for */
 export const DEFAULT_DESCRIPTION =
   'Architecture and interior design practice based in Hertfordshire, UK, serving Kings Langley, Watford, Luton, Milton Keynes, St Albans, Hatfield, and surrounding areas.';

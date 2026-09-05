@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { buildOrganizationJsonLd } from '../seo/jsonLd';
+import { CANONICAL_SITE_URL } from '../seo/siteConfig';
 import { getRouteMeta } from '../seo/routeMeta';
 
 const JSON_LD_ID = 'seo-organization-jsonld';
@@ -10,10 +11,7 @@ function getSiteUrl(): string {
   if (fromEnv) {
     return fromEnv.replace(/\/$/, '');
   }
-  if (typeof window !== 'undefined') {
-    return window.location.origin;
-  }
-  return '';
+  return CANONICAL_SITE_URL;
 }
 
 function upsertMetaByName(name: string, content: string) {
@@ -77,8 +75,7 @@ const SeoHead: React.FC = () => {
       upsertCanonical(canonical || siteUrl);
     }
 
-    const jsonOrigin = siteUrl || 'https://stitchin.com';
-    const jsonLd = buildOrganizationJsonLd(jsonOrigin);
+    const jsonLd = buildOrganizationJsonLd(siteUrl);
     let script = document.getElementById(JSON_LD_ID) as HTMLScriptElement | null;
     if (!script) {
       script = document.createElement('script');
