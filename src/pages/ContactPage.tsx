@@ -13,15 +13,15 @@ const ContactPage = () => {
               <p>Have a project in mind? We'd love to hear from you.</p>
               <div>
                 <h3 className="font-medium">Address</h3>
-                <p>123 Architecture Street, Design District, City, Country</p>
+                <p>Hertfordshire, United Kingdom</p>
               </div>
               <div>
                 <h3 className="font-medium">Email</h3>
-                <p>info@stitchin.com</p>
-              </div>
-              <div>
-                <h3 className="font-medium">Phone</h3>
-                <p>+1 234 567 890</p>
+                <p>
+                  <a href="mailto:juliet@stitch-in-architecture.com" className="underline hover:no-underline">
+                    juliet@stitch-in-architecture.com
+                  </a>
+                </p>
               </div>
             </div>
           </div>

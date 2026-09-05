@@ -5,6 +5,9 @@ const AboutPage = () => {
     <div className="min-h-screen pt-16 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold text-midnight dark:text-white mb-8">About Us</h1>
+        <p className="text-gray-600 dark:text-gray-300 text-lg mb-12 max-w-3xl">
+          Founded by Juliet Niha, whose practice spans major residential, civic and infrastructure projects in Ukraine, Stitch In Architecture is now based in Hertfordshire, serving Kings Langley, Watford and the surrounding areas.
+        </p>
 
         {/* Company Vision and Approach */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
@@ -50,9 +53,9 @@ const AboutPage = () => {
             </div>
             <div className="w-full md:w-2/3 text-left">
               <h3 className="text-2xl font-bold text-midnight dark:text-white mb-2">Juliet Niha</h3>
-              <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Principal Architect & Founder</p>
+              <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Director & Founder</p>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                With over 10 years of architectural expertise, Juliet leads our team with a wealth of experience in diverse architectural projects. Her portfolio spans residential, educational, and public architecture, as well as innovative border control infrastructure designs. As a skilled Architect, she brings proficiency in Revit, ArchiCAD, and various architectural software to deliver precise construction drawings and exceptional designs.
+                With over 10 years of architectural expertise, Juliet leads the design practice with experience across residential, educational and public projects, as well as border control infrastructure. She brings proficiency in Revit, ArchiCAD, and related design software to deliver precise construction drawings and exceptional designs.
               </p>
               <div className="space-y-2">
                 <h4 className="font-semibold text-midnight dark:text-white">Core Expertise:</h4>

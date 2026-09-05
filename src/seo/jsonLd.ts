@@ -10,6 +10,17 @@ export function buildOrganizationJsonLd(siteUrl: string): object {
     description: DEFAULT_DESCRIPTION,
     url,
     image: `${url}/images/graphtag.png`,
+    email: 'juliet@stitch-in-architecture.com',
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: 'Hertfordshire',
+      addressCountry: 'United Kingdom',
+    },
+    founder: {
+      '@type': 'Person',
+      name: 'Juliet Niha',
+      jobTitle: 'Director & Founder',
+    },
     areaServed: [
       { '@type': 'Place', name: 'Hertfordshire, United Kingdom' },
       { '@type': 'Place', name: 'Kings Langley, Hertfordshire, United Kingdom' },
