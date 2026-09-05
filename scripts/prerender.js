@@ -3,7 +3,8 @@
  * Route list comes from scripts/write-sitemap.js (single source of truth).
  *
  * Local: Playwright's own Chromium.
- * Vercel: @sparticuz/chromium (Playwright's browser cannot load libnspr4.so on the build image).
+ * Vercel: puppeteer-core + @sparticuz/chromium in chrome-headless-shell mode
+ * (Playwright's full-Chrome headless kills that binary on the build image).
  */
 const fs = require('fs');
 const path = require('path');
@@ -26,28 +27,75 @@ function ensurePlaywrightChromium() {
   execSync('npx playwright install chromium', { stdio: 'inherit' });
 }
 
-async function launchBrowser() {
-  if (ON_VERCEL) {
-    const sparticuz = require('@sparticuz/chromium').default;
-    sparticuz.setGraphicsMode = false;
-    const executablePath = await sparticuz.executablePath();
-    const libDir = path.dirname(executablePath);
-    process.env.LD_LIBRARY_PATH = process.env.LD_LIBRARY_PATH
-      ? `${libDir}:${process.env.LD_LIBRARY_PATH}`
-      : libDir;
-    console.log('[prerender] using @sparticuz/chromium', executablePath);
-    return playwrightChromium.launch({
-      args: sparticuz.args,
-      executablePath,
-      headless: true,
-    });
-  }
-
-  ensurePlaywrightChromium();
-  return playwrightChromium.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-dev-shm-usage'],
+async function launchPuppeteerOnVercel() {
+  const sparticuz = require('@sparticuz/chromium').default;
+  const puppeteer = require('puppeteer-core');
+  sparticuz.setGraphicsMode = false;
+  const executablePath = await sparticuz.executablePath();
+  console.log('[prerender] using @sparticuz/chromium + puppeteer-core', executablePath);
+  const args = (sparticuz.args || []).filter((flag) => !String(flag).includes('headless'));
+  return puppeteer.launch({
+    args,
+    defaultViewport: {
+      width: 1280,
+      height: 800,
+      deviceScaleFactor: 1,
+    },
+    executablePath,
+    headless: 'shell',
+    dumpio: true,
   });
+}
+
+function seoReadyCheck(defaultTitle) {
+  const ld = document.querySelector('script[type="application/ld+json"]');
+  return Boolean(ld && ld.textContent && document.title && document.title !== defaultTitle);
+}
+
+async function snapshotRoute(page, origin, route, waitForSeo) {
+  const url = `${origin}${route}`;
+  console.log('[prerender] visiting', route);
+  await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+  await waitForSeo(page);
+  return page.evaluate(() => document.documentElement.outerHTML);
+}
+
+async function prerenderWithPuppeteer(browser, origin) {
+  const snapshots = [];
+  for (const route of routes) {
+    const page = await browser.newPage();
+    await page.evaluateOnNewDocument(() => {
+      window.__PRERENDER__ = true;
+    });
+    try {
+      const html = await snapshotRoute(page, origin, route, (p) =>
+        p.waitForFunction(seoReadyCheck, { timeout: 30000 }, DEFAULT_TITLE)
+      );
+      snapshots.push({ route, html });
+    } finally {
+      await page.close();
+    }
+  }
+  return snapshots;
+}
+
+async function prerenderWithPlaywright(browser, origin) {
+  const snapshots = [];
+  for (const route of routes) {
+    const page = await browser.newPage();
+    await page.addInitScript(() => {
+      window.__PRERENDER__ = true;
+    });
+    try {
+      const html = await snapshotRoute(page, origin, route, (p) =>
+        p.waitForFunction(seoReadyCheck, DEFAULT_TITLE, { timeout: 30000 })
+      );
+      snapshots.push({ route, html });
+    } finally {
+      await page.close();
+    }
+  }
+  return snapshots;
 }
 
 function htmlPathForRoute(route) {
@@ -71,6 +119,19 @@ async function closeServer(server) {
   });
 }
 
+function writeSnapshots(snapshots) {
+  for (const { route, html } of snapshots) {
+    const outPath = htmlPathForRoute(route);
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    const doc =
+      html.startsWith('<!DOCTYPE') || html.startsWith('<!doctype')
+        ? html
+        : `<!DOCTYPE html>\n${html}`;
+    fs.writeFileSync(outPath, doc, 'utf8');
+    console.log('[prerender] wrote', path.relative(path.join(__dirname, '..'), outPath));
+  }
+}
+
 async function main() {
   if (!fs.existsSync(BUILD_DIR)) {
     throw new Error('build/ not found; run react-scripts build first');
@@ -90,48 +151,24 @@ async function main() {
   const origin = `http://127.0.0.1:${port}`;
   console.log('[prerender] serving', origin);
 
-  const browser = await launchBrowser();
-  const snapshots = [];
-
+  let browser;
   try {
-    for (const route of routes) {
-      const page = await browser.newPage();
-      await page.addInitScript(() => {
-        window.__PRERENDER__ = true;
+    if (ON_VERCEL) {
+      browser = await launchPuppeteerOnVercel();
+      writeSnapshots(await prerenderWithPuppeteer(browser, origin));
+    } else {
+      ensurePlaywrightChromium();
+      browser = await playwrightChromium.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-dev-shm-usage'],
       });
-
-      const url = `${origin}${route}`;
-      console.log('[prerender] visiting', route);
-      await page.goto(url, { waitUntil: 'load', timeout: 60000 });
-
-      await page.waitForFunction(
-        (defaultTitle) => {
-          const ld = document.querySelector('script[type="application/ld+json"]');
-          const titleReady = Boolean(document.title && document.title !== defaultTitle);
-          return Boolean(ld && ld.textContent && titleReady);
-        },
-        DEFAULT_TITLE,
-        { timeout: 30000 }
-      );
-
-      const html = await page.evaluate(() => document.documentElement.outerHTML);
-      snapshots.push({ route, html });
-      await page.close();
+      writeSnapshots(await prerenderWithPlaywright(browser, origin));
     }
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
     await closeServer(server);
-  }
-
-  for (const { route, html } of snapshots) {
-    const outPath = htmlPathForRoute(route);
-    fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    const doc =
-      html.startsWith('<!DOCTYPE') || html.startsWith('<!doctype')
-        ? html
-        : `<!DOCTYPE html>\n${html}`;
-    fs.writeFileSync(outPath, doc, 'utf8');
-    console.log('[prerender] wrote', path.relative(path.join(__dirname, '..'), outPath));
   }
 }
 
