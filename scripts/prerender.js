@@ -1,25 +1,53 @@
 /**
  * Post-build prerender: serve the CRA build/, snapshot each sitemap route after React + SeoHead run.
  * Route list comes from scripts/write-sitemap.js (single source of truth).
+ *
+ * Local: Playwright's own Chromium.
+ * Vercel: @sparticuz/chromium (Playwright's browser cannot load libnspr4.so on the build image).
  */
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const express = require('express');
-const { chromium } = require('playwright');
+const { chromium: playwrightChromium } = require('playwright');
 const { routes } = require('./write-sitemap');
 
 /** Must match public/index.html <title> / SITE_NAME so we know SeoHead has replaced the shell default. */
 const DEFAULT_TITLE = 'Stitch In Architecture';
 const BUILD_DIR = path.join(__dirname, '..', 'build');
+const ON_VERCEL = Boolean(process.env.VERCEL);
 
-function ensureChromium() {
-  const execPath = chromium.executablePath();
+function ensurePlaywrightChromium() {
+  const execPath = playwrightChromium.executablePath();
   if (fs.existsSync(execPath)) {
     return;
   }
   console.log('[prerender] Playwright Chromium not found; installing...');
   execSync('npx playwright install chromium', { stdio: 'inherit' });
+}
+
+async function launchBrowser() {
+  if (ON_VERCEL) {
+    const sparticuz = require('@sparticuz/chromium');
+    sparticuz.setGraphicsMode = false;
+    const executablePath = await sparticuz.executablePath();
+    const libDir = path.dirname(executablePath);
+    process.env.LD_LIBRARY_PATH = process.env.LD_LIBRARY_PATH
+      ? `${libDir}:${process.env.LD_LIBRARY_PATH}`
+      : libDir;
+    console.log('[prerender] using @sparticuz/chromium', executablePath);
+    return playwrightChromium.launch({
+      args: sparticuz.args,
+      executablePath,
+      headless: true,
+    });
+  }
+
+  ensurePlaywrightChromium();
+  return playwrightChromium.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-dev-shm-usage'],
+  });
 }
 
 function htmlPathForRoute(route) {
@@ -48,8 +76,6 @@ async function main() {
     throw new Error('build/ not found; run react-scripts build first');
   }
 
-  ensureChromium();
-
   const spaIndex = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
 
   const app = express();
@@ -64,7 +90,7 @@ async function main() {
   const origin = `http://127.0.0.1:${port}`;
   console.log('[prerender] serving', origin);
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await launchBrowser();
   const snapshots = [];
 
   try {
