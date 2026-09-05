@@ -19,7 +19,7 @@ export function buildOrganizationJsonLd(siteUrl: string): object {
     founder: {
       '@type': 'Person',
       name: 'Juliet Niha',
-      jobTitle: 'Director & Founder',
+      jobTitle: 'Architectural Designer & Founder',
     },
     areaServed: [
       { '@type': 'Place', name: 'Hertfordshire, United Kingdom' },

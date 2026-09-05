@@ -53,9 +53,9 @@ const AboutPage = () => {
             </div>
             <div className="w-full md:w-2/3 text-left">
               <h3 className="text-2xl font-bold text-midnight dark:text-white mb-2">Juliet Niha</h3>
-              <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Director & Founder</p>
+              <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">Architectural Designer & Founder</p>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                With over 10 years of architectural expertise, Juliet leads the design practice with experience across residential, educational and public projects, as well as border control infrastructure. She brings proficiency in Revit, ArchiCAD, and related design software to deliver precise construction drawings and exceptional designs.
+                With 13 years in architecture, Juliet is driven by solving complex technical and design problems efficiently. Her work spans an international portfolio — cross-border infrastructure, large-scale residential developments, and educational and hospitality projects across several countries — giving her a versatile command of the whole process, from concept design and advanced BIM management to technical documentation and on-site supervision. A collaborative leader with a strong eye for detail, she is committed to high-quality, efficient delivery. For Juliet, architecture isn&apos;t just about beautiful visuals — it&apos;s about delivering spaces and workflows that work flawlessly in the real world. A certified architect in Ukraine and an ARB candidate working toward UK registration, she now leads the practice from Hertfordshire.
               </p>
               <div className="space-y-2">
                 <h4 className="font-semibold text-midnight dark:text-white">Core Expertise:</h4>

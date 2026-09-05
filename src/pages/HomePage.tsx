@@ -8,7 +8,6 @@ import CoverImageCard from '../components/CoverImageCard';
 import GalleryLightbox from '../components/GalleryLightbox';
 import AddressAutocompleteInput from '../components/AddressAutocompleteInput';
 import { getMailchimpSubscribeUrl } from '../utils/mailchimpSubscribeUrl';
-import ProjectStatsSection from '../components/ProjectStatsSection';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -895,8 +894,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      <ProjectStatsSection />
 
       {/* Services Navigation Section */}
       <section
